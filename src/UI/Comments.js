@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-
-import './Comments.scss'
 import { Button } from 'react-bootstrap'
 
 export const Comments = ({ comments, onSubmitComment }) => {

@@ -2,12 +2,6 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import './index.scss'
-import './styles/auth.scss'
-import './styles/header.scss'
-import './styles/tasks.scss'
-
 import { Router } from './router/Router'
 import { INIT_APP, LOGIN_SUCCESS } from './redux/types'
 import { auth } from './db'

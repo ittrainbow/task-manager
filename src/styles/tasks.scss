@@ -36,6 +36,12 @@
     gap: 5px;
   }
 
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
   &__card {
     display: flex;
     flex-direction: column;

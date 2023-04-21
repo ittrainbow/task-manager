@@ -6,7 +6,6 @@ import { Button, Form } from 'react-bootstrap'
 import { auth, sendPasswordReset } from '../../db'
 
 export const Reset = () => {
-  console.log('reset page')
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [user, loading] = useAuthState(auth)

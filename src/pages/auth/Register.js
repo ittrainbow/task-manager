@@ -25,7 +25,6 @@ const reducer = (state, action) => {
 }
 
 export const Register = () => {
-  console.log('register page')
   const [state, dispatch] = useReducer(reducer, initialState)
   const { email, password, name } = state
   const [user, loading] = useAuthState(auth)

@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DropdownMenu, Comments } from '../../UI'
-import { REMOVE_TASK_FROM_WORK, SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist } from '../../helpers'
 
 const getTime = () => new Date().getTime()
@@ -23,10 +23,10 @@ export const TaskForm = () => {
   const [appointed, setAppointed] = useState(null)
 
   useEffect(() => {
-    console.log(selectedTaskId)
-    if (selectedTaskId !== null && selectedTaskId !== newTaskId) {
+    if (selectedTaskId !== null) {
       const task = tasks.filter((task) => task.id === selectedTaskId)[0]
       const { name, description, deadline, status, comments, appointed, id } = task
+      
       setName(name)
       setDescription(description)
       setDeadline(deadline)
@@ -34,15 +34,10 @@ export const TaskForm = () => {
       setComments(comments)
       setAppointed(appointed)
       setId(id)
-    }
+    } // eslint-disable-next-line
   }, [selectedTaskId])
 
-  const checkFormValid = () => {
-    // if (task) {
-    //   return task && name.length > 0 && description.length > 0
-    // }
-    return true
-  }
+  const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
 
   const onSubmitComment = (newComment) => {

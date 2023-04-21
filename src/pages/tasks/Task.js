@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { TaskNew, TaskForm } from '.'
-import { SELECT_TASK, TOGGLE_NEW_TASK } from '../../redux/types'
+import { SELECT_TASK } from '../../redux/types'
 
 export const Task = () => {
   const dispatch = useDispatch()

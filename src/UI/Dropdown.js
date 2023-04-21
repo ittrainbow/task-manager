@@ -2,9 +2,7 @@ import React from 'react'
 import { Container, Dropdown } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
-import './Dropdown.scss'
-
-import { getFromUserlist } from '../../helpers'
+import { getFromUserlist } from '../helpers'
 
 const statusOptions = [{ name: 'New' }, { name: 'Open' }, { name: 'Closed' }]
 

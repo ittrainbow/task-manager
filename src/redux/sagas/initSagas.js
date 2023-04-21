@@ -9,6 +9,7 @@ import {
   FETCH_USERLIST_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
+  SET_TASKS_NUMBER,
   SET_LOADING_FALSE
 } from '../types'
 
@@ -50,7 +51,12 @@ function* fetchTasksSaga() {
     const newTaskId = tasks[tasks.length - 1].id + 1
     yield put({
       type: FETCH_TASKS_SUCCESS,
-      payload: { tasks, newTaskId }
+      payload: { tasks }
+    })
+    
+    yield put({
+      type: SET_TASKS_NUMBER,
+      payload: { newTaskId }
     })
   } catch (error) {
     yield put({

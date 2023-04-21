@@ -3,12 +3,12 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownMenu } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SELECT_TASK, SET_LOADING, SET_TASK_CREATION } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector((store) => store.user)
-  const { tasksNumber } = useSelector((store) => store.task)
+  const { newTaskId } = useSelector((store) => store.task)
 
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -36,15 +36,12 @@ export const TaskNew = () => {
         description,
         deadline,
         status,
-        appointed
+        appointed,
+        id: newTaskId
       }
       dispatch({
         type: SAVE_TASK_ATTEMPT,
-        payload: { id: tasksNumber, task }
-      })
-      dispatch({
-        type: SET_LOADING,
-        payload: true
+        payload: { task }
       })
     }
   }
@@ -64,7 +61,8 @@ export const TaskNew = () => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Task name"
         />
-        <Form.Control
+        <textarea
+          className="tasklist__description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"

@@ -1,7 +1,6 @@
 import React from 'react'
 
-import './Picker.scss'
-import { convertMilliesToISO } from '../../helpers'
+import { convertMilliesToISO } from '../helpers'
 
 export const Picker = ({ onChange, value }) => {
   const { ISOTime } = convertMilliesToISO(value)

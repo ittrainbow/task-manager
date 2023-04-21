@@ -1,13 +1,20 @@
 import React from 'react'
-import moment from 'moment/moment'
 
 import './Picker.scss'
+import { convertMilliesToISO } from '../../helpers'
 
 export const Picker = ({ onChange, value }) => {
-  const convertedValue = moment(value).format().substring(0, 16)
+  const { ISOTime } = convertMilliesToISO(value)
+
   return (
     <div>
-      <input className='picker' type={'datetime-local'} value={convertedValue} onChange={onChange}/>
+      <div className="picker-header">Pick deadline</div>
+      <input
+        className="picker"
+        type={'datetime-local'}
+        value={ISOTime}
+        onChange={onChange}
+      />
     </div>
   )
 }

@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Picker, DropdownMenu, Comments } from '../../UI'
-import {
-  REMOVE_TASK_FROM_WORK,
-  SAVE_TASK_ATTEMPT,
-  SET_NEW_TASK
-} from '../../redux/types'
+import { DropdownMenu, Comments } from '../../UI'
+import { REMOVE_TASK_FROM_WORK, SAVE_TASK_ATTEMPT } from '../../redux/types'
+import { convertMilliesToISO, getFromUserlist } from '../../helpers'
 
 export const TaskForm = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector((store) => store.user)
   const { task, newTask, newTaskId } = useSelector((store) => store.task)
+  const { userlist } = useSelector((store) => store.app)
 
   const dispatch = useDispatch()
   const [id, setId] = useState(newTaskId)
@@ -43,12 +41,6 @@ export const TaskForm = () => {
     return true
   }
   const onChangeStatus = (status) => setStatus(status)
-  const onChangeUser = (uid) => setAppointed(uid)
-
-  const onChangeDeadline = ({ value }) => {
-    const time = new Date(value).getTime()
-    setDeadline(time)
-  }
 
   const onSubmitComment = (newComment) => {
     const newComments = [...comments]
@@ -76,58 +68,36 @@ export const TaskForm = () => {
     }
   }
 
-  const newTaskHandler = () => {
-    dispatch({
-      type: SET_NEW_TASK,
-      payload: { uid }
-    })
+  const renderInfoCards = () => {
+    const user = appointed && getFromUserlist({ userlist, uid: appointed })
+    const { readableTime } = convertMilliesToISO(deadline)
+
+    return (
+      <>
+        <div className="info-card">Name: {name}</div>
+        <div className="info-card">Description: {description}</div>
+        <div className="info-card">User: {user}</div>
+        <div className="info-card">Deadline: {readableTime}</div>
+      </>
+    )
   }
 
   const cancelHandler = () => {
     dispatch({
       type: REMOVE_TASK_FROM_WORK
     })
-    // dispatch({ type: SET_LOADING })
   }
 
   return (
     <div className="task__container">
       {!task ? (
         <></>
-        // <Button onClick={newTaskHandler}>New Task</Button>
       ) : (
+        // <Button onClick={newTaskHandler}>New Task</Button>
         <>
           <div className="task__split">
-            {newTask ? (
-              <Form.Control
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Task name"
-              />
-            ) : (
-              <div style={{ textAlign: 'left' }}>Name: {name}</div>
-            )}
-            {newTask ? (
-              <Form.Control
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Task description"
-              />
-            ) : (
-              <div style={{ textAlign: 'left' }}>Description: {description}</div>
-            )}
-            <div className="task__dropdowns">
-              <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-              {uid && (
-                <DropdownMenu
-                  value={appointed}
-                  statusSelector={false}
-                  appointed={appointed}
-                  onChange={onChangeUser}
-                />
-              )}
-            </div>
-            <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
+            {renderInfoCards()}
+            <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
             <Button onClick={submitHandler} disabled={!checkFormValid()}>
               Submit
             </Button>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { taskListNameHelper, taskListDescriptionHelper } from '../../UI/helpers'
+import { taskListNameHelper, taskListDescriptionHelper } from '../../helpers'
 import { GET_TASK_IN_WORK } from '../../redux/types'
 
 export const TaskList = () => {

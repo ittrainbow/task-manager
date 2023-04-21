@@ -71,16 +71,14 @@ export const TaskNew = () => {
         />
         <div className="task__dropdowns">
           <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-          {uid && (
-            <DropdownMenu
-              value={appointed}
-              statusSelector={false}
-              appointed={appointed}
-              onChange={onChangeUser}
-            />
-          )}
+          <DropdownMenu
+            value={appointed}
+            statusSelector={false}
+            appointed={appointed}
+            onChange={onChangeUser}
+          />
+          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
-        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         <Button onClick={submitHandler} disabled={!checkFormValid()}>
           Submit
         </Button>

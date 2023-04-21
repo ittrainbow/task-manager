@@ -3,7 +3,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
 
-import { auth, registerWithEmailAndPassword, signInWithGoogle } from '../../db'
+import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { auth } from '../../db/firebase'
 
 const initialState = {
   email: '',
@@ -25,7 +26,6 @@ const reducer = (state, action) => {
 }
 
 export const Register = () => {
-  console.log('register page')
   const [state, dispatch] = useReducer(reducer, initialState)
   const { email, password, name } = state
   const [user, loading] = useAuthState(auth)

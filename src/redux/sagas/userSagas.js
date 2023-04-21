@@ -2,12 +2,11 @@ import { takeEvery, put, call } from 'redux-saga/effects'
 
 import { writeNameToFirestore } from '../../api/firebase'
 import {
-  SET_LOADING_TRUE,
-  SET_LOADING_FALSE,
   UPDATE_USER_ATTEMPT,
   UPDATE_USER_FAILURE,
   UPDATE_USER_SUCCESS
 } from '../types'
+import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
 function* writeNameToFS({ payload }) {
   try {
@@ -25,13 +24,9 @@ function* writeNameToFS({ payload }) {
 }
 
 function* writeName({ payload }) {
-  yield put({
-    type: SET_LOADING_TRUE
-  })
+  yield call(setLoadingTrueSaga)
   yield call(writeNameToFS, { payload })
-  yield put({
-    type: SET_LOADING_FALSE
-  })
+  yield call(setLoadingFalseSaga)
 }
 
 export function* userSagas() {

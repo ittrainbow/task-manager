@@ -1,15 +1,12 @@
-import { takeEvery, put, call, select } from 'redux-saga/effects'
+import { takeEvery, put, call } from 'redux-saga/effects'
 
 import {
   SAVE_TASK_ATTEMPT,
   SAVE_TASK_FAILURE,
   SAVE_TASK_SUCCEED,
-  SET_LOADING_TRUE,
-  SET_LOADING_FALSE,
-  SET_TASK_IN_WORK,
-  GET_TASK_IN_WORK
 } from '../types'
 import { writeTaskToFirestore } from '../../api/firebase'
+import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
 function* saveNewTask({ payload }) {
   try {
@@ -27,26 +24,11 @@ function* saveNewTask({ payload }) {
 }
 
 function* saveTask({ payload }) {
-  yield put({
-    type: SET_LOADING_TRUE
-  })
+  yield call(setLoadingTrueSaga)
   yield call(saveNewTask, { payload })
-  yield put({
-    type: SET_LOADING_FALSE
-  })
-}
-
-function* setTaskInWorkSaga({ payload }) {
-  const { id, uid } = payload
-  const { tasks } = yield select((store) => store.task)
-  const task = tasks.filter((task) => task.id === id)[0]
-  yield put({
-    type: SET_TASK_IN_WORK,
-    payload: { task, uid }
-  })
+  yield call(setLoadingFalseSaga)
 }
 
 export function* taskSagas() {
   yield takeEvery(SAVE_TASK_ATTEMPT, saveTask)
-  yield takeEvery(GET_TASK_IN_WORK, setTaskInWorkSaga)
 }

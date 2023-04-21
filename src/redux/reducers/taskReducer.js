@@ -1,17 +1,12 @@
 import {
-  REMOVE_TASK_FROM_WORK,
-  SET_TASK_IN_WORK,
-  SET_NEW_TASK,
-  TOGGLE_NEW_TASK,
   SAVE_TASK_ATTEMPT,
   SAVE_TASK_SUCCEED,
   SAVE_TASK_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
-  SET_TASK_CREATION,
-  SET_TASKS_NUMBER
+  SET_TASKS_NUMBER,
+  SELECT_TASK
 } from '../types'
-import { emptyTask } from '../../helpers'
 
 const initialState = {
   tasks: [],
@@ -21,68 +16,46 @@ const initialState = {
   newTask: false,
   yourTask: false,
   taskInProgress: false,
-  task: null
+  task: null,
+  selectedTaskId: null
 }
 
 export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
-    case SET_TASK_IN_WORK:
-      const { task, uid } = payload
-      const { creator } = task
-      const yourTask = creator === uid
-      return {
-        ...state,
-        task,
-        yourTask,
-        newTask: false
-      }
-
-    case SET_NEW_TASK:
-      const createTask = emptyTask(payload.uid)
-      return {
-        ...state,
-        task: createTask,
-        newTask: true
-      }
-
-    case REMOVE_TASK_FROM_WORK:
-      return {
-        ...state,
-        task: null
-      }
-
-    case TOGGLE_NEW_TASK:
-      console.log(payload)
-      return {
-        ...state,
-        newTask: payload
-      }
-
     case FETCH_TASKS_SUCCESS:
+      const { uid } = payload
+      const tasks = [...payload.tasks].filter((task) => {
+        const { appointed, creator } = task
+        return appointed === uid || creator === uid
+      })
+      
       return {
         ...state,
-        tasks: payload.tasks,
-        newTaskId: payload.newTaskId
+        tasks
       }
 
     case FETCH_TASKS_FAILURE:
       return {
         ...state,
-        error: payload.error
-      }
-
-    case SET_TASK_CREATION:
-      return {
-        ...state,
-        newTask: payload
+        error: payload.error,
+        loading: false
       }
 
     case SET_TASKS_NUMBER:
+      const { newTaskId } = payload
       return {
         ...state,
-        newTaskId: payload.newTaskId
+        newTaskId
       }
+
+    case SELECT_TASK: {
+      const { selectedTaskId } = payload
+      return {
+        ...state,
+        selectedTaskId
+      }
+    }
 
     case SAVE_TASK_ATTEMPT:
       return {
@@ -104,11 +77,10 @@ export const taskReducer = (state = initialState, action) => {
       }
 
     case SAVE_TASK_FAILURE:
-      const { error } = payload
       return {
         ...state,
         loading: false,
-        error
+        error: payload.error
       }
 
     default:

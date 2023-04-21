@@ -11,6 +11,14 @@
   padding-left: calc(50% - 48px);
 }
 
+.info-card {
+  background-color: #383c44;
+  border-radius: 5px;
+  font-size: 15px;
+  text-align: left;
+  padding: 5px 10px;
+}
+
 .tasklist {
   display: flex;
   flex-direction: column;
@@ -26,6 +34,12 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+  }
+
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
   }
 
   &__card {

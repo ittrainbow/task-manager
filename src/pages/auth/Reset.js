@@ -3,10 +3,10 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
 
-import { auth, sendPasswordReset } from '../../db'
+import { sendPasswordReset } from '../../db/auth'
+import { auth } from '../../db/firebase'
 
 export const Reset = () => {
-  console.log('reset page')
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [user, loading] = useAuthState(auth)

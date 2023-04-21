@@ -1,19 +1,18 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { taskListNameHelper, taskListDescriptionHelper } from '../../UI/helpers'
-import { GET_TASK_IN_WORK } from '../../redux/types'
+import { taskListNameHelper, taskListDescriptionHelper } from '../../helpers'
+import { SELECT_TASK } from '../../redux/types'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
   const { task, tasks } = useSelector((store) => store.task)
-  const { uid } = useSelector((store) => store.user)
 
-  const taskEditHandler = (id) => {
+  const taskSelectHandler = (id) => {
     if (!task || task.id !== id) {
       dispatch({
-        type: GET_TASK_IN_WORK,
-        payload: { id, uid }
+        type: SELECT_TASK,
+        payload: { selectedTaskId: id }
       })
     }
   }
@@ -28,8 +27,7 @@ export const TaskList = () => {
             <div
               key={index}
               className="tasklist__card"
-              // style={{ backgroundColor: id === task.id ? '#585c64' : '#383c44' }}
-              onClick={() => taskEditHandler(id)}
+              onClick={() => taskSelectHandler(id)}
             >
               <div className="tasklist__card__header">{taskListNameHelper(name)}</div>
               <div className="tasklist__card__description">

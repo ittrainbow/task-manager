@@ -3,12 +3,12 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownMenu } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SET_LOADING, SET_TASK_CREATION } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector((store) => store.user)
-  const { tasksNumber } = useSelector((store) => store.task)
+  const { newTaskId } = useSelector((store) => store.task)
 
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -36,23 +36,20 @@ export const TaskNew = () => {
         description,
         deadline,
         status,
-        appointed
+        appointed,
+        id: newTaskId
       }
       dispatch({
         type: SAVE_TASK_ATTEMPT,
-        payload: { id: tasksNumber, task }
-      })
-      dispatch({
-        type: SET_LOADING,
-        payload: true
+        payload: { task }
       })
     }
   }
 
   const cancelHandler = () => {
     dispatch({
-      type: SET_TASK_CREATION,
-      payload: false
+      type: SELECT_TASK,
+      payload: { selectedTaskId: null }
     })
   }
 
@@ -64,23 +61,22 @@ export const TaskNew = () => {
           onChange={(e) => setName(e.target.value)}
           placeholder="Task name"
         />
-        <Form.Control
+        <textarea
+          className="tasklist__description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
         <div className="task__dropdowns">
           <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-          {uid && (
-            <DropdownMenu
-              value={appointed}
-              statusSelector={false}
-              appointed={appointed}
-              onChange={onChangeUser}
-            />
-          )}
+          <DropdownMenu
+            value={appointed}
+            statusSelector={false}
+            appointed={appointed}
+            onChange={onChangeUser}
+          />
+          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
-        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         <Button onClick={submitHandler} disabled={!checkFormValid()}>
           Submit
         </Button>

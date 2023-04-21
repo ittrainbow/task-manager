@@ -1,5 +1,6 @@
 import { collection, getDocs, getDoc, setDoc, doc } from 'firebase/firestore'
-import { db } from '../db'
+
+import { db } from '../db/firebase'
 
 export const fetchNameFromFirestore = async (uid) => {
   const response = await getDoc(doc(db, 'users', uid))
@@ -32,7 +33,8 @@ export const writeNameToFirestore = async ({ uid, name }) => {
   await setDoc(docRef, { name }, { merge: true })
 }
 
-export const writeTaskToFirestore = async ({ id, task }) => {
+export const writeTaskToFirestore = async ({ task }) => {
+  const { id } = task
   const docRef = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
 }

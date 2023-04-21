@@ -3,16 +3,17 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DropdownMenu, Comments } from '../../UI'
-import { REMOVE_TASK_FROM_WORK, SAVE_TASK_ATTEMPT } from '../../redux/types'
+import { REMOVE_TASK_FROM_WORK, SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist } from '../../helpers'
 
-export const TaskForm = () => {
-  const getTime = () => new Date().getTime()
-  const { uid } = useSelector((store) => store.user)
-  const { task, newTask, newTaskId } = useSelector((store) => store.task)
-  const { userlist } = useSelector((store) => store.app)
+const getTime = () => new Date().getTime()
 
+export const TaskForm = () => {
   const dispatch = useDispatch()
+  const { uid } = useSelector((store) => store.user)
+  const { userlist } = useSelector((store) => store.app)
+  const { tasks, selectedTaskId, newTaskId } = useSelector((store) => store.task)
+
   const [id, setId] = useState(newTaskId)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -22,7 +23,9 @@ export const TaskForm = () => {
   const [appointed, setAppointed] = useState(null)
 
   useEffect(() => {
-    if (task) {
+    console.log(selectedTaskId)
+    if (selectedTaskId !== null && selectedTaskId !== newTaskId) {
+      const task = tasks.filter((task) => task.id === selectedTaskId)[0]
       const { name, description, deadline, status, comments, appointed, id } = task
       setName(name)
       setDescription(description)
@@ -32,7 +35,7 @@ export const TaskForm = () => {
       setAppointed(appointed)
       setId(id)
     }
-  }, [task])
+  }, [selectedTaskId])
 
   const checkFormValid = () => {
     // if (task) {
@@ -84,30 +87,24 @@ export const TaskForm = () => {
 
   const cancelHandler = () => {
     dispatch({
-      type: REMOVE_TASK_FROM_WORK
+      type: SELECT_TASK,
+      payload: { id: null }
     })
   }
 
   return (
     <div className="task__container">
-      {!task ? (
-        <></>
-      ) : (
-        // <Button onClick={newTaskHandler}>New Task</Button>
-        <>
-          <div className="task__split">
-            {renderInfoCards()}
-            <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-            <Button onClick={submitHandler} disabled={!checkFormValid()}>
-              Submit
-            </Button>
-            <Button onClick={cancelHandler}>Cancel</Button>
-          </div>
-          <div className="task__split">
-            <Comments comments={comments} onSubmitComment={onSubmitComment} />
-          </div>
-        </>
-      )}
+      <div className="task__split">
+        {renderInfoCards()}
+        <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
+        <Button onClick={submitHandler} disabled={!checkFormValid()}>
+          Submit
+        </Button>
+        <Button onClick={cancelHandler}>Cancel</Button>
+      </div>
+      <div className="task__split">
+        <Comments comments={comments} onSubmitComment={onSubmitComment} />
+      </div>
     </div>
   )
 }

@@ -9,7 +9,8 @@ import {
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
   SET_TASK_CREATION,
-  SET_TASKS_NUMBER
+  SET_TASKS_NUMBER,
+  SELECT_TASK
 } from '../types'
 import { emptyTask } from '../../helpers'
 
@@ -21,7 +22,8 @@ const initialState = {
   newTask: false,
   yourTask: false,
   taskInProgress: false,
-  task: null
+  task: null,
+  selectedTaskId: null
 }
 
 export const taskReducer = (state = initialState, action) => {
@@ -37,6 +39,14 @@ export const taskReducer = (state = initialState, action) => {
         yourTask,
         newTask: false
       }
+
+    case SELECT_TASK: {
+      const { id } = payload
+      return {
+        ...state,
+        selectedTaskId: id
+      }
+    }
 
     case SET_NEW_TASK:
       const createTask = emptyTask(payload.uid)

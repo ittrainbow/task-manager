@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownMenu } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SET_LOADING, SET_TASK_CREATION } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK, SET_LOADING, SET_TASK_CREATION } from '../../redux/types'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
@@ -51,8 +51,8 @@ export const TaskNew = () => {
 
   const cancelHandler = () => {
     dispatch({
-      type: SET_TASK_CREATION,
-      payload: false
+      type: SELECT_TASK,
+      payload: { id: null }
     })
   }
 

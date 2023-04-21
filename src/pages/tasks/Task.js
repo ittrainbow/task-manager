@@ -3,26 +3,35 @@ import { Button } from 'react-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { TaskNew, TaskForm } from '.'
-import { TOGGLE_NEW_TASK } from '../../redux/types'
+import { SELECT_TASK, TOGGLE_NEW_TASK } from '../../redux/types'
 
 export const Task = () => {
   const dispatch = useDispatch()
-  const { newTask } = useSelector((store) => store.task)
+  const { selectedTaskId, newTask, newTaskId } = useSelector((store) => store.task)
 
   const newTaskHandler = () => {
     dispatch({
-      type: TOGGLE_NEW_TASK,
-      payload: true
+      type: SELECT_TASK,
+      payload: { id: newTaskId }
     })
+  }
+
+  const showNewTaskButton = () => {
+    return selectedTaskId === null ? <Button onClick={newTaskHandler}>New Task</Button> : ''
+  }
+
+  const showTask = () => {
+    if (selectedTaskId !== null) {
+      if (selectedTaskId === newTaskId) return <TaskNew />
+      return <TaskForm />
+    }
   }
 
   return (
     <div className="task">
       <div className="tasklist__header">{newTask ? 'New Task' : 'Task'}</div>
-      <>
-        {newTask ? '' : <Button onClick={newTaskHandler}>New Task</Button>}
-        {newTask ? <TaskNew /> : <TaskForm />}
-      </>
+      {showNewTaskButton()}
+      {showTask()}
     </div>
   )
 }

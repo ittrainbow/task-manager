@@ -1,0 +1,21 @@
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.comment {
+  border: 1px solid grey;
+  border-radius: 5px;
+  font-size: 13px;
+  min-height: 30px;
+  text-align: left;
+  padding: 3px 7px;
+
+  &__new {
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px 7px;
+  }
+}
+

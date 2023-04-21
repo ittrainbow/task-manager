@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  max-width: 250px;
+
+  &__button-div {
+    width: 150px;
+  }
+}

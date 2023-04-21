@@ -1,0 +1,20 @@
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  gap: 15px;
+  padding-top: 50px;
+
+  &__button-block {
+    width: 200px;
+  }
+}
+
+.btn {
+  width: 100%
+}
+
+.input {
+  width: 200px;
+}

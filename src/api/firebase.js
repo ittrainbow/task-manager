@@ -1,5 +1,6 @@
 import { collection, getDocs, getDoc, setDoc, doc } from 'firebase/firestore'
-import { db } from '../db'
+
+import { db } from '../db/firebase'
 
 export const fetchNameFromFirestore = async (uid) => {
   const response = await getDoc(doc(db, 'users', uid))

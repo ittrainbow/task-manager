@@ -4,7 +4,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
 import { INIT_APP, LOGIN_SUCCESS } from './redux/types'
-import { auth } from './db'
+import { auth } from './db/firebase'
 
 const App = () => {
   const dispatch = useDispatch()

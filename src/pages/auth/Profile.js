@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form } from 'react-bootstrap'
 
-import { SET_LOADING_TRUE, UPDATE_USER_ATTEMPT } from '../../redux/types'
+import { UPDATE_USER_ATTEMPT } from '../../redux/types'
 
 export const Profile = () => {
   const { name, uid } = useSelector((store) => store.user)
@@ -12,9 +12,6 @@ export const Profile = () => {
   const [tempName, setTempName] = useState(name)
 
   const submitHandler = async () => {
-    dispatch({
-      type: SET_LOADING_TRUE,
-    })
     dispatch({
       type: UPDATE_USER_ATTEMPT,
       payload: { uid, name: tempName }

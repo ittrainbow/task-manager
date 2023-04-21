@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
-import { logout } from '../../db'
+import { logout } from '../../db/auth'
 import { Loader } from '../../UI'
 
 export const Dashboard = () => {

@@ -3,7 +3,8 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
 
-import { auth, registerWithEmailAndPassword, signInWithGoogle } from '../../db'
+import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { auth } from '../../db/firebase'
 
 const initialState = {
   email: '',

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { Button, Form } from 'react-bootstrap'
 
-import { auth, logInWithEmailAndPassword, signInWithGoogle } from '../../db'
+import { logInWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { auth } from '../../db/firebase'
 
 export const Login = () => {
   const [user] = useAuthState(auth)

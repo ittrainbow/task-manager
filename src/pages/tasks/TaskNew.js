@@ -49,7 +49,7 @@ export const TaskNew = () => {
   const cancelHandler = () => {
     dispatch({
       type: SELECT_TASK,
-      payload: { id: null }
+      payload: { selectedTaskId: null }
     })
   }
 

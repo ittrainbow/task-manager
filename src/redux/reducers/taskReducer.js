@@ -24,28 +24,36 @@ export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_TASKS_SUCCESS:
+      const { uid } = payload
+      const tasks = [...payload.tasks].filter((task) => {
+        const { appointed, creator } = task
+        return appointed === uid || creator === uid
+      })
+      
       return {
         ...state,
-        tasks: payload.tasks
+        tasks
       }
 
     case FETCH_TASKS_FAILURE:
       return {
         ...state,
-        error: payload.error
+        error: payload.error,
+        loading: false
       }
 
     case SET_TASKS_NUMBER:
+      const { newTaskId } = payload
       return {
         ...state,
-        newTaskId: payload.newTaskId
+        newTaskId
       }
 
     case SELECT_TASK: {
-      const { id } = payload
+      const { selectedTaskId } = payload
       return {
         ...state,
-        selectedTaskId: id
+        selectedTaskId
       }
     }
 
@@ -69,11 +77,10 @@ export const taskReducer = (state = initialState, action) => {
       }
 
     case SAVE_TASK_FAILURE:
-      const { error } = payload
       return {
         ...state,
         loading: false,
-        error
+        error: payload.error
       }
 
     default:

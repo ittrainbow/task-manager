@@ -12,7 +12,7 @@ export const Task = () => {
   const newTaskHandler = () => {
     dispatch({
       type: SELECT_TASK,
-      payload: { id: newTaskId }
+      payload: { selectedTaskId: newTaskId }
     })
   }
 

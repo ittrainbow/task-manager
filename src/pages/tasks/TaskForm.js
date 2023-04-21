@@ -20,18 +20,20 @@ export const TaskForm = () => {
   const [deadline, setDeadline] = useState(getTime)
   const [status, setStatus] = useState('New')
   const [comments, setComments] = useState([])
+  const [creator, setCreator] = useState(null)
   const [appointed, setAppointed] = useState(null)
 
   useEffect(() => {
-    if (selectedTaskId !== null) {
+    if (selectedTaskId || selectedTaskId === 0) {
       const task = tasks.filter((task) => task.id === selectedTaskId)[0]
-      const { name, description, deadline, status, comments, appointed, id } = task
-      
+      const { name, description, deadline, status, comments, creator, appointed, id } = task
+
       setName(name)
       setDescription(description)
       setDeadline(deadline)
       setStatus(status)
       setComments(comments)
+      setCreator(creator)
       setAppointed(appointed)
       setId(id)
     } // eslint-disable-next-line
@@ -67,14 +69,16 @@ export const TaskForm = () => {
   }
 
   const renderInfoCards = () => {
-    const user = appointed && getFromUserlist({ userlist, uid: appointed })
+    const openedby = creator && getFromUserlist({ userlist, uid: creator })
+    const responsible = appointed && getFromUserlist({ userlist, uid: appointed })
     const { readableTime } = convertMilliesToISO(deadline)
 
     return (
       <>
         <div className="info-card">Name: {name}</div>
         <div className="info-card">Description: {description}</div>
-        <div className="info-card">User: {user}</div>
+        <div className="info-card">Opened by: {openedby}</div>
+        {appointed ? <div className="info-card">Responsible: {responsible}</div> : ''}
         <div className="info-card">Deadline: {readableTime}</div>
       </>
     )
@@ -83,7 +87,7 @@ export const TaskForm = () => {
   const cancelHandler = () => {
     dispatch({
       type: SELECT_TASK,
-      payload: { id: null }
+      payload: { selectedTaskId: null }
     })
   }
 

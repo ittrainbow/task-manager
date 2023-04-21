@@ -2,8 +2,7 @@ import {
   FETCH_USERLIST_SUCCESS,
   FETCH_USERLIST_FAILURE,
   SET_LOADING_TRUE,
-  SET_LOADING_FALSE,
-  SET_LOADING
+  SET_LOADING_FALSE
 } from '../types'
 
 const initialState = {
@@ -25,12 +24,6 @@ export const appReducer = (state = initialState, action) => {
       return {
         ...state,
         error: payload.error
-      }
-
-    case SET_LOADING:
-      return {
-        ...state,
-        loading: payload
       }
 
     case SET_LOADING_TRUE:

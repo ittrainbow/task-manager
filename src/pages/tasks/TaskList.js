@@ -12,7 +12,7 @@ export const TaskList = () => {
     if (!task || task.id !== id) {
       dispatch({
         type: SELECT_TASK,
-        payload: { id }
+        payload: { selectedTaskId: id }
       })
     }
   }

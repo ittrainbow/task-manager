@@ -1,6 +1,7 @@
 import { put, call, take, all } from 'redux-saga/effects'
 
 import { fetchNameFromFirestore, fetchUserList, fetchTasks } from '../../api/firebase'
+import { setLoadingFalseSaga } from './appSagas'
 import {
   INIT_APP,
   FETCH_NAME_SUCCESS,
@@ -9,8 +10,7 @@ import {
   FETCH_USERLIST_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
-  SET_TASKS_NUMBER,
-  SET_LOADING_FALSE
+  SET_TASKS_NUMBER
 } from '../types'
 
 function* fetchNameSaga({ payload }) {
@@ -45,13 +45,14 @@ function* fetchUserListSaga() {
   }
 }
 
-function* fetchTasksSaga() {
+function* fetchTasksSaga({ payload }) {
+  const { uid } = payload
   try {
     const tasks = yield call(fetchTasks)
     const newTaskId = tasks[tasks.length - 1].id + 1
     yield put({
       type: FETCH_TASKS_SUCCESS,
-      payload: { tasks }
+      payload: { uid, tasks }
     })
     
     yield put({
@@ -69,8 +70,6 @@ function* fetchTasksSaga() {
 export function* initSagas() {
   const action = yield take(INIT_APP)
 
-  yield all([fetchNameSaga(action), fetchUserListSaga(), fetchTasksSaga()])
-  yield put({
-    type: SET_LOADING_FALSE
-  })
+  yield all([fetchNameSaga(action), fetchUserListSaga(), fetchTasksSaga(action)])
+  yield call(setLoadingFalseSaga)
 }

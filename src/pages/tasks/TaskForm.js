@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { DropdownMenu, Comments } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist } from '../../helpers'
@@ -92,18 +91,20 @@ export const TaskForm = () => {
   }
 
   return (
-    <div className="task__container">
-      <div className="task__split">
-        {renderInfoCards()}
-        <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-        <Button onClick={submitHandler} disabled={!checkFormValid()}>
-          Submit
-        </Button>
-        <Button onClick={cancelHandler}>Cancel</Button>
+    <>
+      <div className="task__container">
+        <div className="task__split">
+          {renderInfoCards()}
+          <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
+        </div>
+        <div className="task__split">
+          <Comments comments={comments} onSubmitComment={onSubmitComment} />
+        </div>
       </div>
-      <div className="task__split">
-        <Comments comments={comments} onSubmitComment={onSubmitComment} />
-      </div>
-    </div>
+      <Button onClick={submitHandler} disabled={false}>
+        Submit
+      </Button>
+      <Button onClick={cancelHandler}>Cancel</Button>
+    </>
   )
 }

@@ -7,6 +7,7 @@ import { logout } from '../../db/auth'
 import { Loader } from '../../UI'
 
 export const Dashboard = () => {
+  
   const { name, email } = useSelector((store) => store.user)
   const { loading } = useSelector((store) => store.app)
   const navigate = useNavigate()
@@ -19,9 +20,7 @@ export const Dashboard = () => {
   return (
     <div className="auth-container">
       {loading ? (
-        <div>
-          <Loader />
-        </div>
+        <Loader />
       ) : (
         <>
           <div>{name}</div>

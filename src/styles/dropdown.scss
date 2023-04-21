@@ -8,4 +8,8 @@
 
 .dropdown-header {
   font-size: 15px;
+
+  &__notify {
+    color: rgb(255, 51, 0)
+  }
 }

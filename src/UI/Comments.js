@@ -20,6 +20,7 @@ export const Comments = ({ comments, onSubmitComment }) => {
       })}
       <textarea
         className="comment__new"
+        rows={4}
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
       />

@@ -8,8 +8,8 @@ import { auth } from '../../db/firebase'
 
 export const Login = () => {
   const [user] = useAuthState(auth)
-  const navigate = useNavigate()
 
+  const navigate = useNavigate()
   useEffect(() => {
     user && navigate('/dashboard') // eslint-disable-next-line
   }, [user])
@@ -31,21 +31,26 @@ export const Login = () => {
     setPassword(value)
   }
 
-  return (
-    <div className="auth-container">
-      <Form.Control onChange={emailInputHandler} placeholder="E-mail" />
-      <Form.Control onChange={passwordInputHandler} placeholder={'Password'} />
-      <div className="auth-container auth-container__button-block">
-        <Button
-          onClick={() => logInWithEmailAndPassword(email, password)}
-          disabled={!emailValid || password.length < 4}
-        >
-          Sign In
-        </Button>
-        <Button onClick={signInWithGoogle}>Google Sign In</Button>
-        <Button onClick={() => navigate('/reset')}>Recover Password</Button>
-        <Button onClick={() => navigate('/register')}>Sign Up</Button>
-      </div>
-    </div>
-  )
+  const renderLoginPage = () => {
+    return (
+      <>
+        <Form.Control onChange={emailInputHandler} placeholder="E-mail" />
+        <Form.Control onChange={passwordInputHandler} placeholder={'Password'} />
+        <div className="auth-container auth-container__button-block">
+          <Button
+            onClick={() => logInWithEmailAndPassword(email, password)}
+            disabled={!emailValid || password.length < 4}
+          >
+            Sign In
+          </Button>
+          <Button onClick={signInWithGoogle}>Google Sign In</Button>
+          <Button onClick={() => navigate('/reset')}>Recover Password</Button>
+          <Button onClick={() => navigate('/register')}>Sign Up</Button>
+        </div>
+      </>
+    )
+  }
+
+  // return <div className="auth-container">{loading ? <Loader /> : renderLoginPage()}</div>
+  return <div className="auth-container">{renderLoginPage()}</div>
 }

@@ -10,7 +10,7 @@ import {
 
 const initialState = {
   tasks: [],
-  loading: false,
+  // loading: false,
   error: null,
   newTaskId: 0,
   newTask: false,
@@ -24,12 +24,7 @@ export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_TASKS_SUCCESS:
-      const { uid } = payload
-      const tasks = [...payload.tasks].filter((task) => {
-        const { appointed, creator } = task
-        return appointed === uid || creator === uid
-      })
-      
+      const { tasks } = payload
       return {
         ...state,
         tasks
@@ -39,7 +34,7 @@ export const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         error: payload.error,
-        loading: false
+        // loading: false
       }
 
     case SET_TASKS_NUMBER:
@@ -60,7 +55,7 @@ export const taskReducer = (state = initialState, action) => {
     case SAVE_TASK_ATTEMPT:
       return {
         ...state,
-        loading: true
+        // loading: true
       }
 
     case SAVE_TASK_SUCCEED:
@@ -70,7 +65,7 @@ export const taskReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        loading: false,
+        // loading: false,
         error: null,
         tasks: newTasks,
         newTaskId: state.newTaskId + 1
@@ -79,7 +74,7 @@ export const taskReducer = (state = initialState, action) => {
     case SAVE_TASK_FAILURE:
       return {
         ...state,
-        loading: false,
+        // loading: false,
         error: payload.error
       }
 

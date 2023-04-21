@@ -8,7 +8,6 @@ import {
 } from '../types'
 
 const initialState = {
-  loggedIn: false,
   name: null,
   email: null,
   uid: null,
@@ -23,7 +22,6 @@ export const userReducer = (state = initialState, action) => {
       const { name, email, uid } = payload
       return {
         ...state,
-        loggedIn: true,
         name,
         email,
         uid
@@ -32,21 +30,21 @@ export const userReducer = (state = initialState, action) => {
     case UPDATE_USER_ATTEMPT:
       return {
         ...state,
-        loading: true
+        // loading: true
       }
 
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
         ...payload,
-        loading: false
+        // loading: false
       }
 
     case UPDATE_USER_FAILURE:
       return {
         ...state,
         ...payload,
-        loading: false
+        // loading: false
       }
 
     case FETCH_NAME_SUCCESS:

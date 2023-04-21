@@ -13,7 +13,7 @@
 
 .info-card {
   background-color: #383c44;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 15px;
   text-align: left;
   padding: 5px 10px;
@@ -27,7 +27,13 @@
 
   &__header {
     border: 1px solid grey;
-    border-radius: 10px;
+    border-radius: 8px;
+  }
+  
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
   }
 
   &__container {
@@ -39,38 +45,33 @@
   &__description {
     padding: 10px;
     font-size: 16px;
-    border-radius: 5px;
+    border-radius: 8px;
   }
 
   &__card {
     display: flex;
     flex-direction: column;
-    background: #383c44;
-    border-radius: 10px;
+    background-color: #383c44;
+    color: #ddd;
+    border-radius: 8px;
     padding: 7px 14px 7px 14px;
     gap: 10px;
+    font-size: 15px;
+    scale: .98;
     cursor: pointer;
     overflow: hidden;
     text-align: left;
+    transition: .25s;
+
+    &__selected {
+      scale: 1;
+      background-color: #43474d;
+      color: white;
+    }
 
     &:hover {
       background: #484c54;
       transition: ease-in-out 0.22s;
-    }
-
-    &__header {
-      font-size: 16px;
-      color: #fff;
-    }
-
-    &__description {
-      font-size: 15px;
-      color: #ddd;
-    }
-
-    &__status {
-      font-size: 15px;
-      color: #ddd;
     }
   }
 }
@@ -85,7 +86,6 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
-    padding-top: 10px;
   }
 
   &__dropdowns {

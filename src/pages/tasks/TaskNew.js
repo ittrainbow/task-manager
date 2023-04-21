@@ -64,6 +64,7 @@ export const TaskNew = () => {
         <textarea
           className="tasklist__description"
           value={description}
+          rows={5}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />

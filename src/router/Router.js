@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Login, Profile, Register, Reset, UserPage } from '../pages/auth'
-import { Task, TaskList, TaskPage } from '../pages/tasks'
+import { TaskPage } from '../pages/tasks'
 import { HeaderTab } from '../pages'
 
 export const Router = () => {

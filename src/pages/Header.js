@@ -3,8 +3,8 @@ import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
 const headerButtons = [
-  { name: 'Tasks', path: '/taskpage' },
-  { name: 'Dashboard', path: '/' }
+  { name: 'Tasks', path: '/' },
+  { name: 'Dashboard', path: '/dashboard' }
 ]
 
 export const HeaderTab = () => {

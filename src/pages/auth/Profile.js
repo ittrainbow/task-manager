@@ -16,7 +16,7 @@ export const Profile = () => {
       type: UPDATE_USER_ATTEMPT,
       payload: { uid, name: tempName }
     })
-    navigate('/')
+    navigate('/dashboard')
   }
 
   const noChanges = name === tempName

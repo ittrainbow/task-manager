@@ -8,7 +8,7 @@ export const TaskPage = () => {
   const { loading } = useSelector((store) => store.app)
 
   return (
-    <div className="task-container">
+    <div className="taskpage-container">
       {loading ? (
         <div className="spinner-div">
           <Loader />

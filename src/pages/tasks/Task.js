@@ -29,7 +29,7 @@ export const Task = () => {
 
   return (
     <div className="task">
-      <div className="tasklist__header">{newTask ? 'New Task' : 'Task'}</div>
+      <div className="task__header">{newTask ? 'New Task' : 'Task'}</div>
       {showNewTaskButton()}
       {showTask()}
     </div>

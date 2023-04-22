@@ -21,6 +21,7 @@ export const TaskForm = () => {
   const [comments, setComments] = useState([])
   const [creator, setCreator] = useState(null)
   const [appointed, setAppointed] = useState(null)
+  const [stretch, setStretch] = useState(false)
 
   useEffect(() => {
     if (selectedTaskId || selectedTaskId === 0) {
@@ -37,6 +38,14 @@ export const TaskForm = () => {
       setId(id)
     } // eslint-disable-next-line
   }, [selectedTaskId])
+
+  useEffect(() => {
+    const taskContainerHeight = document.querySelector('.task__container').clientHeight
+    const innerHeight = window.innerHeight - 210
+    const toStretch = innerHeight < taskContainerHeight
+
+    setStretch(toStretch)
+  }, [comments])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
@@ -90,9 +99,15 @@ export const TaskForm = () => {
     })
   }
 
+  const getTaskClasses = () => {
+    const classes = [`task__container`]
+    classes.push(stretch ? 'task__stretched' : 'task__non-stretched')
+    return classes.join(' ')
+  }
+
   return (
     <>
-      <div className="task__container">
+      <div className={getTaskClasses()}>
         <div className="task__split">
           {renderInfoCards()}
           <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />

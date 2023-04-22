@@ -5,23 +5,19 @@ import { useSelector } from 'react-redux'
 import { getFromUserlist } from '../helpers'
 
 const statusOptions = [{ name: 'New' }, { name: 'Open' }, { name: 'Closed' }]
-const appointToNoOne = { name: '... nobody', uid: null }
 
 export const DropdownMenu = ({ value, statusSelector, appointed, onChange }) => {
   const { userlist } = useSelector((store) => store.app)
-  value && !statusSelector && userlist[0].uid !== null && userlist.unshift(appointToNoOne)
-
-  const list = statusSelector || !userlist ? statusOptions : userlist
+  const list = statusSelector ? statusOptions : [{ name: 'no appointment', uid: null }, ...userlist]
 
   const dropdownHandler = ({ name, uid }) => onChange(statusSelector ? name : uid)
 
   const getDropdownHeader = () =>
     statusSelector ? value : appointed ? getFromUserlist({ userlist, uid: appointed }) : null
   const getDropdownElement = ({ name, uid }) =>
-    statusSelector ? name : userlist ? getFromUserlist({ userlist, uid }) : null
+    statusSelector ? name : userlist && uid ? getFromUserlist({ userlist, uid }) : 'no appointment'
 
-  const headerClass =
-    !value && !statusSelector ? 'dropdown-header dropdown-header__notify' : 'dropdown-header'
+  const headerClass = !value && !statusSelector ? 'dropdown-header-notify' : 'dropdown-header'
 
   const headerText = statusSelector ? 'Set status' : 'Appoint user'
 

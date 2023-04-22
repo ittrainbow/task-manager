@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { DropdownMenu, Comments } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK, DELETE_TASK_ATTEMPT } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist } from '../../helpers'
 
 const getTime = () => new Date().getTime()
@@ -22,6 +22,7 @@ export const TaskForm = () => {
   const [creator, setCreator] = useState(null)
   const [appointed, setAppointed] = useState(null)
   const [stretch, setStretch] = useState(false)
+  const [anyChanges, setAnyChanges] = useState(false)
 
   useEffect(() => {
     if (selectedTaskId || selectedTaskId === 0) {
@@ -46,6 +47,14 @@ export const TaskForm = () => {
 
     setStretch(toStretch)
   }, [comments])
+
+  useEffect(() => {
+    const task = tasks.filter((task) => task.id === selectedTaskId)[0]
+    const statusChanged = task.status !== status
+    const appointmentChanged = task.appointed !== appointed
+    const commentsChanged = JSON.stringify(task.comments) !== JSON.stringify(comments)
+    setAnyChanges(statusChanged || commentsChanged || appointmentChanged) // eslint-disable-next-line
+  }, [comments, status, appointed])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
@@ -76,6 +85,15 @@ export const TaskForm = () => {
     }
   }
 
+  const deleteHandler = () => {
+    const alert = window.confirm('Delete task?')
+    alert &&
+      dispatch({
+        type: DELETE_TASK_ATTEMPT,
+        payload: { id: selectedTaskId }
+      })
+  }
+
   const renderInfoCards = () => {
     const openedby = creator && getFromUserlist({ userlist, uid: creator })
     const responsible = appointed && getFromUserlist({ userlist, uid: appointed })
@@ -95,7 +113,7 @@ export const TaskForm = () => {
   const cancelHandler = () => {
     dispatch({
       type: SELECT_TASK,
-      payload: { selectedTaskId: null }
+      payload: null
     })
   }
 
@@ -105,20 +123,33 @@ export const TaskForm = () => {
     return classes.join(' ')
   }
 
+  const onChangeUser = (uid) => {
+    setAppointed(uid)
+  }
+
   return (
     <>
       <div className={getTaskClasses()}>
         <div className="task__split">
           {renderInfoCards()}
           <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
+          <DropdownMenu
+            value={appointed}
+            statusSelector={false}
+            appointed={appointed}
+            onChange={onChangeUser}
+          />
         </div>
         <div className="task__split">
           <Comments comments={comments} onSubmitComment={onSubmitComment} />
         </div>
       </div>
-      <Button onClick={submitHandler} disabled={false}>
-        Submit
-      </Button>
+      <div className="task__delete">
+        <Button onClick={submitHandler} disabled={!anyChanges}>
+          {anyChanges ? 'Submit' : 'No Changes'}
+        </Button>
+        <Button onClick={deleteHandler}>Delete Task</Button>
+      </div>
       <Button onClick={cancelHandler}>Cancel</Button>
     </>
   )

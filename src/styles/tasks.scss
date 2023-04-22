@@ -1,8 +1,7 @@
 .taskpage-container {
   display: flex;
   flex-direction: row;
-  gap: 15px;
-  padding: 15px 0;
+  padding: 10px 0;
   width: 100%;
 }
 
@@ -16,115 +15,4 @@
   font-size: 15px;
   text-align: left;
   padding: 5px 10px;
-}
-
-.tasklist {
-  display: flex;
-  position: fixed;
-  flex-direction: column;
-  gap: 10px;
-  width: 31%;
-
-  &__container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    overflow-y: auto;
-  }
-
-  &__header {
-    border: 1px solid grey;
-    border-radius: 8px;
-  }
-
-  &__buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  &__description {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 8px;
-  }
-
-  &__non-stretched {
-    height: auto;
-  }
-  
-  &__stretched {
-    height: calc(100vh - 165px);
-    padding-right: 5px;
-  }
-
-  &__card {
-    display: flex;
-    flex-direction: column;
-    background-color: #383c44;
-    color: #ddd;
-    border-radius: 8px;
-    padding: 7px 14px 7px 14px;
-    gap: 10px;
-    font-size: 15px;
-    scale: 0.98;
-    cursor: pointer;
-    // overflow: hidden;
-    text-align: left;
-    transition: 0.25s;
-
-    &__selected {
-      scale: 1;
-      background-color: #53575d;
-      color: white;
-    }
-
-    &:hover {
-      background: #484c54;
-      transition: ease-in-out 0.22s;
-    }
-  }
-}
-
-.task {
-  display: flex;
-  position: fixed;
-  left: 34%;
-  flex-direction: column;
-  gap: 10px;
-  width: 65%;
-
-  &__header {
-    border: 1px solid grey;
-    border-radius: 8px;
-  }
-
-  &__container {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-    overflow-y: auto;
-  }
-
-  &__dropdowns {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-
-  &__split {
-    display: flex;
-    gap: 5px;
-    width: 50%;
-    flex-direction: column;
-  }
-
-  &__non-stretched {
-    height: auto;
-  }
-  
-  &__stretched {
-    height: calc(100vh - 210px);
-    padding-right: 10px;
-  }
 }

@@ -20,7 +20,7 @@ export const Dashboard = () => {
 
   const logoutHandler = () => {
     logout()
-    navigate('/')
+    navigate('/login')
   }
 
   return (

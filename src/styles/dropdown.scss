@@ -7,9 +7,14 @@
 }
 
 .dropdown-header {
-  font-size: 15px;
+  color: white;
+}
 
-  &__notify {
-    color: rgb(255, 51, 0)
-  }
+.dropdown-header,
+.dropdown-header-notify {
+  font-size: 15px;
+}
+
+.dropdown-header-notify {
+  color: rgb(255, 51, 0);
 }

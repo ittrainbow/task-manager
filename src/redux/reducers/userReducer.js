@@ -1,6 +1,5 @@
 import {
   LOGIN_SUCCESS,
-  UPDATE_USER_ATTEMPT,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   FETCH_NAME_SUCCESS,
@@ -19,17 +18,13 @@ export const userReducer = (state = initialState, action) => {
 
   switch (type) {
     case LOGIN_SUCCESS:
-      const { name, email, uid } = payload
+      const { displayName: name, email, uid} = payload
+      
       return {
         ...state,
         name,
         email,
         uid
-      }
-
-    case UPDATE_USER_ATTEMPT:
-      return {
-        ...state,
       }
 
     case UPDATE_USER_SUCCESS:
@@ -41,7 +36,7 @@ export const userReducer = (state = initialState, action) => {
     case UPDATE_USER_FAILURE:
       return {
         ...state,
-        ...payload,
+        ...payload
       }
 
     case FETCH_NAME_SUCCESS:

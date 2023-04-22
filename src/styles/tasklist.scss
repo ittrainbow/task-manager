@@ -1,0 +1,71 @@
+.tasklist {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  gap: 10px;
+  width: 33%;
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto;
+  }
+
+  &__header {
+    border: 1px solid grey;
+    border-radius: 8px;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  &__non-stretched {
+    height: auto;
+    padding-right: -5px;
+  }
+
+  &__stretched {
+    height: calc(100vh - 165px);
+    padding-right: 5px;
+  }
+
+  &__card,
+  &__card-selected {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    padding: 7px 14px 7px 14px;
+    gap: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.25s;
+
+    &:hover {
+      background: #484c54;
+      transition: ease-in-out 0.22s;
+    }
+  }
+
+  &__card {
+    scale: 1;
+    background-color: #383c44;
+    color: #ddd;
+  }
+
+  &__card-selected {
+    scale: 0.97;
+    background-color: #53575d;
+    color: white;
+  }
+}

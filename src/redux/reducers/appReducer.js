@@ -15,15 +15,20 @@ export const appReducer = (state = initialState, action) => {
 
   switch (type) {
     case FETCH_USERLIST_SUCCESS:
+      const { userlist, user } = payload
+      const { uid, name, email } = user
+      const fetchOnSignUp = userlist.some((u) => u.uid === uid)
+      !fetchOnSignUp && userlist.push({ uid, name, email })
+
       return {
         ...state,
-        userlist: payload
+        userlist
       }
 
     case FETCH_USERLIST_FAILURE:
       return {
         ...state,
-        error: payload.error
+        ...payload
       }
 
     case SET_LOADING_TRUE:

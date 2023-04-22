@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, setDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
 
 import { db } from '../db/firebase'
 
@@ -37,4 +37,9 @@ export const writeTaskToFirestore = async ({ task }) => {
   const { id } = task
   const docRef = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
+}
+
+export const deleteTaskFromFirestore = async ({ id }) => {
+  const docRef = doc(db, 'tasks', id.toString())
+  await deleteDoc(docRef)
 }

@@ -1,22 +1,20 @@
 import {
-  SAVE_TASK_ATTEMPT,
-  SAVE_TASK_SUCCEED,
+  SAVE_TASK_SUCCESS,
   SAVE_TASK_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
-  SET_TASKS_NUMBER,
-  SELECT_TASK
+  SELECT_TASK,
+  DELETE_TASK_SUCCESS,
+  DELETE_TASK_FAILURE
 } from '../types'
 
 const initialState = {
   tasks: [],
-  // loading: false,
   error: null,
   newTaskId: 0,
   newTask: false,
   yourTask: false,
   taskInProgress: false,
-  task: null,
   selectedTaskId: null
 }
 
@@ -25,47 +23,34 @@ export const taskReducer = (state = initialState, action) => {
   switch (type) {
     case FETCH_TASKS_SUCCESS:
       const { tasks } = payload
+      const newTaskId = tasks.map((task) => task.id).sort((a, b) => b - a)[0] + 1
+      
       return {
         ...state,
-        tasks
+        tasks,
+        newTaskId
       }
 
     case FETCH_TASKS_FAILURE:
       return {
         ...state,
-        error: payload.error,
-        // loading: false
-      }
-
-    case SET_TASKS_NUMBER:
-      const { newTaskId } = payload
-      return {
-        ...state,
-        newTaskId
+        ...payload
       }
 
     case SELECT_TASK: {
-      const { selectedTaskId } = payload
       return {
         ...state,
-        selectedTaskId
+        selectedTaskId: payload
       }
     }
 
-    case SAVE_TASK_ATTEMPT:
-      return {
-        ...state,
-        // loading: true
-      }
-
-    case SAVE_TASK_SUCCEED:
+    case SAVE_TASK_SUCCESS:
       const newTasks = state.tasks
       const taskExists = newTasks.map((task) => task.id).indexOf(payload.id)
       taskExists > -1 ? (newTasks[taskExists] = payload.task) : newTasks.push(payload.task)
 
       return {
         ...state,
-        // loading: false,
         error: null,
         tasks: newTasks,
         newTaskId: state.newTaskId + 1
@@ -74,8 +59,23 @@ export const taskReducer = (state = initialState, action) => {
     case SAVE_TASK_FAILURE:
       return {
         ...state,
-        // loading: false,
-        error: payload.error
+        ...payload
+      }
+
+    case DELETE_TASK_SUCCESS:
+      const { id } = payload
+      const filteredTasks = state.tasks.filter((task) => task.id !== id)
+
+      return {
+        ...state,
+        tasks: filteredTasks,
+        selectedTaskId: null
+      }
+
+    case DELETE_TASK_FAILURE:
+      return {
+        ...state,
+        ...payload
       }
 
     default:

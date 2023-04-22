@@ -49,7 +49,7 @@ export const TaskNew = () => {
   const cancelHandler = () => {
     dispatch({
       type: SELECT_TASK,
-      payload: { selectedTaskId: null }
+      payload: null
     })
   }
 
@@ -82,6 +82,7 @@ export const TaskNew = () => {
           Submit
         </Button>
         <Button onClick={cancelHandler}>Cancel</Button>
+        <Button onClick={() => console.log(appointed)}>111</Button>
       </div>
     </>
   )

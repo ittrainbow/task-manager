@@ -25,7 +25,9 @@ function* writeNameToFS({ payload }) {
 
 function* writeName({ payload }) {
   yield call(setLoadingTrueSaga)
+  console.log(1)
   yield call(writeNameToFS, { payload })
+  console.log(2)
   yield call(setLoadingFalseSaga)
 }
 

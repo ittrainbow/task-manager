@@ -5,10 +5,11 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { Router } from './router/Router'
 import { INIT_APP, LOGIN_SUCCESS } from './redux/types'
 import { auth } from './db/firebase'
+import { Loader } from './UI'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [user] = useAuthState(auth)
+  const [user, loading] = useAuthState(auth)
 
   useEffect(() => {
     if (user) {

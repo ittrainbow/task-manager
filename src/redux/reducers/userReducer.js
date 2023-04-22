@@ -30,21 +30,18 @@ export const userReducer = (state = initialState, action) => {
     case UPDATE_USER_ATTEMPT:
       return {
         ...state,
-        // loading: true
       }
 
     case UPDATE_USER_SUCCESS:
       return {
         ...state,
         ...payload,
-        // loading: false
       }
 
     case UPDATE_USER_FAILURE:
       return {
         ...state,
         ...payload,
-        // loading: false
       }
 
     case FETCH_NAME_SUCCESS:

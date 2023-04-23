@@ -9,7 +9,15 @@ export const Task = () => {
   return (
     <div className="task">
       <div className="task__header">{newTask ? 'New Task' : 'Task'}</div>
-      {selectedTaskId !== null ? selectedTaskId === newTaskId ? <TaskNew /> : <TaskForm /> : null}
+      {selectedTaskId !== null ? (
+        selectedTaskId === newTaskId ? (
+          <TaskNew />
+        ) : (
+          <TaskForm />
+        )
+      ) : (
+        'No task selected'
+      )}
     </div>
   )
 }

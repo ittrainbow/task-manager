@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Picker, DropdownMenu } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { Picker, DropdownUser, DropdownStatus } from '../../UI'
+import { SAVE_NEW_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
@@ -15,7 +15,7 @@ export const TaskNew = () => {
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState(getTime)
   const [status, setStatus] = useState('New')
-  const [appointed, setAppointed] = useState(null)
+  const [appointed, setAppointed] = useState(uid)
 
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
@@ -40,7 +40,7 @@ export const TaskNew = () => {
         id: newTaskId
       }
       dispatch({
-        type: SAVE_TASK_ATTEMPT,
+        type: SAVE_NEW_TASK_ATTEMPT,
         payload: { task }
       })
     }
@@ -69,20 +69,14 @@ export const TaskNew = () => {
           placeholder="Task description"
         />
         <div className="task__dropdowns">
-          <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-          <DropdownMenu
-            value={appointed}
-            statusSelector={false}
-            appointed={appointed}
-            onChange={onChangeUser}
-          />
+          <DropdownStatus value={status} onChange={onChangeStatus} />
+          <DropdownUser value={appointed} appointed={appointed} onChange={onChangeUser} />
           <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
         <Button onClick={submitHandler} disabled={!checkFormValid()}>
           Submit
         </Button>
         <Button onClick={cancelHandler}>Cancel</Button>
-        <Button onClick={() => console.log(appointed)}>111</Button>
       </div>
     </>
   )

@@ -10,7 +10,8 @@ import {
   FETCH_USERLIST_SUCCESS,
   FETCH_USERLIST_FAILURE,
   FETCH_TASKS_SUCCESS,
-  FETCH_TASKS_FAILURE
+  FETCH_TASKS_FAILURE,
+  SET_TASK_SORT
 } from '../types'
 
 function* fetchNameSaga({ payload }) {
@@ -25,7 +26,7 @@ function* fetchNameSaga({ payload }) {
   } catch (error) {
     yield put({
       type: FETCH_NAME_FAILURE,
-      payload: {error: error.message}
+      payload: { error: error.message }
     })
   }
 }
@@ -40,7 +41,7 @@ function* fetchUserListSaga({ payload }) {
   } catch (error) {
     yield put({
       type: FETCH_USERLIST_FAILURE,
-      payload: {error: error.message}
+      payload: { error: error.message }
     })
   }
 }
@@ -56,9 +57,17 @@ function* fetchTasksSaga({ payload }) {
   } catch (error) {
     yield put({
       type: FETCH_TASKS_FAILURE,
-      payload: {error: error.message}
+      payload: { error: error.message }
     })
   }
+}
+
+function* initTaskSort() {
+  const taskSort = Number(localStorage.getItem('taskSort')) || 0
+  yield put({
+    type: SET_TASK_SORT,
+    payload: taskSort
+  })
 }
 
 export function* initSagas(action) {
@@ -66,11 +75,14 @@ export function* initSagas(action) {
     type: LOGIN_SUCCESS,
     payload: action.payload
   })
+  yield call(initTaskSort)
   yield all([fetchNameSaga(action), fetchTasksSaga(action), fetchUserListSaga(action)])
   yield call(setLoadingFalseSaga)
 }
 
 export function* initSaga() {
-  const action = yield take(INIT)
-  yield call(initSagas, action)
+  while (true) {
+    const action = yield take(INIT)
+    yield call(initSagas, action)
+  }
 }

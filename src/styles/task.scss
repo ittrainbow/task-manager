@@ -24,11 +24,17 @@
     gap: 5px;
   }
 
+  &__split-left,
   &__split {
     display: flex;
     gap: 5px;
     width: 50%;
     flex-direction: column;
+  }
+
+  &__split-left {
+    
+  width: calc((100vw - 50% - 30px) / 2);
   }
 
   &__non-stretched {

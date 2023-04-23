@@ -1,5 +1,7 @@
-.dropdown-container {
-  padding: 5px 0;
+.dropdown-container-sort,
+.dropdown-container-status,
+.dropdown-container-user {
+  padding: 0 0 5px;
 }
 
 .dropdown {
@@ -7,14 +9,5 @@
 }
 
 .dropdown-header {
-  color: white;
-}
-
-.dropdown-header,
-.dropdown-header-notify {
   font-size: 15px;
-}
-
-.dropdown-header-notify {
-  color: rgb(255, 51, 0);
 }

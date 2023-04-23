@@ -17,12 +17,6 @@
     border-radius: 8px;
   }
 
-  &__buttons {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-  }
-
   &__description {
     padding: 10px;
     font-size: 16px;
@@ -46,7 +40,7 @@
     border-radius: 8px;
     padding: 7px 14px 7px 14px;
     gap: 5px;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     text-align: left;
     transition: 0.25s;

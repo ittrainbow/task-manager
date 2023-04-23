@@ -12,6 +12,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
+      console.log(111, user)
       dispatch({
         type: INIT,
         payload: user

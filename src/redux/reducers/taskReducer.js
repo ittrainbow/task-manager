@@ -5,7 +5,10 @@ import {
   FETCH_TASKS_FAILURE,
   SELECT_TASK,
   DELETE_TASK_SUCCESS,
-  DELETE_TASK_FAILURE
+  DELETE_TASK_FAILURE,
+  SAVE_NEW_TASK_SUCCESS,
+  SAVE_NEW_TASK_FAILURE,
+  SET_TASK_SORT
 } from '../types'
 
 const initialState = {
@@ -15,7 +18,8 @@ const initialState = {
   newTask: false,
   yourTask: false,
   taskInProgress: false,
-  selectedTaskId: null
+  selectedTaskId: null,
+  taskSort: 0
 }
 
 export const taskReducer = (state = initialState, action) => {
@@ -24,7 +28,7 @@ export const taskReducer = (state = initialState, action) => {
     case FETCH_TASKS_SUCCESS:
       const { tasks } = payload
       const newTaskId = tasks.map((task) => task.id).sort((a, b) => b - a)[0] + 1
-      
+
       return {
         ...state,
         tasks,
@@ -45,18 +49,34 @@ export const taskReducer = (state = initialState, action) => {
     }
 
     case SAVE_TASK_SUCCESS:
-      const newTasks = state.tasks
-      const taskExists = newTasks.map((task) => task.id).indexOf(payload.id)
-      taskExists > -1 ? (newTasks[taskExists] = payload.task) : newTasks.push(payload.task)
+      const newTasksSave = state.tasks
+      const taskExists = newTasksSave.map((task) => task.id).indexOf(payload.id)
+      taskExists > -1 ? (newTasksSave[taskExists] = payload.task) : newTasksSave.push(payload.task)
 
       return {
         ...state,
         error: null,
-        tasks: newTasks,
+        tasks: newTasksSave,
         newTaskId: state.newTaskId + 1
       }
 
+    case SAVE_NEW_TASK_SUCCESS:
+      const newTasksCreate = state.tasks
+      newTasksCreate.push(payload.task)
+      return {
+        ...state,
+        tasks: newTasksCreate,
+        newTaskId: payload.id + 1,
+        selectedTaskId: payload.id
+      }
+
     case SAVE_TASK_FAILURE:
+      return {
+        ...state,
+        ...payload
+      }
+
+    case SAVE_NEW_TASK_FAILURE:
       return {
         ...state,
         ...payload
@@ -76,6 +96,13 @@ export const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         ...payload
+      }
+
+    case SET_TASK_SORT:
+      localStorage.setItem('taskSort', payload)
+      return {
+        ...state,
+        taskSort: payload
       }
 
     default:

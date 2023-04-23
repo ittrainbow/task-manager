@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { DropdownMenu, Comments } from '../../UI'
+import { DropdownStatus, DropdownUser, Comments } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK, DELETE_TASK_ATTEMPT } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist } from '../../helpers'
 
@@ -9,7 +9,6 @@ const getTime = () => new Date().getTime()
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
-  const { uid } = useSelector((store) => store.user)
   const { userlist } = useSelector((store) => store.app)
   const { tasks, selectedTaskId, newTaskId } = useSelector((store) => store.task)
 
@@ -68,7 +67,6 @@ export const TaskForm = () => {
   const submitHandler = () => {
     if (checkFormValid()) {
       const task = {
-        creator: uid,
         lastmodified: new Date().getTime(),
         comments,
         name,
@@ -104,7 +102,7 @@ export const TaskForm = () => {
         <div className="info-card">Name: {name}</div>
         <div className="info-card">Description: {description}</div>
         <div className="info-card">Opened by: {openedby}</div>
-        {appointed ? <div className="info-card">Responsible: {responsible}</div> : ''}
+        <div className="info-card">Responsible: {appointed ? responsible : 'nobody'}</div>
         <div className="info-card">Deadline: {readableTime}</div>
       </>
     )
@@ -130,15 +128,10 @@ export const TaskForm = () => {
   return (
     <>
       <div className={getTaskClasses()}>
-        <div className="task__split">
+        <div className="task__split-left">
           {renderInfoCards()}
-          <DropdownMenu value={status} statusSelector={true} onChange={onChangeStatus} />
-          <DropdownMenu
-            value={appointed}
-            statusSelector={false}
-            appointed={appointed}
-            onChange={onChangeUser}
-          />
+          <DropdownStatus value={status} onChange={onChangeStatus} />
+          <DropdownUser value={appointed} appointed={appointed} onChange={onChangeUser} />
         </div>
         <div className="task__split">
           <Comments comments={comments} onSubmitComment={onSubmitComment} />

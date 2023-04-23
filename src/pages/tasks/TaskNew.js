@@ -55,20 +55,20 @@ export const TaskNew = () => {
 
   return (
     <>
-      <div className="tasklist__container">
+      <div className="tasknew__container">
         <Form.Control
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Task name"
         />
         <textarea
-          className="tasklist__description"
+          className="tasknew__description"
           value={description}
           rows={5}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
-        <div className="task__dropdowns">
+        <div className="tasknew__dropdowns">
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
           <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />

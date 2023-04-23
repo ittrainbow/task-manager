@@ -17,7 +17,7 @@ export const Router = () => {
         <Route exact path="/reset" element={<Reset />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/taskpage" element={<TaskPage />} />
-        <Route exact path="/tasknew" element={<TaskPage />} />
+        <Route exact path="/newtask" element={<TaskPage />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/" element={<Home />} />
       </Routes>

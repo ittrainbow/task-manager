@@ -2,7 +2,7 @@
   display: flex;
   position: fixed;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   width: 33%;
 
   &__container {
@@ -10,12 +10,13 @@
     flex-direction: column;
     gap: 5px;
     overflow-y: auto;
-    height: calc(100vh - 169px);
+    height: calc(100vh - 167px);
   }
 
   &__header {
     border: 1px solid grey;
     border-radius: 8px;
+    margin-bottom: 4px;
   }
 
   &__description {

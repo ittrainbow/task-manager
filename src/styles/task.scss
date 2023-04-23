@@ -18,6 +18,12 @@
     overflow-y: auto;
   }
 
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
   &__split-left,
   &__split-right {
     display: flex;
@@ -34,6 +40,7 @@
     flex-direction: row;
     gap: 5px;
   }
+  
   &__delete {
     display: flex;
     flex-direction: row;

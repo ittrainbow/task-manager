@@ -10,7 +10,7 @@ import { logout } from '../db/auth'
 
 const headerButtons = [
   { name: 'Tasks', path: '/', id: 0 },
-  { name: 'New Task', path: '/tasknew', id: 1 },
+  { name: 'New Task', path: '/newtask', id: 1 },
   { name: 'Dashboard', path: '/dashboard', id: 2 }
 ]
 

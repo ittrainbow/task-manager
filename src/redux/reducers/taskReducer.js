@@ -50,14 +50,16 @@ export const taskReducer = (state = initialState, action) => {
 
     case SAVE_TASK_SUCCESS:
       const newTasksSave = state.tasks
-      const taskExists = newTasksSave.map((task) => task.id).indexOf(payload.id)
-      taskExists > -1 ? (newTasksSave[taskExists] = payload.task) : newTasksSave.push(payload.task)
+      const taskIndex = newTasksSave.map((task) => task.id).indexOf(payload.id)
+      newTasksSave[taskIndex] = {
+        ...state.tasks[taskIndex],
+        ...payload.task
+      }
 
       return {
         ...state,
         error: null,
         tasks: newTasksSave,
-        newTaskId: state.newTaskId + 1
       }
 
     case SAVE_NEW_TASK_SUCCESS:
@@ -66,8 +68,8 @@ export const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: newTasksCreate,
-        newTaskId: payload.id + 1,
-        selectedTaskId: payload.id
+        error: null,
+        newTaskId: state.newTaskId + 1
       }
 
     case SAVE_TASK_FAILURE:

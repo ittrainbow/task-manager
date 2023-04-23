@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 
 export const Comments = ({ comments, onSubmitComment }) => {
   const [newComment, setNewComment] = useState('')
+
+  useEffect(() => {
+    document.querySelector('.comment__new').focus()
+  }, [comments])
 
   const submitComment = () => {
     newComment.length > 0 && onSubmitComment(newComment)

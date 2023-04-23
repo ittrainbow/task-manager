@@ -16,16 +16,18 @@
     flex-direction: row;
     gap: 10px;
     overflow-y: auto;
-    height: calc(100vh - 210px);
   }
 
-  &__split {
+  &__split-left,
+  &__split-right {
     display: flex;
     gap: 5px;
-    width: calc(50% - 5px);
     flex-direction: column;
   }
 
+  &__split-right {
+    width: calc(50% - 5px);
+  }
 
   &__dropdowns {
     display: flex;

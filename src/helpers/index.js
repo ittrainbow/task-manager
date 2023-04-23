@@ -69,3 +69,19 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
       break
   }
 }
+
+export const getTasklistOverflow = () => {
+  const windowHeight = () => window.innerHeight
+  const tasklistHeight = () => document.querySelector('.tasklist__container').scrollHeight
+  return windowHeight() - tasklistHeight() < 165
+}
+
+export const getTaskFormOverflow = () => {
+  return {
+    height: window.innerHeight - 207,
+    width: document.querySelector('.task__delete').clientWidth / 2 - 5,
+    overflow:
+      document.querySelector('.comments').scrollHeight >
+      document.querySelector('.task__split-right').clientHeight
+  }
+}

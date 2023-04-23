@@ -31,6 +31,11 @@ export const Login = () => {
     setPassword(value.replace(/ /g, ''))
   }
 
+  const googleSignInHandler = () => {
+    navigate('/')
+    signInWithGoogle()
+  }
+
   return (
     <div className="auth-container">
       <Form.Control onChange={emailInputHandler} value={email} type='text' placeholder="E-mail" />
@@ -42,7 +47,7 @@ export const Login = () => {
         >
           Sign In
         </Button>
-        <Button onClick={signInWithGoogle}>Google Sign In</Button>
+        <Button onClick={googleSignInHandler}>Google Sign In</Button>
         <Button onClick={() => navigate('/reset')}>Recover Password</Button>
         <Button onClick={() => navigate('/register')}>Sign Up</Button>
       </div>

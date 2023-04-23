@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   taskListNameHelper,
   convertMilliesToISO,
-  sortTaskList
+  sortTaskList,
+  getFromUserlist
 } from '../../helpers'
 import { DropdownSort } from '../../UI/DropdownSort'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
@@ -14,6 +15,7 @@ export const TaskList = () => {
   const [stretch, setStretch] = useState(false)
   const { tasks, selectedTaskId, taskSort } = useSelector((store) => store.task)
   const { uid } = useSelector((store) => store.user)
+  const { userlist } = useSelector((store) => store.app)
 
   const list = sortTaskList({ taskSort, tasks, uid })
 
@@ -51,13 +53,14 @@ export const TaskList = () => {
       <DropdownSort value={taskSort} onChange={onChangeSort} />
       <div className={getTasklistClasses()}>
         {list.map((el, index) => {
-          const { name, status, id, deadline } = el
+          const { name, assigned, status, id, deadline } = el
           const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'
           return (
             <div key={index} className={cardClass} onClick={() => taskSelectHandler(id)}>
               <div>Name: {taskListNameHelper(name)}</div>
-              <div>Deadline: {convertMilliesToISO(deadline)[`readableTime`]}</div>
+              <div>Assigned: {getFromUserlist({ userlist, uid: assigned })}</div>
               <div>Status: {status}</div>
+              <div>Deadline: {convertMilliesToISO(deadline)[`readableTime`]}</div>
             </div>
           )
         })}

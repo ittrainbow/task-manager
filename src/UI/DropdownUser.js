@@ -9,7 +9,7 @@ export const DropdownUser = ({ value, assigned, onChange }) => {
   const options = [{ name: 'no assignment', uid: null }, ...userlist]
 
   return (
-    <Container className="dropdown-container-user">
+    <Container className="dropdown-container">
       <div className="dropdown-header">Assign User</div>
       <Dropdown>
         <Dropdown.Toggle id="dropdown-basic">

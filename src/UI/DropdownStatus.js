@@ -6,7 +6,7 @@ export const DropdownStatus = ({ value, onChange }) => {
   const dropdownHandler = (option) => onChange(option)
 
   return (
-    <Container className="dropdown-container-status">
+    <Container className="dropdown-container">
       <div className="dropdown-header">Set Status</div>
       <Dropdown>
         <Dropdown.Toggle id="dropdown-basic" className="dropdown-basic">

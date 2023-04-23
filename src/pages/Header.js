@@ -11,7 +11,7 @@ import { logout } from '../db/auth'
 const headerButtons = [
   { name: 'Tasks', path: '/', id: 0 },
   { name: 'Dashboard', path: '/dashboard', id: 1 },
-  { name: 'New Task', path: '/', id: 2 }
+  { name: 'New Task', path: '/tasknew', id: 2 }
 ]
 
 export const HeaderTab = () => {
@@ -32,14 +32,12 @@ export const HeaderTab = () => {
     navigate(path)
   }
 
-  const authClickHandler = () => {
-    if (user) {
-      logout()
-    }
-    navigate('/login')
+  const logoutHandler = () => {
+    logout()
+    setTimeout(() => navigate('/login'), 20)
   }
 
-  const autnButton = user ? 'Logout' : 'Login'
+  const autnButton = user ? 'Logout' : 'No User'
 
   return (
     <div className="header-container">
@@ -47,15 +45,20 @@ export const HeaderTab = () => {
         {headerButtons.map((button, index) => {
           const { name } = button
           return (
-            <Button key={index} onClick={() => onClickHandler(button)} className="header__button">
+            <Button
+              key={index}
+              onClick={() => onClickHandler(button)}
+              className="header__button"
+              disabled={!user}
+            >
               {name}
             </Button>
           )
         })}
       </div>
       <div className="header">
-        {loading ? '' : <div className="header__greeting">Welcome, {name || 'User'}</div>}
-        <Button onClick={authClickHandler} className="header__button">
+        {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}
+        <Button onClick={logoutHandler} className="header__button" disabled={!user}>
           {autnButton}
         </Button>
       </div>

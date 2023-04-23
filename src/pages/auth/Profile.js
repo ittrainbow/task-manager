@@ -16,16 +16,17 @@ export const Profile = () => {
       type: UPDATE_USER_ATTEMPT,
       payload: { uid, name: tempName }
     })
-    navigate(-1)
+    navigate('/dashboard')
   }
 
   const noChanges = name === tempName
 
   return (
     <div className="auth-container">
+      Change Name
       <Form.Control onChange={(e) => setTempName(e.target.value)} value={tempName} />
       <div className="auth-container auth-container__button-block">
-        <Button onClick={submitHandler}>{noChanges ? 'No changes' : 'Save'}</Button>
+        <Button onClick={submitHandler} disabled={noChanges}>{noChanges ? 'No changes' : 'Save'}</Button>
         <Button onClick={() => navigate(-1)}>Cancel</Button>
       </div>
     </div>

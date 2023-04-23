@@ -1,0 +1,40 @@
+.task {
+  display: flex;
+  position: fixed;
+  left: calc(33% + 20px);
+  flex-direction: column;
+  gap: 10px;
+  width: calc(100vw - 33% - 30px);
+
+  &__header {
+    border: 1px solid grey;
+    border-radius: 8px;
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    overflow-y: auto;
+    height: calc(100vh - 210px);
+  }
+
+  &__split {
+    display: flex;
+    gap: 5px;
+    width: calc(50% - 5px);
+    flex-direction: column;
+  }
+
+
+  &__dropdowns {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+  }
+  &__delete {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+}

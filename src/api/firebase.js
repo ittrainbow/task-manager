@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, setDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
 
 import { db } from '../db/firebase'
 
@@ -17,6 +17,16 @@ export const fetchTasks = async () => {
   return tasklist
 }
 
+export const fetchTasksNumbers = async () => {
+  const numbers = []
+  const response = await getDocs(collection(db, 'tasks'))
+  response.forEach((doc) => {
+    numbers.push(doc.data().id)
+  })
+  const lastNum = numbers.sort((a, b) => b - a)[0]
+  return [numbers, lastNum]
+}
+
 export const fetchUserList = async () => {
   const userlist = []
   const response = await getDocs(collection(db, 'users'))
@@ -33,8 +43,12 @@ export const writeNameToFirestore = async ({ uid, name }) => {
   await setDoc(docRef, { name }, { merge: true })
 }
 
-export const writeTaskToFirestore = async ({ task }) => {
-  const { id } = task
+export const writeTaskToFirestore = async ({ id, task }) => {
   const docRef = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
+}
+
+export const deleteTaskFromFirestore = async ({ id }) => {
+  const docRef = doc(db, 'tasks', id.toString())
+  await deleteDoc(docRef)
 }

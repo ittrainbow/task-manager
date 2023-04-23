@@ -16,10 +16,10 @@ const googleProvider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
     const response = await signInWithPopup(auth, googleProvider)
-    const { email, displayName, uid } = response.user
+    const { email, displayName: name, uid } = response.user
     const docs = await getDoc(doc(db, 'users', uid))
     if (docs.data() === undefined) {
-      const data = { name: displayName, email }
+      const data = { name, email }
       await setDoc(doc(db, 'users', uid), data)
     }
   } catch (err) {

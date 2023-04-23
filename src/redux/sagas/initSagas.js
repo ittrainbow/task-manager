@@ -1,16 +1,17 @@
-import { put, call, take, all } from 'redux-saga/effects'
+import { put, call, all, take } from 'redux-saga/effects'
 
 import { fetchNameFromFirestore, fetchUserList, fetchTasks } from '../../api/firebase'
 import { setLoadingFalseSaga } from './appSagas'
 import {
-  INIT_APP,
+  INIT,
+  LOGIN_SUCCESS,
   FETCH_NAME_SUCCESS,
   FETCH_NAME_FAILURE,
   FETCH_USERLIST_SUCCESS,
   FETCH_USERLIST_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
-  SET_TASKS_NUMBER
+  SET_TASK_SORT
 } from '../types'
 
 function* fetchNameSaga({ payload }) {
@@ -25,17 +26,17 @@ function* fetchNameSaga({ payload }) {
   } catch (error) {
     yield put({
       type: FETCH_NAME_FAILURE,
-      payload: { error }
+      payload: { error: error.message }
     })
   }
 }
 
-function* fetchUserListSaga() {
+function* fetchUserListSaga({ payload }) {
   try {
     const userlist = yield call(fetchUserList)
     yield put({
       type: FETCH_USERLIST_SUCCESS,
-      payload: userlist
+      payload: { userlist, user: payload }
     })
   } catch (error) {
     yield put({
@@ -49,15 +50,9 @@ function* fetchTasksSaga({ payload }) {
   const { uid } = payload
   try {
     const tasks = yield call(fetchTasks)
-    const newTaskId = tasks[tasks.length - 1].id + 1
     yield put({
       type: FETCH_TASKS_SUCCESS,
       payload: { uid, tasks }
-    })
-    
-    yield put({
-      type: SET_TASKS_NUMBER,
-      payload: { newTaskId }
     })
   } catch (error) {
     yield put({
@@ -67,9 +62,27 @@ function* fetchTasksSaga({ payload }) {
   }
 }
 
-export function* initSagas() {
-  const action = yield take(INIT_APP)
+function* initTaskSort() {
+  const taskSort = Number(localStorage.getItem('taskSort')) || 0
+  yield put({
+    type: SET_TASK_SORT,
+    payload: taskSort
+  })
+}
 
-  yield all([fetchNameSaga(action), fetchUserListSaga(), fetchTasksSaga(action)])
+export function* initSagas(action) {
+  yield put({
+    type: LOGIN_SUCCESS,
+    payload: action.payload
+  })
+  yield call(initTaskSort)
+  yield all([fetchNameSaga(action), fetchTasksSaga(action), fetchUserListSaga(action)])
   yield call(setLoadingFalseSaga)
+}
+
+export function* initSaga() {
+  while (true) {
+    const action = yield take(INIT)
+    yield call(initSagas, action)
+  }
 }

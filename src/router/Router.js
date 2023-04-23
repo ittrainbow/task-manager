@@ -1,11 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { Login, Profile, Register, Reset, UserPage } from '../pages/auth'
-import { Task, TaskList, TaskPage } from '../pages/tasks'
+import { Dashboard, Login, Profile, Register, Reset } from '../pages/auth'
+import { TaskPage } from '../pages/tasks'
 import { HeaderTab } from '../pages'
+import { Home } from '../pages/Home'
 
 export const Router = () => {
+
   return (
     <BrowserRouter>
       <HeaderTab />
@@ -13,10 +15,11 @@ export const Router = () => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/register" element={<Register />} />
         <Route exact path="/reset" element={<Reset />} />
-        <Route exact path="/dashboard" element={<UserPage />} />
+        <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/taskpage" element={<TaskPage />} />
+        <Route exact path="/tasknew" element={<TaskPage />} />
         <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/" element={<UserPage />} />
+        <Route exact path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
   )

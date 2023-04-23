@@ -18,14 +18,14 @@ function* writeNameToFS({ payload }) {
   } catch (error) {
     yield put({
       type: UPDATE_USER_FAILURE,
-      payload: { error }
+      payload: {error: error.message}
     })
   }
 }
 
-function* writeName({ payload }) {
+function* writeName(action) {
   yield call(setLoadingTrueSaga)
-  yield call(writeNameToFS, { payload })
+  yield call(writeNameToFS, action)
   yield call(setLoadingFalseSaga)
 }
 

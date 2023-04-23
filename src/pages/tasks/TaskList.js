@@ -1,39 +1,56 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { taskListNameHelper, taskListDescriptionHelper } from '../../helpers'
-import { SELECT_TASK } from '../../redux/types'
+import {
+  taskListNameHelper,
+  convertMilliesToISO,
+  sortTaskList,
+  getFromUserlist
+} from '../../helpers'
+import { DropdownSort } from '../../UI/DropdownSort'
+import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
-  const { task, tasks } = useSelector((store) => store.task)
+  const { tasks, selectedTaskId, taskSort } = useSelector((store) => store.task)
+  const { uid } = useSelector((store) => store.user)
+  const { userlist } = useSelector((store) => store.app)
+
+  const list = sortTaskList({ taskSort, tasks, uid })
+  const today = new Date().getTime()
 
   const taskSelectHandler = (id) => {
-    if (!task || task.id !== id) {
-      dispatch({
-        type: SELECT_TASK,
-        payload: { selectedTaskId: id }
-      })
-    }
+    dispatch({
+      type: SELECT_TASK,
+      payload: selectedTaskId !== id ? id : null
+    })
+  }
+
+  const onChangeSort = ({ value }) => {
+    dispatch({
+      type: SET_TASK_SORT,
+      payload: value
+    })
   }
 
   return (
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
+      <DropdownSort value={taskSort} onChange={onChangeSort} />
       <div className="tasklist__container">
-        {tasks.map((el, index) => {
-          const { name, description, status, id } = el
+        {list.map((el, index) => {
+          const { name, creator, assigned, status, id, deadline } = el
+          const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'
+          const outdated = deadline < today
           return (
-            <div
-              key={index}
-              className="tasklist__card"
-              onClick={() => taskSelectHandler(id)}
-            >
-              <div className="tasklist__card__header">{taskListNameHelper(name)}</div>
-              <div className="tasklist__card__description">
-                {taskListDescriptionHelper(description)}
+            <div key={index} className={cardClass} onClick={() => taskSelectHandler(id)}>
+              <div>Name: {taskListNameHelper(name)}</div>
+              <div>Created by: {getFromUserlist({ userlist, uid: creator })}</div>
+              <div>Assigned to: {getFromUserlist({ userlist, uid: assigned })}</div>
+              <div>Status: {status}</div>
+              <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
+                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)[`readableTime`]}
               </div>
-              <div className="tasklist__card__status">Status: {status}</div>
             </div>
           )
         })}

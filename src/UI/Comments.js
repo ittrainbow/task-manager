@@ -20,10 +20,14 @@ export const Comments = ({ comments, onSubmitComment }) => {
       })}
       <textarea
         className="comment__new"
+        rows={4}
         value={newComment}
+        placeholder="Add comment here"
         onChange={(e) => setNewComment(e.target.value)}
       />
-      <Button onClick={submitComment}>Add comment</Button>
+      <Button onClick={submitComment} disabled={newComment.length === 0}>
+        Add comment
+      </Button>
     </div>
   )
 }

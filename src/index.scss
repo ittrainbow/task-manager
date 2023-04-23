@@ -5,6 +5,8 @@
 @import './styles/loader.scss';
 @import './styles/picker.scss';
 @import './styles/tasks.scss';
+@import './styles/tasklist.scss';
+@import './styles/task.scss';
 
 body {
   background-color: #282c34;
@@ -20,6 +22,7 @@ body {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: content-box;
 }
 
 code {

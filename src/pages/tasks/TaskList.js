@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import {
   taskListNameHelper,
-  taskListDescriptionHelper,
   convertMilliesToISO,
   sortTaskList
 } from '../../helpers'
@@ -52,12 +51,11 @@ export const TaskList = () => {
       <DropdownSort value={taskSort} onChange={onChangeSort} />
       <div className={getTasklistClasses()}>
         {list.map((el, index) => {
-          const { name, description, status, id, deadline } = el
+          const { name, status, id, deadline } = el
           const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'
           return (
             <div key={index} className={cardClass} onClick={() => taskSelectHandler(id)}>
-              <div>{taskListNameHelper(name)}</div>
-              <div>{taskListDescriptionHelper(description)}</div>
+              <div>Name: {taskListNameHelper(name)}</div>
               <div>Deadline: {convertMilliesToISO(deadline)[`readableTime`]}</div>
               <div>Status: {status}</div>
             </div>

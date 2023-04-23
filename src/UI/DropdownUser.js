@@ -4,16 +4,16 @@ import { useSelector } from 'react-redux'
 
 import { getFromUserlist } from '../helpers'
 
-export const DropdownUser = ({ value, appointed, onChange }) => {
+export const DropdownUser = ({ value, assigned, onChange }) => {
   const { userlist } = useSelector((store) => store.app)
-  const options = [{ name: 'no appointment', uid: null }, ...userlist]
+  const options = [{ name: 'no assignment', uid: null }, ...userlist]
 
   return (
     <Container className="dropdown-container-user">
       <div className="dropdown-header">Assign User</div>
       <Dropdown>
         <Dropdown.Toggle id="dropdown-basic">
-          {getFromUserlist({ userlist, uid: appointed })}
+          {getFromUserlist({ userlist, uid: assigned })}
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

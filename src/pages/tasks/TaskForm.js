@@ -19,14 +19,14 @@ export const TaskForm = () => {
   const [status, setStatus] = useState('New')
   const [comments, setComments] = useState([])
   const [creator, setCreator] = useState(null)
-  const [appointed, setAppointed] = useState(null)
+  const [assigned, setAssigned] = useState(null)
   const [stretch, setStretch] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
 
   useEffect(() => {
     if (selectedTaskId || selectedTaskId === 0) {
       const task = tasks.filter((task) => task.id === selectedTaskId)[0]
-      const { name, description, deadline, status, comments, creator, appointed, id } = task
+      const { name, description, deadline, status, comments, creator, assigned, id } = task
 
       setName(name)
       setDescription(description)
@@ -34,7 +34,7 @@ export const TaskForm = () => {
       setStatus(status)
       setComments(comments)
       setCreator(creator)
-      setAppointed(appointed)
+      setAssigned(assigned)
       setId(id)
     } // eslint-disable-next-line
   }, [selectedTaskId])
@@ -50,10 +50,10 @@ export const TaskForm = () => {
   useEffect(() => {
     const task = tasks.filter((task) => task.id === selectedTaskId)[0]
     const statusChanged = task.status !== status
-    const appointmentChanged = task.appointed !== appointed
+    const assignedChanged = task.assigned !== assigned
     const commentsChanged = JSON.stringify(task.comments) !== JSON.stringify(comments)
-    setAnyChanges(statusChanged || commentsChanged || appointmentChanged) // eslint-disable-next-line
-  }, [comments, status, appointed])
+    setAnyChanges(statusChanged || commentsChanged || assignedChanged) // eslint-disable-next-line
+  }, [comments, status, assigned])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
@@ -73,7 +73,7 @@ export const TaskForm = () => {
         description,
         deadline,
         status,
-        appointed,
+        assigned,
         id
       }
       dispatch({
@@ -93,16 +93,16 @@ export const TaskForm = () => {
   }
 
   const renderInfoCards = () => {
-    const openedby = creator && getFromUserlist({ userlist, uid: creator })
-    const responsible = appointed && getFromUserlist({ userlist, uid: appointed })
+    const openedBy = creator && getFromUserlist({ userlist, uid: creator })
+    const assignedUser = assigned && getFromUserlist({ userlist, uid: assigned })
     const { readableTime } = convertMilliesToISO(deadline)
 
     return (
       <>
         <div className="info-card">Name: {name}</div>
         <div className="info-card">Description: {description}</div>
-        <div className="info-card">Opened by: {openedby}</div>
-        <div className="info-card">Responsible: {appointed ? responsible : 'nobody'}</div>
+        <div className="info-card">Opened by: {openedBy}</div>
+        <div className="info-card">Assigned: {assigned ? assignedUser : 'not assigned'}</div>
         <div className="info-card">Deadline: {readableTime}</div>
       </>
     )
@@ -122,7 +122,7 @@ export const TaskForm = () => {
   }
 
   const onChangeUser = (uid) => {
-    setAppointed(uid)
+    setAssigned(uid)
   }
 
   return (
@@ -131,7 +131,7 @@ export const TaskForm = () => {
         <div className="task__split-left">
           {renderInfoCards()}
           <DropdownStatus value={status} onChange={onChangeStatus} />
-          <DropdownUser value={appointed} appointed={appointed} onChange={onChangeUser} />
+          <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
         </div>
         <div className="task__split">
           <Comments comments={comments} onSubmitComment={onSubmitComment} />

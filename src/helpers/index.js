@@ -9,7 +9,7 @@ export const emptyTask = (uid) => {
     description: '',
     deadline: new Date().getTime(),
     status: 'New',
-    appointed: uid
+    assigned: uid
   }
 }
 
@@ -17,9 +17,9 @@ export const taskListNameHelper = (name) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
-export const taskListDescriptionHelper = (description) => {
-  return description.length > 80 ? description.substring(0, 77) + '...' : description
-}
+// export const taskListDescriptionHelper = (description) => {
+//   return description.length > 80 ? description.substring(0, 77) + '...' : description
+// }
 
 export const getFromUserlist = ({ userlist, uid }) => {
   if (!userlist || !uid) return 'unassigned'
@@ -38,7 +38,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
     case 0:
       const newTasksCase0 = tasks
         .filter((task) => {
-          return task.creator === uid || task.appointed === uid
+          return task.creator === uid || task.assigned === uid
         })
         .filter((task) => {
           return task.status !== 'Closed'
@@ -49,7 +49,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
       return newTasksCase0
     case 1:
       const newTasksCase1 = tasks.filter((task) => {
-        return task.creator === uid || task.appointed === uid
+        return task.creator === uid || task.assigned === uid
       })
       return newTasksCase1
     case 2:

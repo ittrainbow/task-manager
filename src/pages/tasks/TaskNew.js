@@ -15,11 +15,11 @@ export const TaskNew = () => {
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState(getTime)
   const [status, setStatus] = useState('New')
-  const [appointed, setAppointed] = useState(uid)
+  const [assigned, setAssigned] = useState(uid)
 
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeStatus = (status) => setStatus(status)
-  const onChangeUser = (uid) => setAppointed(uid)
+  const onChangeUser = (uid) => setAssigned(uid)
 
   const onChangeDeadline = ({ value }) => {
     const time = new Date(value).getTime()
@@ -36,7 +36,7 @@ export const TaskNew = () => {
         description,
         deadline,
         status,
-        appointed,
+        assigned,
         id: newTaskId
       }
       dispatch({
@@ -70,7 +70,7 @@ export const TaskNew = () => {
         />
         <div className="task__dropdowns">
           <DropdownStatus value={status} onChange={onChangeStatus} />
-          <DropdownUser value={appointed} appointed={appointed} onChange={onChangeUser} />
+          <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
           <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
         <Button onClick={submitHandler} disabled={!checkFormValid()}>

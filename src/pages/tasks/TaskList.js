@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
@@ -12,20 +12,12 @@ import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
-  const [stretch, setStretch] = useState(false)
   const { tasks, selectedTaskId, taskSort } = useSelector((store) => store.task)
   const { uid } = useSelector((store) => store.user)
   const { userlist } = useSelector((store) => store.app)
 
   const list = sortTaskList({ taskSort, tasks, uid })
-
-  useEffect(() => {
-    const tasklistContainerHeight = document.querySelector('.tasklist__container').clientHeight
-    const innerHeight = window.innerHeight - 170
-    const toStretch = innerHeight < tasklistContainerHeight
-
-    setStretch(toStretch)
-  }, [list])
+  const today = new Date().getTime()
 
   const taskSelectHandler = (id) => {
     dispatch({
@@ -41,26 +33,24 @@ export const TaskList = () => {
     })
   }
 
-  const getTasklistClasses = () => {
-    const classes = [`tasklist__container`]
-    classes.push(stretch ? 'tasklist__stretched' : 'tasklist__non-stretched')
-    return classes.join(' ')
-  }
-
   return (
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
       <DropdownSort value={taskSort} onChange={onChangeSort} />
-      <div className={getTasklistClasses()}>
+      <div className="tasklist__container">
         {list.map((el, index) => {
-          const { name, assigned, status, id, deadline } = el
+          const { name, creator, assigned, status, id, deadline } = el
           const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'
+          const outdated = deadline < today
           return (
             <div key={index} className={cardClass} onClick={() => taskSelectHandler(id)}>
               <div>Name: {taskListNameHelper(name)}</div>
-              <div>Assigned: {getFromUserlist({ userlist, uid: assigned })}</div>
+              <div>Created by: {getFromUserlist({ userlist, uid: creator })}</div>
+              <div>Assigned to: {getFromUserlist({ userlist, uid: assigned })}</div>
               <div>Status: {status}</div>
-              <div>Deadline: {convertMilliesToISO(deadline)[`readableTime`]}</div>
+              <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
+                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)[`readableTime`]}
+              </div>
             </div>
           )
         })}

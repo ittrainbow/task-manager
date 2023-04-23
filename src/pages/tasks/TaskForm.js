@@ -11,7 +11,6 @@ export const TaskForm = () => {
   const dispatch = useDispatch()
   const { userlist } = useSelector((store) => store.app)
   const { tasks, selectedTaskId, newTaskId } = useSelector((store) => store.task)
-
   const [id, setId] = useState(newTaskId)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -20,7 +19,6 @@ export const TaskForm = () => {
   const [comments, setComments] = useState([])
   const [creator, setCreator] = useState(null)
   const [assigned, setAssigned] = useState(null)
-  const [stretch, setStretch] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
 
   useEffect(() => {
@@ -38,14 +36,6 @@ export const TaskForm = () => {
       setId(id)
     } // eslint-disable-next-line
   }, [selectedTaskId])
-
-  useEffect(() => {
-    const taskContainerHeight = document.querySelector('.task__container').clientHeight
-    const innerHeight = window.innerHeight - 210
-    const toStretch = innerHeight < taskContainerHeight
-
-    setStretch(toStretch)
-  }, [comments])
 
   useEffect(() => {
     const task = tasks.filter((task) => task.id === selectedTaskId)[0]
@@ -115,20 +105,14 @@ export const TaskForm = () => {
     })
   }
 
-  const getTaskClasses = () => {
-    const classes = [`task__container`]
-    classes.push(stretch ? 'task__stretched' : 'task__non-stretched')
-    return classes.join(' ')
-  }
-
   const onChangeUser = (uid) => {
     setAssigned(uid)
   }
 
   return (
     <>
-      <div className={getTaskClasses()}>
-        <div className="task__split-left">
+      <div className="task__container">
+        <div className="task__split">
           {renderInfoCards()}
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />

@@ -10,6 +10,7 @@
     flex-direction: column;
     gap: 5px;
     overflow-y: auto;
+    height: calc(100vh - 170px);
   }
 
   &__header {
@@ -21,16 +22,6 @@
     padding: 10px;
     font-size: 16px;
     border-radius: 8px;
-  }
-
-  &__non-stretched {
-    height: auto;
-    padding-right: -5px;
-  }
-
-  &__stretched {
-    height: calc(100vh - 165px);
-    padding-right: 5px;
   }
 
   &__card,

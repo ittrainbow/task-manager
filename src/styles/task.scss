@@ -14,38 +14,24 @@
   &__container {
     display: flex;
     flex-direction: row;
-    gap: 15px;
+    gap: 10px;
     overflow-y: auto;
+    height: calc(100vh - 210px);
   }
+
+  &__split {
+    display: flex;
+    gap: 5px;
+    width: calc(50% - 5px);
+    flex-direction: column;
+  }
+
 
   &__dropdowns {
     display: flex;
     flex-direction: row;
     gap: 5px;
   }
-
-  &__split-left,
-  &__split {
-    display: flex;
-    gap: 5px;
-    width: 50%;
-    flex-direction: column;
-  }
-
-  &__split-left {
-    
-  width: calc((100vw - 50% - 30px) / 2);
-  }
-
-  &__non-stretched {
-    height: auto;
-  }
-
-  &__stretched {
-    height: calc(100vh - 210px);
-    padding-right: 10px;
-  }
-
   &__delete {
     display: flex;
     flex-direction: row;

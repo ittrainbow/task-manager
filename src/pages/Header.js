@@ -10,8 +10,8 @@ import { logout } from '../db/auth'
 
 const headerButtons = [
   { name: 'Tasks', path: '/', id: 0 },
-  { name: 'Dashboard', path: '/dashboard', id: 1 },
-  { name: 'New Task', path: '/tasknew', id: 2 }
+  { name: 'New Task', path: '/tasknew', id: 1 },
+  { name: 'Dashboard', path: '/dashboard', id: 2 }
 ]
 
 export const HeaderTab = () => {
@@ -24,10 +24,10 @@ export const HeaderTab = () => {
 
   const onClickHandler = (button) => {
     const { path, id } = button
-    id !== 1 &&
+    id !== 2 &&
       dispatch({
         type: SELECT_TASK,
-        payload: id === 2 ? newTaskId : null
+        payload: id === 1 ? newTaskId : null
       })
     navigate(path)
   }

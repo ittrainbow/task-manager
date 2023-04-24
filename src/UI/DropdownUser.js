@@ -3,9 +3,10 @@ import { Container, Dropdown } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 import { getFromUserlist } from '../helpers'
+import { selectApp } from '../redux/selectors'
 
 export const DropdownUser = ({ value, assigned, onChange }) => {
-  const { userlist } = useSelector((store) => store.app)
+  const { userlist } = useSelector(selectApp)
   const options = [{ name: 'no assignment', uid: null }, ...userlist]
 
   return (

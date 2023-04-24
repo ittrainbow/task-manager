@@ -10,13 +10,14 @@ import {
 } from '../../helpers'
 import { DropdownSort } from '../../UI/DropdownSort'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
+import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
-  const { tasks, selectedTaskId, taskSort } = useSelector((store) => store.task)
-  const { uid } = useSelector((store) => store.user)
-  const { userlist } = useSelector((store) => store.app)
+  const { tasks, selectedTaskId, taskSort } = useSelector(selectTask)
+  const { uid } = useSelector(selectUser)
+  const { userlist } = useSelector(selectApp)
 
   const list = sortTaskList({ taskSort, tasks, uid })
   const today = new Date().getTime()

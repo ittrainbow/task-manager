@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Dashboard, Login, Profile, Register, Reset } from '../pages/auth'
 import { TaskPage } from '../pages/tasks'
-import { HeaderTab } from '../pages'
-import { Home } from '../pages/Home'
+import { HeaderTab, Home } from '../pages'
 
 export const Router = () => {
 

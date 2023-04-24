@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
 import { DropdownStatus, DropdownUser, Comments } from '../../UI'
+import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -16,18 +17,18 @@ import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow } from '../..
 export const TaskForm = () => {
   const dispatch = useDispatch()
 
-  const [height, setHeight] = useState(0)
   const [width, setWidth] = useState(0)
-  const [overflow, setOverflow] = useState(false)
+  const [height, setHeight] = useState(0)
   const [status, setStatus] = useState('New')
-  const [yourComments, setYourComments] = useState([])
   const [assigned, setAssigned] = useState(null)
+  const [overflow, setOverflow] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
+  const [yourComments, setYourComments] = useState([])
 
-  const { userlist } = useSelector((store) => store.app)
-  const { tasks, selectedTaskId, lastUpdate } = useSelector((store) => store.task)
-
-  const selectedTask = tasks.filter((task) => task.id === selectedTaskId)[0]
+  const { userlist } = useSelector(selectApp)
+  const { tasks, selectedTaskId, lastUpdate } = useSelector(selectTask)
+  const selectedTask = useSelector(selectCurrentTask)
+  
   const { name, description, creator, id, deadline, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
@@ -43,7 +44,8 @@ export const TaskForm = () => {
 
   useEffect(() => {
     listenerStart()
-    return () => listenerStop() // eslint-disable-next-line
+    return () => listenerStop() 
+    // eslint-disable-next-line
   }, [selectedTaskId])
 
   useEffect(() => {
@@ -57,7 +59,8 @@ export const TaskForm = () => {
       listenerStop()
       toast.success('Task data was silently updated')
       listenerStart()
-    } // eslint-disable-next-line
+    } 
+    // eslint-disable-next-line
   }, [lastUpdate])
 
   useEffect(() => {
@@ -79,7 +82,8 @@ export const TaskForm = () => {
     const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
     const anyChanges = statusChanged || commentsChanged || assignedChanged
 
-    setAnyChanges(anyChanges) // eslint-disable-next-line
+    setAnyChanges(anyChanges) 
+    // eslint-disable-next-line
   }, [yourComments, status, assigned, selectedTask])
 
   const onChangeStatus = (status) => setStatus(status)

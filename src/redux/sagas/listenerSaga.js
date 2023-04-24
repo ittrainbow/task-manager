@@ -2,12 +2,13 @@ import { call, cancel, delay, fork, put, select, take } from 'redux-saga/effects
 
 import { LISTENER_START, LISTENER_STOP, UPDATE_FROM_LISTENER } from '../types'
 import { listenToFirebase } from '../../api/firebase'
+import { selectTask } from '../selectors'
 
 function* listenFirebase({ payload }) {
   const { id, time } = payload
-  const { selectedTaskId } = yield select((store) => store.task)
+  const { selectedTaskId } = yield select(selectTask)
   while (selectedTaskId === id) {
-    yield delay(5000)
+    yield delay(15000)
     const task = yield call(listenToFirebase, payload)
 
     if (task.lastmodified > time)

@@ -4,6 +4,7 @@ import {
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
   SELECT_TASK,
+  SELECT_TASK_NEW,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
   SAVE_NEW_TASK_SUCCESS,
@@ -15,7 +16,6 @@ import {
 const initialState = {
   tasks: [],
   error: null,
-  newTaskId: 0,
   newTask: false,
   yourTask: false,
   taskInProgress: false,
@@ -28,9 +28,11 @@ export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_TASKS_SUCCESS:
+      const selectedTaskId = payload.tasks.map(task => task.id).sort((a, b) => b - a)[0]
       return {
         ...state,
-        tasks: payload.tasks
+        tasks: payload.tasks,
+        selectedTaskId
       }
 
     case FETCH_TASKS_FAILURE:
@@ -39,16 +41,24 @@ export const taskReducer = (state = initialState, action) => {
         error: payload.error
       }
 
+    case SELECT_TASK_NEW:
+      return {
+        ...state,
+        newTask: true
+      }
+
     case SELECT_TASK: {
       return {
         ...state,
-        selectedTaskId: payload
+        selectedTaskId: payload,
+        newTask: false
       }
     }
 
     case SAVE_TASK_SUCCESS:
       const newTasksSave = [...state.tasks]
       const taskIndex = newTasksSave.map((task) => task.id).indexOf(payload.id)
+
       newTasksSave[taskIndex] = {
         ...state.tasks[taskIndex],
         ...payload.task
@@ -68,11 +78,12 @@ export const taskReducer = (state = initialState, action) => {
 
     case SAVE_NEW_TASK_SUCCESS:
       const newTasksCreate = state.tasks
-      newTasksCreate.push(payload.task)
+      newTasksCreate.push(payload)
       return {
         ...state,
         tasks: newTasksCreate,
-        error: null
+        error: null,
+        newTask: false
       }
 
     case SAVE_NEW_TASK_FAILURE:

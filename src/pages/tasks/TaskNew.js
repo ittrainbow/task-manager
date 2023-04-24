@@ -42,7 +42,7 @@ export const TaskNew = () => {
       }
       dispatch({
         type: SAVE_NEW_TASK_ATTEMPT,
-        payload: { task }
+        payload: task
       })
     }
   }

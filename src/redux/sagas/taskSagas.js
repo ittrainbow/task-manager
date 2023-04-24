@@ -33,13 +33,11 @@ function* saveTaskSaga({ payload }) {
 }
 
 function* saveNewTaskSaga({ payload }) {
-  const { task } = payload
-  const id = { task }
   try {
-    yield call(writeTaskToFirestore, { id, task })
+    yield call(writeTaskToFirestore, payload)
     yield put({
       type: SAVE_NEW_TASK_SUCCESS,
-      payload: { id, task }
+      payload
     })
   } catch (error) {
     yield put({

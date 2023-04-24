@@ -104,7 +104,7 @@ export const TaskForm = () => {
     }
     dispatch({
       type: SAVE_TASK_ATTEMPT,
-      payload: { id, task }
+      payload: task
     })
   }
 

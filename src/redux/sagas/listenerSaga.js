@@ -5,10 +5,10 @@ import { listenToFirebase } from '../../api/firebase'
 import { selectTask } from '../selectors'
 
 function* listenFirebase({ payload }) {
-  const { id, time } = payload
-  const { selectedTaskId } = yield select(selectTask)
-  while (selectedTaskId === id) {
-    yield delay(15000)
+  const { time } = payload
+  const { newTask } = yield select(selectTask)
+  while (!newTask) {
+    yield delay(10000)
     try {
       const task = yield call(listenToFirebase, payload)
 

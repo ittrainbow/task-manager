@@ -5,20 +5,12 @@ import { TaskNew, TaskForm } from '.'
 import { selectTask } from '../../redux/selectors'
 
 export const Task = () => {
-  const { selectedTaskId, newTask, newTaskId } = useSelector(selectTask)
+  const { selectedTaskId, newTask } = useSelector(selectTask)
 
   return (
     <div className="task">
       <div className="task__header">{newTask ? 'New Task' : 'Task'}</div>
-      {selectedTaskId !== null ? (
-        selectedTaskId === newTaskId ? (
-          <TaskNew />
-        ) : (
-          <TaskForm />
-        )
-      ) : (
-        'No task selected'
-      )}
+      {selectedTaskId !== null ? newTask ? <TaskNew /> : <TaskForm /> : 'No task selected'}
     </div>
   )
 }

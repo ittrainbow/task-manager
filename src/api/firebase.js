@@ -52,3 +52,10 @@ export const deleteTaskFromFirestore = async ({ id }) => {
   const docRef = doc(db, 'tasks', id.toString())
   await deleteDoc(docRef)
 }
+
+export const listenToFirebase = async ({ id, time }) => {
+  const docRef = doc(db, 'tasks', id.toString())
+  const response = id && await getDoc(docRef)
+  const data = response.data()
+  return data
+}

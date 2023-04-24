@@ -47,7 +47,7 @@ export const TaskList = () => {
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
       <DropdownSort value={taskSort} onChange={onChangeSort} />
-      <div className="tasklist__container" style={{ paddingRight: overflow ? 10 : 0 }}>
+      <div className="tasklist__container" style={{ paddingRight: overflow ? 7 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
           const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'

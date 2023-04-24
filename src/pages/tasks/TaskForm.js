@@ -3,7 +3,12 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DropdownStatus, DropdownUser, Comments } from '../../UI'
-import { SAVE_TASK_ATTEMPT, SELECT_TASK, DELETE_TASK_ATTEMPT } from '../../redux/types'
+import {
+  SAVE_TASK_ATTEMPT,
+  SELECT_TASK,
+  DELETE_TASK_ATTEMPT,
+  LISTENER
+} from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow } from '../../helpers'
 
 export const TaskForm = () => {
@@ -13,7 +18,7 @@ export const TaskForm = () => {
   const [width, setWidth] = useState(0)
   const [overflow, setOverflow] = useState(false)
   const [status, setStatus] = useState('New')
-  const [comments, setComments] = useState([])
+  const [yourComments, setYourComments] = useState([])
   const [assigned, setAssigned] = useState(null)
   const [anyChanges, setAnyChanges] = useState(false)
 
@@ -21,12 +26,20 @@ export const TaskForm = () => {
   const { tasks, selectedTaskId } = useSelector((store) => store.task)
 
   const selectedTask = tasks.filter((task) => task.id === selectedTaskId)[0]
-  const { name, description, creator, id, deadline } = selectedTask
+  const { name, description, creator, id, deadline, comments } = selectedTask
+  const commentsList = [...comments, ...yourComments]
 
   useEffect(() => {
-    const { status, comments, assigned } = selectedTask
+    const time = new Date().getTime()
+    dispatch({
+      type: LISTENER,
+      payload: { time, id: selectedTaskId }
+    })
+  }, [selectedTaskId])
+
+  useEffect(() => {
+    const { status, assigned } = selectedTask
     setStatus(status)
-    setComments(comments)
     setAssigned(assigned)
   }, [selectedTask, tasks])
 
@@ -46,7 +59,7 @@ export const TaskForm = () => {
   useEffect(() => {
     const statusChanged = selectedTask.status !== status
     const assignedChanged = selectedTask.assigned !== assigned
-    const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(comments)
+    const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
     const anyChanges = statusChanged || commentsChanged || assignedChanged
 
     setAnyChanges(anyChanges)
@@ -56,15 +69,15 @@ export const TaskForm = () => {
   const onChangeUser = (uid) => setAssigned(uid)
 
   const onSubmitComment = (comment) => {
-    const newComments = [...comments]
+    const newComments = [...yourComments]
     newComments.push(comment)
-    setComments(newComments)
+    setYourComments(newComments)
   }
 
   const submitHandler = () => {
     const task = {
       lastmodified: new Date().getTime(),
-      comments,
+      comments: commentsList,
       status,
       assigned
     }
@@ -104,9 +117,9 @@ export const TaskForm = () => {
         </div>
         <div
           className="task__split-right"
-          style={{ width: overflow ? 'calc(50% - 25px' : 'calc(50% - 5px)' }}
+          style={{ width: overflow ? 'calc(50% - 18px' : 'calc(50% - 5px)' }}
         >
-          <Comments comments={comments} onSubmitComment={onSubmitComment} />
+          <Comments comments={commentsList} onSubmitComment={onSubmitComment} />
         </div>
       </div>
       <div className="task__delete">

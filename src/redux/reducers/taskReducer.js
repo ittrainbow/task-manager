@@ -8,7 +8,8 @@ import {
   DELETE_TASK_FAILURE,
   SAVE_NEW_TASK_SUCCESS,
   SAVE_NEW_TASK_FAILURE,
-  SET_TASK_SORT
+  SET_TASK_SORT,
+  UPDATE_FROM_LISTENER
 } from '../types'
 
 const initialState = {
@@ -49,7 +50,7 @@ export const taskReducer = (state = initialState, action) => {
     }
 
     case SAVE_TASK_SUCCESS:
-      const newTasksSave = state.tasks
+      const newTasksSave = [...state.tasks]
       const taskIndex = newTasksSave.map((task) => task.id).indexOf(payload.id)
       newTasksSave[taskIndex] = {
         ...state.tasks[taskIndex],
@@ -59,7 +60,7 @@ export const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         error: null,
-        tasks: newTasksSave,
+        tasks: newTasksSave
       }
 
     case SAVE_NEW_TASK_SUCCESS:
@@ -92,6 +93,19 @@ export const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: filteredTasks,
         selectedTaskId: null
+      }
+
+    case UPDATE_FROM_LISTENER:
+      const time = new Date().getTime()
+      const updateTasks = [...state.tasks]
+      const updateIndex = updateTasks.map((task) => task.id).indexOf(payload.id)
+      console.log(1, updateIndex)
+      payload.name = time
+      console.log(2, payload)
+      updateTasks[updateIndex] = payload
+      return {
+        ...state,
+        tasks: updateTasks
       }
 
     case DELETE_TASK_FAILURE:

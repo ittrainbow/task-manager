@@ -16,11 +16,11 @@
     border-radius: 8px;
     font-size: 14px;
     padding: 4px 7px;
-    border: .2em solid grey;
+    border: 1px solid grey;
   }
 
   &__new:focus {
     outline: none;
-    border: .2em solid #0d6efd;
+    border: 1px solid #0d6efd;
   }
 }

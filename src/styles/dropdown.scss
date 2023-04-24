@@ -9,3 +9,16 @@
 .dropdown-header {
   font-size: 15px;
 }
+
+.dropdown-scroller {
+  overflow-y: scroll;
+  max-height: 200px;
+}
+
+.hs-searchbox {
+  margin: 0 7px
+}
+
+.dropdown-menu {
+  transition: .25s ease-in-out
+}

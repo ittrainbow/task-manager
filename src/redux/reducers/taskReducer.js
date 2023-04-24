@@ -3,12 +3,10 @@ import {
   SAVE_TASK_FAILURE,
   FETCH_TASKS_SUCCESS,
   FETCH_TASKS_FAILURE,
-  SELECT_TASK,
-  SELECT_TASK_NEW,
   DELETE_TASK_SUCCESS,
   DELETE_TASK_FAILURE,
-  SAVE_NEW_TASK_SUCCESS,
-  SAVE_NEW_TASK_FAILURE,
+  SELECT_TASK,
+  SELECT_TASK_NEW,
   SET_TASK_SORT,
   UPDATE_FROM_LISTENER
 } from '../types'
@@ -28,7 +26,8 @@ export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_TASKS_SUCCESS:
-      const selectedTaskId = payload.tasks.map(task => task.id).sort((a, b) => b - a)[0]
+      const lastTaskFromFetch = payload.tasks.map((task) => task.id).sort((a, b) => b - a)[0]
+      const selectedTaskId = payload.lastTaskId || lastTaskFromFetch
       return {
         ...state,
         tasks: payload.tasks,
@@ -56,18 +55,27 @@ export const taskReducer = (state = initialState, action) => {
     }
 
     case SAVE_TASK_SUCCESS:
-      const newTasksSave = [...state.tasks]
-      const taskIndex = newTasksSave.map((task) => task.id).indexOf(payload.id)
+      const taskSave = [...state.tasks]
+      const taskIndex = taskSave.map((task) => task.id).indexOf(payload.task.id)
+      const newTask = taskIndex === -1
 
-      newTasksSave[taskIndex] = {
-        ...state.tasks[taskIndex],
-        ...payload.task
+      switch (newTask) {
+        case true:
+          taskSave.push(payload.task)
+          break
+        case false:
+          taskSave[taskIndex] = { ...taskSave[taskIndex], ...payload.task }
+          break
+        default:
+          break
       }
 
       return {
         ...state,
         error: null,
-        tasks: newTasksSave
+        tasks: taskSave,
+        selectedTaskId: newTask ? payload.task.id : taskSave[taskIndex].id,
+        newTask: false
       }
 
     case SAVE_TASK_FAILURE:
@@ -76,30 +84,19 @@ export const taskReducer = (state = initialState, action) => {
         error: payload.error
       }
 
-    case SAVE_NEW_TASK_SUCCESS:
-      const newTasksCreate = state.tasks
-      newTasksCreate.push(payload)
-      return {
-        ...state,
-        tasks: newTasksCreate,
-        error: null,
-        newTask: false
-      }
-
-    case SAVE_NEW_TASK_FAILURE:
-      return {
-        ...state,
-        error: payload.error
-      }
-
     case DELETE_TASK_SUCCESS:
-      const { id } = payload
-      const filteredTasks = state.tasks.filter((task) => task.id !== id)
+      const filteredTasks = state.tasks.filter((task) => task.id !== payload.id)
 
       return {
         ...state,
         tasks: filteredTasks,
         selectedTaskId: null
+      }
+
+    case DELETE_TASK_FAILURE:
+      return {
+        ...state,
+        error: payload.error
       }
 
     case UPDATE_FROM_LISTENER:
@@ -111,12 +108,6 @@ export const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: updateTasks,
         lastUpdate
-      }
-
-    case DELETE_TASK_FAILURE:
-      return {
-        ...state,
-        error: payload.error
       }
 
     case SET_TASK_SORT:

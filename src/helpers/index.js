@@ -73,7 +73,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
 export const getTaskListOverflow = () => {
   const windowHeight = () => window.innerHeight
   const taskListHeight = () => document.querySelector('.tasklist__container').scrollHeight
-  return windowHeight() - taskListHeight() < 165
+  return windowHeight() - taskListHeight() < 155
 }
 
 export const getTaskFormOverflow = () => {

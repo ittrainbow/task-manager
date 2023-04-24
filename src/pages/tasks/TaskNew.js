@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownUser, DropdownStatus } from '../../UI'
-import { SAVE_NEW_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 
 export const TaskNew = () => {
@@ -41,8 +41,8 @@ export const TaskNew = () => {
         assigned
       }
       dispatch({
-        type: SAVE_NEW_TASK_ATTEMPT,
-        payload: task
+        type: SAVE_TASK_ATTEMPT,
+        payload: { task }
       })
     }
   }
@@ -72,8 +72,8 @@ export const TaskNew = () => {
         <div className="tasknew__dropdowns">
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
-          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
+        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         <Button onClick={submitHandler} disabled={!checkFormValid()}>
           Submit
         </Button>

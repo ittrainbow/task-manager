@@ -8,14 +8,14 @@ import {
   getFromUserlist,
   getTaskListOverflow
 } from '../../helpers'
-import { DropdownSort } from '../../UI/DropdownSort'
+import { DropdownSort } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
-  const { tasks, selectedTaskId, taskSort } = useSelector(selectTask)
+  const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
 
@@ -24,16 +24,18 @@ export const TaskList = () => {
 
   useEffect(() => {
     const paddingHelper = () => setOverflow(getTaskListOverflow())
-    
+
     paddingHelper()
     window.addEventListener('resize', paddingHelper)
     return () => window.removeEventListener('resize', paddingHelper)
   }, [taskSort])
 
   const taskSelectHandler = (id) => {
+    const setId = id === selectedTaskId ? null : id
+    localStorage.setItem('lastTaskId', setId)
     dispatch({
       type: SELECT_TASK,
-      payload: selectedTaskId !== id ? id : null
+      payload: setId
     })
   }
 
@@ -44,6 +46,14 @@ export const TaskList = () => {
     })
   }
 
+  const getCardClass = (id) => {
+    return id !== selectedTaskId
+      ? 'tasklist__card'
+      : !newTask
+      ? 'tasklist__card-selected'
+      : 'tasklist__card-selected-grey'
+  }
+
   return (
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
@@ -51,10 +61,9 @@ export const TaskList = () => {
       <div className="tasklist__container" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
-          const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'
           const outdated = deadline < today
           return (
-            <div key={index} className={cardClass} onClick={() => taskSelectHandler(id)}>
+            <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
               <div>Name: {taskListNameHelper(name)}</div>
               <div>Created by: {getFromUserlist({ userlist, uid: creator })}</div>
               <div>Assigned to: {getFromUserlist({ userlist, uid: assigned })}</div>

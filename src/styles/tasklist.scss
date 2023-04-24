@@ -26,7 +26,8 @@
   }
 
   &__card,
-  &__card-selected {
+  &__card-selected,
+  &__card-selected-grey {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
@@ -49,9 +50,17 @@
     color: #ddd;
   }
 
-  &__card-selected {
+  &__card-selected,
+  &__card-selected-grey {
     scale: 0.97;
-    background-color: #53575d;
     color: white;
+  }
+
+  &__card-selected {
+    background-color: #53575d;
+  }
+
+  &__card-selected-grey {
+    background-color: #383c44;
   }
 }

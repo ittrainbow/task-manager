@@ -7,9 +7,6 @@ import {
   SAVE_TASK_ATTEMPT,
   SAVE_TASK_FAILURE,
   SAVE_TASK_SUCCESS,
-  SAVE_NEW_TASK_ATTEMPT,
-  SAVE_NEW_TASK_SUCCESS,
-  SAVE_NEW_TASK_FAILURE
 } from '../types'
 import {
   writeTaskToFirestore,
@@ -27,21 +24,6 @@ function* saveTaskSaga({ payload }) {
   } catch (error) {
     yield put({
       type: SAVE_TASK_FAILURE,
-      payload: { error: error.message }
-    })
-  }
-}
-
-function* saveNewTaskSaga({ payload }) {
-  try {
-    yield call(writeTaskToFirestore, payload)
-    yield put({
-      type: SAVE_NEW_TASK_SUCCESS,
-      payload
-    })
-  } catch (error) {
-    yield put({
-      type: SAVE_NEW_TASK_FAILURE,
       payload: { error: error.message }
     })
   }
@@ -68,12 +50,6 @@ function* saveTask(action) {
   yield call(setLoadingFalseSaga)
 }
 
-function* saveNewTask(action) {
-  yield call(setLoadingTrueSaga)
-  yield call(saveNewTaskSaga, action)
-  yield call(setLoadingFalseSaga)
-}
-
 function* deleteTask(action) {
   yield call(setLoadingTrueSaga)
   yield call(deleteTaskSaga, action)
@@ -82,6 +58,5 @@ function* deleteTask(action) {
 
 export function* taskSagas() {
   yield takeEvery(SAVE_TASK_ATTEMPT, saveTask)
-  yield takeEvery(SAVE_NEW_TASK_ATTEMPT, saveNewTask)
   yield takeEvery(DELETE_TASK_ATTEMPT, deleteTask)
 }

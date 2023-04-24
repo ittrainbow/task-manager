@@ -6,7 +6,6 @@ import { TaskPage } from '../pages/tasks'
 import { HeaderTab, Home } from '../pages'
 
 export const Router = () => {
-
   return (
     <BrowserRouter>
       <HeaderTab />

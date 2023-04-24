@@ -12,14 +12,14 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow } from '../../helpers'
+import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow, emptyTask } from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
 
   const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
-  const [status, setStatus] = useState('New')
+  const [status, setStatus] = useState(null)
   const [assigned, setAssigned] = useState(null)
   const [overflow, setOverflow] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
@@ -27,8 +27,8 @@ export const TaskForm = () => {
 
   const { userlist } = useSelector(selectApp)
   const { tasks, selectedTaskId, lastUpdate } = useSelector(selectTask)
-  const selectedTask = useSelector(selectCurrentTask)
-  
+  const selectedTask = useSelector(selectCurrentTask) || emptyTask()
+
   const { name, description, creator, id, deadline, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
@@ -44,7 +44,7 @@ export const TaskForm = () => {
 
   useEffect(() => {
     listenerStart()
-    return () => listenerStop() 
+    return () => listenerStop()
     // eslint-disable-next-line
   }, [selectedTaskId])
 
@@ -59,7 +59,7 @@ export const TaskForm = () => {
       listenerStop()
       toast.success('Task data was silently updated')
       listenerStart()
-    } 
+    }
     // eslint-disable-next-line
   }, [lastUpdate])
 
@@ -82,7 +82,7 @@ export const TaskForm = () => {
     const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
     const anyChanges = statusChanged || commentsChanged || assignedChanged
 
-    setAnyChanges(anyChanges) 
+    setAnyChanges(anyChanges)
     // eslint-disable-next-line
   }, [yourComments, status, assigned, selectedTask])
 
@@ -100,11 +100,12 @@ export const TaskForm = () => {
       lastmodified: new Date().getTime(),
       comments: commentsList,
       status,
+      id,
       assigned
     }
     dispatch({
       type: SAVE_TASK_ATTEMPT,
-      payload: task
+      payload: { task }
     })
   }
 

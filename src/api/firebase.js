@@ -43,7 +43,7 @@ export const writeNameToFirestore = async ({ uid, name }) => {
   await setDoc(docRef, { name }, { merge: true })
 }
 
-export const writeTaskToFirestore = async (task) => {
+export const writeTaskToFirestore = async ({ task }) => {
   const { id } = task
   const docRef = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
@@ -56,7 +56,7 @@ export const deleteTaskFromFirestore = async ({ id }) => {
 
 export const listenToFirebase = async ({ id, time }) => {
   const docRef = doc(db, 'tasks', id.toString())
-  const response = id && await getDoc(docRef)
+  const response = id && (await getDoc(docRef))
   const data = response.data()
   return data
 }

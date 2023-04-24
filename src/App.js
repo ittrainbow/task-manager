@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { Router } from './router/Router'
-import { INIT } from './redux/types'
+import { INIT_APP } from './redux/types'
 import { auth } from './db/firebase'
 
 const App = () => {
@@ -13,7 +13,7 @@ const App = () => {
   useEffect(() => {
     if (user) {
       dispatch({
-        type: INIT,
+        type: INIT_APP,
         payload: user
       })
     }

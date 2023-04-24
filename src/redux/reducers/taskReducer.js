@@ -8,7 +8,8 @@ import {
   DELETE_TASK_FAILURE,
   SAVE_NEW_TASK_SUCCESS,
   SAVE_NEW_TASK_FAILURE,
-  SET_TASK_SORT
+  SET_TASK_SORT,
+  UPDATE_FROM_LISTENER
 } from '../types'
 
 const initialState = {
@@ -19,7 +20,8 @@ const initialState = {
   yourTask: false,
   taskInProgress: false,
   selectedTaskId: null,
-  taskSort: 0
+  taskSort: 0,
+  lastUpdate: null
 }
 
 export const taskReducer = (state = initialState, action) => {
@@ -49,15 +51,17 @@ export const taskReducer = (state = initialState, action) => {
     }
 
     case SAVE_TASK_SUCCESS:
-      const newTasksSave = state.tasks
-      const taskExists = newTasksSave.map((task) => task.id).indexOf(payload.id)
-      taskExists > -1 ? (newTasksSave[taskExists] = payload.task) : newTasksSave.push(payload.task)
+      const newTasksSave = [...state.tasks]
+      const taskIndex = newTasksSave.map((task) => task.id).indexOf(payload.id)
+      newTasksSave[taskIndex] = {
+        ...state.tasks[taskIndex],
+        ...payload.task
+      }
 
       return {
         ...state,
         error: null,
-        tasks: newTasksSave,
-        newTaskId: state.newTaskId + 1
+        tasks: newTasksSave
       }
 
     case SAVE_NEW_TASK_SUCCESS:
@@ -66,8 +70,8 @@ export const taskReducer = (state = initialState, action) => {
       return {
         ...state,
         tasks: newTasksCreate,
-        newTaskId: payload.id + 1,
-        selectedTaskId: payload.id
+        error: null,
+        newTaskId: state.newTaskId + 1
       }
 
     case SAVE_TASK_FAILURE:
@@ -90,6 +94,17 @@ export const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: filteredTasks,
         selectedTaskId: null
+      }
+
+    case UPDATE_FROM_LISTENER:
+      const lastUpdate = new Date().getTime()
+      const updateTasks = [...state.tasks]
+      const updateIndex = updateTasks.map((task) => task.id).indexOf(payload.id)
+      updateTasks[updateIndex] = payload
+      return {
+        ...state,
+        tasks: updateTasks,
+        lastUpdate
       }
 
     case DELETE_TASK_FAILURE:

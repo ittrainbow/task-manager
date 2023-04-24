@@ -4,24 +4,20 @@ import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
-// import { logout } from '../../db/auth'
 import { Loader } from '../../UI'
 import { auth } from '../../db/firebase'
+import { selectLoading, selectUser } from '../../redux/selectors'
 
 export const Dashboard = () => {
   const [user] = useAuthState(auth)
-  const { loading } = useSelector((store) => store.app)
-  const { name, email } = useSelector((store) => store.user)
+  const loading = useSelector(selectLoading)
+  const { name, email } = useSelector(selectUser)
   const navigate = useNavigate()
 
   useEffect(() => {
-    !user && navigate('/') // eslint-disable-next-line
+    !user && navigate('/') 
+    // eslint-disable-next-line
   }, [])
-
-  // const logoutHandler = () => {
-  //   logout()
-  //   navigate('/login')
-  // }
 
   return (
     <div className="auth-container">

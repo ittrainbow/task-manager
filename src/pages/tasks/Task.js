@@ -2,9 +2,10 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 import { TaskNew, TaskForm } from '.'
+import { selectTask } from '../../redux/selectors'
 
 export const Task = () => {
-  const { selectedTaskId, newTask, newTaskId } = useSelector((store) => store.task)
+  const { selectedTaskId, newTask, newTaskId } = useSelector(selectTask)
 
   return (
     <div className="task">

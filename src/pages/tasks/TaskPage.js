@@ -6,14 +6,16 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../db/firebase'
 import { TaskList, Task } from '.'
 import { Loader } from '../../UI'
+import { selectLoading } from '../../redux/selectors'
 
 export const TaskPage = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const { loading } = useSelector((store) => store.app)
+  const loading = useSelector(selectLoading)
 
   useEffect(() => {
-    !user && navigate('/') // eslint-disable-next-line
+    !user && navigate('/') 
+    // eslint-disable-next-line
   }, [])
   
   return (

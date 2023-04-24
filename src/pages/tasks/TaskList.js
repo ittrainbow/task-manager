@@ -1,23 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
   taskListNameHelper,
   convertMilliesToISO,
   sortTaskList,
-  getFromUserlist
+  getFromUserlist,
+  getTaskListOverflow
 } from '../../helpers'
 import { DropdownSort } from '../../UI/DropdownSort'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
+import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
-  const { tasks, selectedTaskId, taskSort } = useSelector((store) => store.task)
-  const { uid } = useSelector((store) => store.user)
-  const { userlist } = useSelector((store) => store.app)
+  const [overflow, setOverflow] = useState(false)
+  const { tasks, selectedTaskId, taskSort } = useSelector(selectTask)
+  const { uid } = useSelector(selectUser)
+  const { userlist } = useSelector(selectApp)
 
   const list = sortTaskList({ taskSort, tasks, uid })
   const today = new Date().getTime()
+
+  useEffect(() => {
+    const paddingHelper = () => setOverflow(getTaskListOverflow())
+    
+    paddingHelper()
+    window.addEventListener('resize', paddingHelper)
+    return () => window.removeEventListener('resize', paddingHelper)
+  }, [taskSort])
 
   const taskSelectHandler = (id) => {
     dispatch({
@@ -37,7 +48,7 @@ export const TaskList = () => {
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
       <DropdownSort value={taskSort} onChange={onChangeSort} />
-      <div className="tasklist__container">
+      <div className="tasklist__container" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
           const cardClass = id === selectedTaskId ? 'tasklist__card-selected' : 'tasklist__card'

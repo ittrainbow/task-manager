@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form } from 'react-bootstrap'
 
 import { UPDATE_USER_ATTEMPT } from '../../redux/types'
+import { selectUser } from '../../redux/selectors'
 
 export const Profile = () => {
-  const { name, uid } = useSelector((store) => store.user)
+  const { name, uid } = useSelector(selectUser)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const [tempName, setTempName] = useState(name)

@@ -7,15 +7,20 @@
 .comment {
   border: 1px solid grey;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 14px;
   min-height: 30px;
   text-align: left;
-  padding: 3px 7px;
+  padding: 4px 8px;
 
   &__new {
     border-radius: 8px;
-    font-size: 13px;
-    padding: 3px 7px;
+    font-size: 14px;
+    padding: 4px 7px;
+    border: 1px solid grey;
+  }
+
+  &__new:focus {
+    outline: none;
+    border: 1px solid #0d6efd;
   }
 }
-

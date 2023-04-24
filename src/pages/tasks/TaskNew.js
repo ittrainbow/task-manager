@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownUser, DropdownStatus } from '../../UI'
 import { SAVE_NEW_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { selectTask, selectUser } from '../../redux/selectors'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
-  const { uid } = useSelector((store) => store.user)
-  const { newTaskId } = useSelector((store) => store.task)
+  const { uid } = useSelector(selectUser)
+  const { newTaskId } = useSelector(selectTask)
 
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -55,20 +56,20 @@ export const TaskNew = () => {
 
   return (
     <>
-      <div className="tasklist__container">
+      <div className="tasknew__container">
         <Form.Control
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Task name"
         />
         <textarea
-          className="tasklist__description"
+          className="tasknew__description"
           value={description}
           rows={5}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
-        <div className="task__dropdowns">
+        <div className="tasknew__dropdowns">
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
           <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />

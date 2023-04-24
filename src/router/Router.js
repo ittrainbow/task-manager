@@ -3,8 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import { Dashboard, Login, Profile, Register, Reset } from '../pages/auth'
 import { TaskPage } from '../pages/tasks'
-import { HeaderTab } from '../pages'
-import { Home } from '../pages/Home'
+import { HeaderTab, Home } from '../pages'
 
 export const Router = () => {
 
@@ -17,7 +16,7 @@ export const Router = () => {
         <Route exact path="/reset" element={<Reset />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/taskpage" element={<TaskPage />} />
-        <Route exact path="/tasknew" element={<TaskPage />} />
+        <Route exact path="/newtask" element={<TaskPage />} />
         <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/" element={<Home />} />
       </Routes>

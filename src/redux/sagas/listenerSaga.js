@@ -9,13 +9,18 @@ function* listenFirebase({ payload }) {
   const { selectedTaskId } = yield select(selectTask)
   while (selectedTaskId === id) {
     yield delay(15000)
-    const task = yield call(listenToFirebase, payload)
+    try {
+      const task = yield call(listenToFirebase, payload)
 
-    if (task.lastmodified > time)
-      yield put({
-        type: UPDATE_FROM_LISTENER,
-        payload: task
-      })
+      if (task.lastmodified > time)
+        yield put({
+          type: UPDATE_FROM_LISTENER,
+          payload: task
+        })
+    } catch (error) {
+      console.error(error)
+      alert('Task was not found on server, check your internet connection')
+    }
   }
 }
 

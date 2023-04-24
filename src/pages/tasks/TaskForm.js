@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify'
 
 import { DropdownStatus, DropdownUser, Comments } from '../../UI'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
   DELETE_TASK_ATTEMPT,
-  LISTENER
+  LISTENER_START,
+  LISTENER_STOP
 } from '../../redux/types'
 import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow } from '../../helpers'
 
@@ -23,18 +25,25 @@ export const TaskForm = () => {
   const [anyChanges, setAnyChanges] = useState(false)
 
   const { userlist } = useSelector((store) => store.app)
-  const { tasks, selectedTaskId } = useSelector((store) => store.task)
+  const { tasks, selectedTaskId, lastUpdate } = useSelector((store) => store.task)
 
   const selectedTask = tasks.filter((task) => task.id === selectedTaskId)[0]
   const { name, description, creator, id, deadline, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
-  useEffect(() => {
+  const listenerStart = () => {
     const time = new Date().getTime()
     dispatch({
-      type: LISTENER,
+      type: LISTENER_START,
       payload: { time, id: selectedTaskId }
     })
+  }
+
+  const listenerStop = () => dispatch({ type: LISTENER_STOP })
+
+  useEffect(() => {
+    listenerStart()
+    return () => listenerStop() // eslint-disable-next-line
   }, [selectedTaskId])
 
   useEffect(() => {
@@ -42,6 +51,14 @@ export const TaskForm = () => {
     setStatus(status)
     setAssigned(assigned)
   }, [selectedTask, tasks])
+
+  useEffect(() => {
+    if (lastUpdate) {
+      listenerStop()
+      toast.success('Task data was silently updated')
+      listenerStart()
+    } // eslint-disable-next-line
+  }, [lastUpdate])
 
   useEffect(() => {
     const resizer = () => {
@@ -62,8 +79,8 @@ export const TaskForm = () => {
     const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
     const anyChanges = statusChanged || commentsChanged || assignedChanged
 
-    setAnyChanges(anyChanges)
-  }, [comments, status, assigned, selectedTask])
+    setAnyChanges(anyChanges) // eslint-disable-next-line
+  }, [yourComments, status, assigned, selectedTask])
 
   const onChangeStatus = (status) => setStatus(status)
   const onChangeUser = (uid) => setAssigned(uid)
@@ -117,7 +134,7 @@ export const TaskForm = () => {
         </div>
         <div
           className="task__split-right"
-          style={{ width: overflow ? 'calc(50% - 18px' : 'calc(50% - 5px)' }}
+          style={{ width: overflow ? 'calc(50% - 18px)' : 'calc(50% - 5px)' }}
         >
           <Comments comments={commentsList} onSubmitComment={onSubmitComment} />
         </div>
@@ -129,6 +146,7 @@ export const TaskForm = () => {
         <Button onClick={deleteHandler}>Delete Task</Button>
       </div>
       <Button onClick={cancelHandler}>Cancel</Button>
+      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
     </>
   )
 }

@@ -70,18 +70,16 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
   }
 }
 
-export const getTasklistOverflow = () => {
+export const getTaskListOverflow = () => {
   const windowHeight = () => window.innerHeight
-  const tasklistHeight = () => document.querySelector('.tasklist__container').scrollHeight
-  return windowHeight() - tasklistHeight() < 165
+  const taskListHeight = () => document.querySelector('.tasklist__container').scrollHeight
+  return windowHeight() - taskListHeight() < 165
 }
 
 export const getTaskFormOverflow = () => {
-  return {
-    height: window.innerHeight - 207,
-    width: document.querySelector('.task__delete').clientWidth / 2 - 5,
-    overflow:
-      document.querySelector('.comments').scrollHeight >
-      document.querySelector('.task__split-right').clientHeight
-  }
+  const height = window.innerHeight - 207
+  const width = document.querySelector('.task__delete').clientWidth / 2 - 5
+  const scrollHeight = document.querySelector('.comments').scrollHeight
+  const overflow = scrollHeight > height
+  return { height, width, overflow }
 }

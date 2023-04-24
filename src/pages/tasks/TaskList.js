@@ -6,7 +6,7 @@ import {
   convertMilliesToISO,
   sortTaskList,
   getFromUserlist,
-  getTasklistOverflow
+  getTaskListOverflow
 } from '../../helpers'
 import { DropdownSort } from '../../UI/DropdownSort'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
@@ -22,7 +22,7 @@ export const TaskList = () => {
   const today = new Date().getTime()
 
   useEffect(() => {
-    const paddingHelper = () => setOverflow(getTasklistOverflow())
+    const paddingHelper = () => setOverflow(getTaskListOverflow())
     
     paddingHelper()
     window.addEventListener('resize', paddingHelper)

@@ -20,7 +20,8 @@ const initialState = {
   yourTask: false,
   taskInProgress: false,
   selectedTaskId: null,
-  taskSort: 0
+  taskSort: 0,
+  lastUpdate: null
 }
 
 export const taskReducer = (state = initialState, action) => {
@@ -96,16 +97,14 @@ export const taskReducer = (state = initialState, action) => {
       }
 
     case UPDATE_FROM_LISTENER:
-      const time = new Date().getTime()
+      const lastUpdate = new Date().getTime()
       const updateTasks = [...state.tasks]
       const updateIndex = updateTasks.map((task) => task.id).indexOf(payload.id)
-      console.log(1, updateIndex)
-      payload.name = time
-      console.log(2, payload)
       updateTasks[updateIndex] = payload
       return {
         ...state,
-        tasks: updateTasks
+        tasks: updateTasks,
+        lastUpdate
       }
 
     case DELETE_TASK_FAILURE:

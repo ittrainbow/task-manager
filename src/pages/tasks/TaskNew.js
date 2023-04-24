@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownUser, DropdownStatus } from '../../UI'
 import { SAVE_NEW_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
-import { selectTask, selectUser } from '../../redux/selectors'
+import { selectUser } from '../../redux/selectors'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
-  const { newTaskId } = useSelector(selectTask)
 
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -29,16 +28,17 @@ export const TaskNew = () => {
 
   const submitHandler = () => {
     if (checkFormValid()) {
+      const time = new Date().getTime()
       const task = {
         creator: uid,
-        lastmodified: new Date().getTime(),
+        id: time,
+        lastmodified: time,
         comments: [],
         name,
         description,
         deadline,
         status,
-        assigned,
-        id: newTaskId
+        assigned
       }
       dispatch({
         type: SAVE_NEW_TASK_ATTEMPT,

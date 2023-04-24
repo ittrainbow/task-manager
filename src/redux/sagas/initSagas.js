@@ -46,13 +46,12 @@ function* fetchUserListSaga({ payload }) {
   }
 }
 
-function* fetchTasksSaga({ payload }) {
-  const { uid } = payload
+function* fetchTasksSaga() {
   try {
     const tasks = yield call(fetchTasks)
     yield put({
       type: FETCH_TASKS_SUCCESS,
-      payload: { uid, tasks }
+      payload: { tasks }
     })
   } catch (error) {
     yield put({

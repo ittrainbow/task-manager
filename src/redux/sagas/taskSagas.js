@@ -13,8 +13,7 @@ import {
 } from '../types'
 import {
   writeTaskToFirestore,
-  deleteTaskFromFirestore,
-  fetchTasksNumbers
+  deleteTaskFromFirestore
 } from '../../api/firebase'
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
@@ -33,9 +32,9 @@ function* saveTaskSaga({ payload }) {
   }
 }
 
-function* saveNewTaskSaga({ payload, numbers, lastNum }) {
+function* saveNewTaskSaga({ payload }) {
   const { task } = payload
-  const id = numbers.indexOf(task.id) > -1 ? lastNum + 1 : task.id
+  const id = { task }
   try {
     yield call(writeTaskToFirestore, { id, task })
     yield put({
@@ -71,10 +70,9 @@ function* saveTask(action) {
   yield call(setLoadingFalseSaga)
 }
 
-function* saveNewTask({ payload }) {
+function* saveNewTask(action) {
   yield call(setLoadingTrueSaga)
-  const [numbers, lastNum] = yield call(fetchTasksNumbers)
-  yield call(saveNewTaskSaga, { payload, numbers, lastNum })
+  yield call(saveNewTaskSaga, action)
   yield call(setLoadingFalseSaga)
 }
 

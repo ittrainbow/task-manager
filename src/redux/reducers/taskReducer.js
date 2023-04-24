@@ -28,19 +28,15 @@ export const taskReducer = (state = initialState, action) => {
   const { type, payload } = action
   switch (type) {
     case FETCH_TASKS_SUCCESS:
-      const { tasks } = payload
-      const newTaskId = tasks.map((task) => task.id).sort((a, b) => b - a)[0] + 1
-
       return {
         ...state,
-        tasks,
-        newTaskId
+        tasks: payload.tasks
       }
 
     case FETCH_TASKS_FAILURE:
       return {
         ...state,
-        ...payload
+        error: payload.error
       }
 
     case SELECT_TASK: {
@@ -64,26 +60,25 @@ export const taskReducer = (state = initialState, action) => {
         tasks: newTasksSave
       }
 
+    case SAVE_TASK_FAILURE:
+      return {
+        ...state,
+        error: payload.error
+      }
+
     case SAVE_NEW_TASK_SUCCESS:
       const newTasksCreate = state.tasks
       newTasksCreate.push(payload.task)
       return {
         ...state,
         tasks: newTasksCreate,
-        error: null,
-        newTaskId: state.newTaskId + 1
-      }
-
-    case SAVE_TASK_FAILURE:
-      return {
-        ...state,
-        ...payload
+        error: null
       }
 
     case SAVE_NEW_TASK_FAILURE:
       return {
         ...state,
-        ...payload
+        error: payload.error
       }
 
     case DELETE_TASK_SUCCESS:
@@ -110,7 +105,7 @@ export const taskReducer = (state = initialState, action) => {
     case DELETE_TASK_FAILURE:
       return {
         ...state,
-        ...payload
+        error: payload.error
       }
 
     case SET_TASK_SORT:

@@ -26,7 +26,7 @@ export const TaskForm = () => {
   const [yourComments, setYourComments] = useState([])
 
   const { userlist } = useSelector(selectApp)
-  const { tasks, selectedTaskId, lastUpdate } = useSelector(selectTask)
+  const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
   const { name, description, creator, id, deadline, comments } = selectedTask
@@ -52,7 +52,7 @@ export const TaskForm = () => {
     const { status, assigned } = selectedTask
     setStatus(status)
     setAssigned(assigned)
-  }, [selectedTask, tasks])
+  }, [selectedTask])
 
   useEffect(() => {
     if (lastUpdate) {
@@ -144,14 +144,14 @@ export const TaskForm = () => {
           <Comments comments={commentsList} onSubmitComment={onSubmitComment} />
         </div>
       </div>
-      <div className="task__delete">
+      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
+      <div className="tasks-footer">
         <Button onClick={submitHandler} disabled={!anyChanges}>
           {anyChanges ? 'Submit' : 'No Changes'}
         </Button>
         <Button onClick={deleteHandler}>Delete Task</Button>
+        <Button onClick={cancelHandler}>Cancel</Button>
       </div>
-      <Button onClick={cancelHandler}>Cancel</Button>
-      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
     </>
   )
 }

@@ -63,10 +63,10 @@ function* fetchTasksSaga() {
 }
 
 function* initTaskSort() {
-  const taskSort = Number(localStorage.getItem('taskSort')) || 0
+  const taskSort = localStorage.getItem('taskSort')
   yield put({
     type: SET_TASK_SORT,
-    payload: taskSort
+    payload: taskSort !== null ? Number(taskSort) : 3
   })
 }
 

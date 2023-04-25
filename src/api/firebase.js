@@ -44,7 +44,9 @@ export const writeNameToFirestore = async ({ uid, name }) => {
 }
 
 export const writeTaskToFirestore = async ({ task }) => {
+  console.log(1, task)
   const { id } = task
+  console.log(2, id)
   const docRef = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
 }

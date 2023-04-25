@@ -11,23 +11,30 @@ import {
 import { DropdownSort } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
+import { useAppContext } from '../../context/Context'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
+  const [list, setList] = useState([])
+  const { setSelectedTaskIsOnList } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
 
-  const list = sortTaskList({ taskSort, tasks, uid })
   const today = new Date().getTime()
 
   useEffect(() => {
     const paddingHelper = () => setOverflow(getTaskListOverflow())
+    const list = sortTaskList({ taskSort, tasks, uid })
+    const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
 
-    paddingHelper()
+    setList(list)
+    setSelectedTaskIsOnList(selectedTaskIsOnList)
+    setTimeout(() => paddingHelper(), 20)
     window.addEventListener('resize', paddingHelper)
     return () => window.removeEventListener('resize', paddingHelper)
+    // eslint-disable-next-line
   }, [taskSort])
 
   const taskSelectHandler = (id) => {

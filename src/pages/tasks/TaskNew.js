@@ -74,10 +74,22 @@ export const TaskNew = () => {
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
         </div>
         <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
-        <Button onClick={submitHandler} disabled={!checkFormValid()}>
-          Submit
-        </Button>
-        <Button onClick={cancelHandler}>Cancel</Button>
+        <div className="tasknew__dates">
+          <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
+          <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
+          <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
+          <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+          <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
+        </div>
+        <div className="tasks-footer">
+          <Button
+            onClick={submitHandler}
+            disabled={!checkFormValid()}
+          >
+            Submit
+          </Button>
+          <Button onClick={cancelHandler}>Cancel</Button>
+        </div>
       </div>
     </>
   )

@@ -18,7 +18,7 @@ const initialState = {
   yourTask: false,
   taskInProgress: false,
   selectedTaskId: null,
-  taskSort: 0,
+  taskSort: 3,
   lastUpdate: null
 }
 

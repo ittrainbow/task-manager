@@ -5,7 +5,6 @@ const options = ['New', 'Open', 'Closed']
 
 export const DropdownStatus = ({ value, onChange }) => {
   const [width, setWidth] = useState(0)
-  const dropdownHandler = (option) => onChange(option)
 
   useEffect(() => {
     let timeout
@@ -33,7 +32,7 @@ export const DropdownStatus = ({ value, onChange }) => {
           {options.map((option, index) => {
             const active = option === value ? 'active' : ''
             return (
-              <Dropdown.Item key={index} onClick={() => dropdownHandler(option)} className={active}>
+              <Dropdown.Item key={index} onClick={() => onChange(option)} className={active}>
                 {option}
               </Dropdown.Item>
             )

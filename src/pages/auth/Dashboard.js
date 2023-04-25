@@ -29,7 +29,6 @@ export const Dashboard = () => {
           <div>{email}</div>
           <div className="auth-container auth-container__button-block">
             <Button onClick={() => navigate('/profile')}>Edit profile</Button>
-            {/* <Button onClick={logoutHandler}>Log Out</Button> */}
           </div>
         </>
       )}

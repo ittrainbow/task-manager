@@ -52,6 +52,7 @@ export const TaskForm = () => {
     setStatus(status)
     setAssigned(assigned)
     setDeadline(deadline)
+    setYourComments([])
   }, [selectedTask])
 
   useEffect(() => {
@@ -126,8 +127,8 @@ export const TaskForm = () => {
 
   return (
     <>
-      <div className="task__container" style={{ height }}>
-        <div className="task__split">
+      <div className="task__container flexrow" style={{ height }}>
+        <div className="task__split flexcol">
           <Dropdown value={assigned} variant="users" onChange={onChangeUser} />
           <Dropdown value={status} variant="status" onChange={onChangeStatus} />
           <div className="info-card">Name: {name}</div>
@@ -137,7 +138,7 @@ export const TaskForm = () => {
           <div className="info-card">
             {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline).readableTime}
           </div>
-          <div className="info-buttons">
+          <div className="flexrow">
             <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
             <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
             <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
@@ -152,7 +153,7 @@ export const TaskForm = () => {
           />
         </div>
       </div>
-      <div className="tasks-footer">
+      <div className="tasks-footer flexrow">
         <Button onClick={submitHandler} disabled={!anyChanges}>
           {anyChanges ? 'Submit' : 'No Changes'}
         </Button>

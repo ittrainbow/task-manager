@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 // import Select from 'react-select'
-import Select from "react-select-animated-v2"
+import Select from 'react-select-animated-v2'
 import { useSelector } from 'react-redux'
-import { selectApp } from '../redux/selectors'
+import { selectApp, selectTask } from '../redux/selectors'
 
 const sortOptions = [
   { label: 'My (open, expiring first)', value: 0 },
@@ -20,6 +20,7 @@ const statusOptions = [
 export const Dropdown = ({ variant, value, onChange, tasknew }) => {
   const [userOptions, setUserOptions] = useState([])
   const { userlist } = useSelector(selectApp)
+  const { newTask } = useSelector(selectTask)
 
   useEffect(() => {
     if (userlist) {
@@ -55,18 +56,32 @@ export const Dropdown = ({ variant, value, onChange, tasknew }) => {
       onChange(option)
     }
 
-    const getClassname = variant === 'sort' ? 'select-sort' : 'select'
+    const getHeader = () => {
+      switch (variant) {
+        case 'sort':
+          return
+        case 'status':
+          return newTask ? 'Set task status' : ''
+        case 'users':
+          return newTask ? 'Appoint user' : ''
+        default:
+          break
+      }
+    }
+
+    const getClassname = tasknew ? 'picker-header-newtask' : 'picker-header'
 
     return (
-      <div className="select-container">
+      <>
+        <div className={getClassname}>{getHeader()}</div>
         <Select
           options={options}
           onChange={handleChange}
-          maxMenuHeight={tasknew ? 240 : 300}
-          className={getClassname}
+          maxMenuHeight={tasknew ? 210 : 300}
+          className='select'
           defaultValue={options.filter((option) => option.value === value)}
         />
-      </div>
+      </>
     )
   }
   return (

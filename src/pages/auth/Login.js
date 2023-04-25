@@ -38,10 +38,10 @@ export const Login = () => {
   }
 
   return (
-    <div className="auth-container">
+    <div className="auth-container flexcol">
       <Form.Control onChange={emailInputHandler} value={email} type='text' placeholder="E-mail" />
       <Form.Control onChange={passwordInputHandler} value={password} type='password' placeholder={'Password'} />
-      <div className="auth-container auth-container__button-block">
+      <div className="auth-container auth-container__button-block flexcol">
         <Button
           onClick={() => logInWithEmailAndPassword(email, password)}
           disabled={!emailValid || password.length < 4}

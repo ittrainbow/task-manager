@@ -10,29 +10,10 @@
   padding-left: calc(50% - 48px);
 }
 
-.tasks {
-  &__container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    overflow-y: auto;
-    height: calc(100vh - 167px);
-  }
-
-  &__description {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-}
-
 .tasks-footer {
-  display: flex;
-  gap: 5px;
-  flex-direction: row;
   position: fixed;
   bottom: 10px;
-  width: calc(100vw - 33% - 17px);
+  width: calc(100vw - 33% - 18px);
 }
 
 .btn {

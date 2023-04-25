@@ -47,7 +47,7 @@ export const Register = () => {
   }, [loading, user, navigate])
 
   return (
-    <div className="auth-container">
+    <div className="auth-container flexcol">
       <Form.Control
         type="text"
         value={name}
@@ -66,7 +66,7 @@ export const Register = () => {
         onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
         placeholder="Password"
       />
-      <div className="auth-container auth-container__button-block">
+      <div className="auth-container auth-container__button-block flexcol">
         <Button onClick={register} disabled={!emailValid || !password || !name}>
           Sign Up New User
         </Button>

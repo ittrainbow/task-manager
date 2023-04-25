@@ -23,10 +23,10 @@ export const Profile = () => {
   const noChanges = name === tempName
 
   return (
-    <div className="auth-container">
+    <div className="auth-container flexcol">
       Change Name
       <Form.Control onChange={(e) => setTempName(e.target.value)} value={tempName} />
-      <div className="auth-container auth-container__button-block">
+      <div className="auth-container auth-container__button-block flexcol">
         <Button onClick={submitHandler} disabled={noChanges}>{noChanges ? 'No changes' : 'Save'}</Button>
         <Button onClick={() => navigate(-1)}>Cancel</Button>
       </div>

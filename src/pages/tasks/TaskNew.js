@@ -62,7 +62,7 @@ export const TaskNew = () => {
 
   return (
     <>
-      <div className="tasknew__container">
+      <div className="tasknew__container flexcol">
         <Form.Control
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -75,23 +75,17 @@ export const TaskNew = () => {
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
-        <div className="tasknew__dropdowns">
-          <div className="tasknew__dropdowns__select">
-            <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
-          </div>
-          <div className="tasknew__dropdowns__select">
-            <Dropdown value={status} variant="status" onChange={onChangeStatus} />
+        <div className="tasknew__dropdowns flexcol">
+          <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
+          <Dropdown value={status} variant="status" tasknew={true} onChange={onChangeStatus} />
+          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
+          <div className="flexrow">
+            <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
+            <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+            <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
           </div>
         </div>
-        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
-        <div className="tasknew__dates">
-          <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
-          <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
-          <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
-          <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
-          <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
-        </div>
-        <div className="tasks-footer">
+        <div className="tasks-footer flexrow">
           <Button onClick={submitHandler} disabled={!checkFormValid()}>
             Submit
           </Button>

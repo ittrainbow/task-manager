@@ -6,7 +6,7 @@ export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
 
   const style={
     color: '#383c44',
-    backgroundColor: '#c7c7c7'
+    backgroundColor: 'white'
   }
 
   return (
@@ -20,7 +20,7 @@ export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
           Cancel
         </Button>
         <Button variant="primary" onClick={onDelete}>
-          Save Changes
+          Delete Task
         </Button>
       </Modal.Footer>
     </Modal>

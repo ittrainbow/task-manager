@@ -1,15 +1,7 @@
-.comments {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
 .comment {
   border: 1px solid grey;
   border-radius: 5px;
   font-size: 14px;
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
   min-height: 30px;
   text-align: left;
@@ -34,7 +26,7 @@
   justify-content: center;
   cursor: pointer;
   color: grey;
-  transition: .22s ease-in;
+  transition: 0.22s ease-in;
 
   &:hover {
     color: #f75;

@@ -20,14 +20,14 @@ export const Dashboard = () => {
   }, [])
 
   return (
-    <div className="auth-container">
+    <div className="auth-container flexcol">
       {loading ? (
         <Loader />
       ) : (
         <>
           <div>{name}</div>
           <div>{email}</div>
-          <div className="auth-container auth-container__button-block">
+          <div className="auth-container auth-container__button-block flexcol">
             <Button onClick={() => navigate('/profile')}>Edit profile</Button>
           </div>
         </>

@@ -1,8 +1,5 @@
 .task {
-  display: flex;
   left: calc(33% + 20px);
-  flex-direction: column;
-  gap: 5px;
   width: calc(100vw - 33% - 20px);
 
   &__header {
@@ -11,35 +8,11 @@
   }
 
   &__container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
     overflow-y: auto;
   }
 
-  &__description {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-  }
-
   &__split {
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  &__dropdowns {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-  }
-  
-  &__delete {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
+    width: 50%;
   }
 }
 
@@ -49,10 +22,4 @@
   font-size: 15px;
   text-align: left;
   padding: 5px 10px;
-}
-
-.info-buttons {
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
 }

@@ -8,6 +8,11 @@
   border: 1px solid grey;
 }
 
-.picker-header {
+.picker-header,
+.picker-header-newtask {
   font-size: 15px;
+}
+
+.picker-header-newtask {
+  padding-bottom: 3px;
 }

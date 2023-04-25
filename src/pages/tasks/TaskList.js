@@ -59,17 +59,17 @@ export const TaskList = () => {
 
   const getCardClass = (id) => {
     return id !== selectedTaskId
-      ? 'tasklist__card'
+      ? 'tasklist__card flexcol'
       : !newTask
-      ? 'tasklist__card-selected'
-      : 'tasklist__card-selected-grey'
+      ? 'tasklist__card-selected flexcol'
+      : 'tasklist__card-selected-grey flexcol'
   }
 
   return (
-    <div className="tasklist">
+    <div className="tasklist flexcol">
       <div className="tasklist__header">Task List</div>
       <Dropdown variant='sort' value={taskSort} onChange={onChangeSort}/>
-      <div className="tasklist__container" style={{ paddingRight: overflow ? 5 : 0 }}>
+      <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
           const outdated = deadline < today

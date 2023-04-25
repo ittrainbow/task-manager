@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
-import { Comments, Dropdown } from '../../UI'
+import { Comments, DrawModal, Dropdown } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import {
   SAVE_TASK_ATTEMPT,
@@ -21,6 +21,7 @@ export const TaskForm = () => {
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
   const [height, setHeight] = useState(0)
+  const [drawModal, setDrawModal] = useState(false)
   const [status, setStatus] = useState(null)
   const [assigned, setAssigned] = useState(null)
   const [deadline, setDeadline] = useState(null)
@@ -110,12 +111,10 @@ export const TaskForm = () => {
   }
 
   const deleteHandler = () => {
-    const alert = window.confirm('Delete task?')
-    alert &&
-      dispatch({
-        type: DELETE_TASK_ATTEMPT,
-        payload: { id: selectedTaskId }
-      })
+    dispatch({
+      type: DELETE_TASK_ATTEMPT,
+      payload: { id: selectedTaskId }
+    })
   }
 
   const cancelHandler = () => {
@@ -153,14 +152,15 @@ export const TaskForm = () => {
           />
         </div>
       </div>
-      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
       <div className="tasks-footer">
         <Button onClick={submitHandler} disabled={!anyChanges}>
           {anyChanges ? 'Submit' : 'No Changes'}
         </Button>
-        <Button onClick={deleteHandler}>Delete Task</Button>
+        <Button onClick={() => setDrawModal(true)}>Delete Task</Button>
         <Button onClick={cancelHandler}>Cancel</Button>
       </div>
+      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
+      <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
     </>
   )
 }

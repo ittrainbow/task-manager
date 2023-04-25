@@ -71,16 +71,16 @@ export const TaskNew = () => {
         <textarea
           className="tasknew__description"
           value={description}
-          rows={5}
+          rows={4}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
         <div className="tasknew__dropdowns">
           <div className="tasknew__dropdowns__select">
-            <Dropdown value={status} variant="status" onChange={onChangeStatus} />
+            <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
           </div>
           <div className="tasknew__dropdowns__select">
-            <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
+            <Dropdown value={status} variant="status" onChange={onChangeStatus} />
           </div>
         </div>
         <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />

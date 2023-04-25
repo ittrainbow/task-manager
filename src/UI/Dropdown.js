@@ -62,7 +62,7 @@ export const Dropdown = ({ variant, value, onChange, tasknew }) => {
         <Select
           options={options}
           onChange={handleChange}
-          maxMenuHeight={tasknew ? 220 : 300}
+          maxMenuHeight={tasknew ? 240 : 300}
           className={getClassname}
           defaultValue={options.filter((option) => option.value === value)}
         />

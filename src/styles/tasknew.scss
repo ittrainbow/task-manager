@@ -23,11 +23,12 @@
     display: flex;
     gap: 5px;
     flex-direction: row;
+    // padding-right: 1px;
 
     &__select {
       display: flex;
       flex-direction: column;
-      width: 100%;
+      width: 50%;
     }
   }
 

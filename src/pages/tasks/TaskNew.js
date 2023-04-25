@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Picker, DropdownUser, DropdownStatus } from '../../UI'
+import { Picker, Dropdown } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 
@@ -18,8 +18,6 @@ export const TaskNew = () => {
   const [assigned, setAssigned] = useState(uid)
 
   const checkFormValid = () => name.length > 0 && description.length > 0
-  const onChangeStatus = (status) => setStatus(status)
-  const onChangeUser = (uid) => setAssigned(uid)
 
   const onChangeDeadline = ({ value }) => {
     const time = new Date(value).getTime()
@@ -53,10 +51,18 @@ export const TaskNew = () => {
       payload: null
     })
   }
+  const onChangeStatus = (option) => {
+    const { value } = option
+    setStatus(value)
+  }
+  const onChangeUser = (option) => {
+    const { value } = option
+    setAssigned(value)
+  }
 
   return (
     <>
-      <div className="tasknew__container">
+      <div className="tasknew__container flexcol">
         <Form.Control
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -65,27 +71,22 @@ export const TaskNew = () => {
         <textarea
           className="tasknew__description"
           value={description}
-          rows={5}
+          rows={4}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Task description"
         />
-        <div className="tasknew__dropdowns">
-          <DropdownStatus value={status} onChange={onChangeStatus} />
-          <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
+        <div className="tasknew__dropdowns flexcol">
+          <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
+          <Dropdown value={status} variant="status" tasknew={true} onChange={onChangeStatus} />
+          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
+          <div className="flexrow">
+            <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
+            <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+            <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
+          </div>
         </div>
-        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
-        <div className="tasknew__dates">
-          <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
-          <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
-          <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
-          <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
-          <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
-        </div>
-        <div className="tasks-footer">
-          <Button
-            onClick={submitHandler}
-            disabled={!checkFormValid()}
-          >
+        <div className="tasks-footer flexrow">
+          <Button onClick={submitHandler} disabled={!checkFormValid()}>
             Submit
           </Button>
           <Button onClick={cancelHandler}>Cancel</Button>

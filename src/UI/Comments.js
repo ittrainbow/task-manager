@@ -15,7 +15,7 @@ export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment })
   }
 
   return (
-    <div className="comments">
+    <div className="flexcol">
       {listOne.map((comment, index) => {
         return (
           <div key={index} className="comment">
@@ -25,7 +25,7 @@ export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment })
       })}
       {listTwo.map((comment, index) => {
         return (
-          <div key={index} className="comment" onClick={() => onDeleteComment(index)}>
+          <div key={index} className="comment flexrow" onClick={() => onDeleteComment(index)}>
             <div>{comment}</div>
             <div className="bin">
               <Bin />

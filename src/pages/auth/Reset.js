@@ -27,9 +27,9 @@ export const Reset = () => {
   }
 
   return (
-    <div className="auth-container">
+    <div className="auth-container flexcol">
       <Form.Control onChange={emailInputHandler} value={email} placeholder="E-mail" />
-      <div className="auth-container auth-container__button-block">
+      <div className="auth-container auth-container__button-block flexcol">
         <Button onClick={() => sendPasswordReset(email)} disabled={!emailValid}>
           Send recovery e-mail
         </Button>

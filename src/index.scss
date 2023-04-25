@@ -36,3 +36,15 @@ code {
   flex-direction: column;
   align-items: center;
 }
+
+.flexrow {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.flexcol {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

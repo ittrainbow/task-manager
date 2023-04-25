@@ -8,7 +8,7 @@ import {
   getFromUserlist,
   getTaskListOverflow
 } from '../../helpers'
-import { DropdownSort } from '../../UI/'
+import { Dropdown } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
@@ -59,17 +59,17 @@ export const TaskList = () => {
 
   const getCardClass = (id) => {
     return id !== selectedTaskId
-      ? 'tasklist__card'
+      ? 'tasklist__card flexcol'
       : !newTask
-      ? 'tasklist__card-selected'
-      : 'tasklist__card-selected-grey'
+      ? 'tasklist__card-selected flexcol'
+      : 'tasklist__card-selected-grey flexcol'
   }
 
   return (
-    <div className="tasklist">
+    <div className="tasklist flexcol">
       <div className="tasklist__header">Task List</div>
-      <DropdownSort value={taskSort} onChange={onChangeSort} />
-      <div className="tasklist__container" style={{ paddingRight: overflow ? 5 : 0 }}>
+      <Dropdown variant='sort' value={taskSort} onChange={onChangeSort}/>
+      <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
           const outdated = deadline < today

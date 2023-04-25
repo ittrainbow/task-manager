@@ -75,11 +75,3 @@ export const getTaskListOverflow = () => {
   const taskListHeight = () => document.querySelector('.tasklist__container').scrollHeight
   return windowHeight() - taskListHeight() < 155
 }
-
-export const getTaskFormOverflow = () => {
-  const height = window.innerHeight - 165
-  const width = document.querySelector('.task__header').clientWidth / 2 - 5
-  const scrollHeight = document.querySelector('.comments').scrollHeight
-  const overflow = scrollHeight > height
-  return { height, width, overflow }
-}

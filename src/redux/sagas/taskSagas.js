@@ -15,7 +15,6 @@ import {
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
 function* saveTaskSaga({ payload }) {
-  console.log(0, payload)
   try {
     yield call(writeTaskToFirestore, payload)
     yield put({

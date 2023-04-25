@@ -1,36 +1,27 @@
 .tasklist {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
   width: 33%;
 
   &__container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
     overflow-y: auto;
     height: calc(100vh - 156px);
   }
 
   &__header {
     border: 1px solid grey;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 
   &__description {
     padding: 10px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 
   &__card,
   &__card-selected,
   &__card-selected-grey {
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
+    border-radius: 5px;
     padding: 7px 14px 7px 14px;
-    gap: 5px;
     font-size: 14px;
     cursor: pointer;
     text-align: left;

@@ -3,11 +3,16 @@
   height: 40px;
   cursor: pointer;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 5px;
   padding: 0px 13px;
   border: 1px solid grey;
 }
 
-.picker-header {
+.picker-header,
+.picker-header-newtask {
   font-size: 15px;
+}
+
+.picker-header-newtask {
+  padding-bottom: 3px;
 }

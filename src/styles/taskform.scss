@@ -46,3 +46,17 @@
     gap: 10px;
   }
 }
+
+.info-card {
+  background-color: #383c44;
+  border-radius: 8px;
+  font-size: 15px;
+  text-align: left;
+  padding: 5px 10px;
+}
+
+.info-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}

@@ -21,6 +21,7 @@ export const TaskForm = () => {
   const [height, setHeight] = useState(0)
   const [status, setStatus] = useState(null)
   const [assigned, setAssigned] = useState(null)
+  const [deadline, setDeadline] = useState(null)
   const [overflow, setOverflow] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
   const [yourComments, setYourComments] = useState([])
@@ -29,7 +30,7 @@ export const TaskForm = () => {
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
-  const { name, description, creator, id, deadline, comments } = selectedTask
+  const { name, description, creator, id, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
   const listenerStart = () => {
@@ -49,9 +50,10 @@ export const TaskForm = () => {
   }, [selectedTaskId])
 
   useEffect(() => {
-    const { status, assigned } = selectedTask
+    const { status, assigned, deadline } = selectedTask
     setStatus(status)
     setAssigned(assigned)
+    setDeadline(deadline)
   }, [selectedTask])
 
   useEffect(() => {
@@ -79,12 +81,13 @@ export const TaskForm = () => {
   useEffect(() => {
     const statusChanged = selectedTask.status !== status
     const assignedChanged = selectedTask.assigned !== assigned
+    const deadlineChanged = selectedTask.deadline !== deadline
     const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
-    const anyChanges = statusChanged || commentsChanged || assignedChanged
+    const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
 
     setAnyChanges(anyChanges)
     // eslint-disable-next-line
-  }, [yourComments, status, assigned, selectedTask])
+  }, [yourComments, status, assigned, selectedTask, deadline])
 
   const onChangeStatus = (status) => setStatus(status)
   const onChangeUser = (uid) => setAssigned(uid)
@@ -95,11 +98,20 @@ export const TaskForm = () => {
     setYourComments(newComments)
   }
 
+  const onDeleteComment = (index) => {
+    const newComments = [...yourComments]
+    newComments.splice(index, 1)
+    setYourComments(newComments)
+  }
+
+  const outdated = () => new Date().getTime() > deadline
+
   const submitHandler = () => {
     const task = {
       lastmodified: new Date().getTime(),
       comments: commentsList,
       status,
+      deadline,
       id,
       assigned
     }
@@ -133,7 +145,14 @@ export const TaskForm = () => {
           <div className="info-card">Description: {description}</div>
           <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
           <div className="info-card">Assigned: {getFromUserlist({ userlist, uid: assigned })}</div>
-          <div className="info-card">Deadline: {convertMilliesToISO(deadline).readableTime}</div>
+          <div className="info-card">
+            {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline).readableTime}
+          </div>
+          <div className="info-buttons">
+            <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
+            <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+          </div>
+          <hr />
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
         </div>
@@ -141,7 +160,12 @@ export const TaskForm = () => {
           className="task__split-right"
           style={{ width: overflow ? 'calc(50% - 18px)' : 'calc(50% - 5px)' }}
         >
-          <Comments comments={commentsList} onSubmitComment={onSubmitComment} />
+          <Comments
+            listOne={comments}
+            listTwo={yourComments}
+            onSubmitComment={onSubmitComment}
+            onDeleteComment={onDeleteComment}
+          />
         </div>
       </div>
       <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />

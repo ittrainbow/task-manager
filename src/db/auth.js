@@ -19,8 +19,7 @@ export const signInWithGoogle = async () => {
     const { email, displayName: name, uid } = response.user
     const docs = await getDoc(doc(db, 'users', uid))
     if (docs.data() === undefined) {
-      const data = { name, email }
-      await setDoc(doc(db, 'users', uid), data)
+      await setDoc(doc(db, 'users', uid), { name, email })
     }
   } catch (err) {
     console.error(err)

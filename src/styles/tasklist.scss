@@ -1,6 +1,5 @@
 .tasklist {
   display: flex;
-  position: fixed;
   flex-direction: column;
   gap: 5px;
   width: 33%;
@@ -16,7 +15,6 @@
   &__header {
     border: 1px solid grey;
     border-radius: 8px;
-    margin-bottom: 4px;
   }
 
   &__description {
@@ -26,7 +24,8 @@
   }
 
   &__card,
-  &__card-selected {
+  &__card-selected,
+  &__card-selected-grey {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
@@ -49,9 +48,17 @@
     color: #ddd;
   }
 
-  &__card-selected {
+  &__card-selected,
+  &__card-selected-grey {
     scale: 0.97;
-    background-color: #53575d;
     color: white;
+  }
+
+  &__card-selected {
+    background-color: #53575d;
+  }
+
+  &__card-selected-grey {
+    background-color: #383c44;
   }
 }

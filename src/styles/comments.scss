@@ -8,9 +8,12 @@
   border: 1px solid grey;
   border-radius: 8px;
   font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   min-height: 30px;
   text-align: left;
-  padding: 4px 8px;
+  padding: 5px;
 
   &__new {
     border-radius: 8px;
@@ -22,5 +25,18 @@
   &__new:focus {
     outline: none;
     border: 1px solid #0d6efd;
+  }
+}
+
+.bin {
+  padding-top: 3px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  color: grey;
+  transition: .22s ease-in;
+
+  &:hover {
+    color: #f75;
   }
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
+import { ReactComponent as Bin } from '../assets/trash-fill.svg'
 
-export const Comments = ({ comments, onSubmitComment }) => {
+export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment }) => {
   const [newComment, setNewComment] = useState('')
 
   useEffect(() => {
     document.querySelector('.comment__new').focus()
-  }, [comments])
+  }, [listTwo])
 
   const submitComment = () => {
     newComment.length > 0 && onSubmitComment(newComment)
@@ -15,10 +16,20 @@ export const Comments = ({ comments, onSubmitComment }) => {
 
   return (
     <div className="comments">
-      {comments.map((comment, index) => {
+      {listOne.map((comment, index) => {
         return (
           <div key={index} className="comment">
             {comment}
+          </div>
+        )
+      })}
+      {listTwo.map((comment, index) => {
+        return (
+          <div key={index} className="comment" onClick={() => onDeleteComment(index)}>
+            <div>{comment}</div>
+            <div className="bin">
+              <Bin />
+            </div>
           </div>
         )
       })}

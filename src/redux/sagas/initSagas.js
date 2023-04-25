@@ -3,7 +3,7 @@ import { put, call, all, take } from 'redux-saga/effects'
 import { fetchNameFromFirestore, fetchUserList, fetchTasks } from '../../api/firebase'
 import { setLoadingFalseSaga } from './appSagas'
 import {
-  INIT,
+  INIT_APP,
   LOGIN_SUCCESS,
   FETCH_NAME_SUCCESS,
   FETCH_NAME_FAILURE,
@@ -46,13 +46,13 @@ function* fetchUserListSaga({ payload }) {
   }
 }
 
-function* fetchTasksSaga({ payload }) {
-  const { uid } = payload
+function* fetchTasksSaga() {
   try {
     const tasks = yield call(fetchTasks)
+    const lastTaskId = Number(localStorage.getItem('lastTaskId'))
     yield put({
       type: FETCH_TASKS_SUCCESS,
-      payload: { uid, tasks }
+      payload: { tasks, lastTaskId }
     })
   } catch (error) {
     yield put({
@@ -63,10 +63,10 @@ function* fetchTasksSaga({ payload }) {
 }
 
 function* initTaskSort() {
-  const taskSort = Number(localStorage.getItem('taskSort')) || 0
+  const taskSort = localStorage.getItem('taskSort')
   yield put({
     type: SET_TASK_SORT,
-    payload: taskSort
+    payload: taskSort !== null ? Number(taskSort) : 3
   })
 }
 
@@ -82,7 +82,7 @@ export function* initSagas(action) {
 
 export function* initSaga() {
   while (true) {
-    const action = yield take(INIT)
+    const action = yield take(INIT_APP)
     yield call(initSagas, action)
   }
 }

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../db/firebase'
-import { SELECT_TASK } from '../redux/types'
+import { SELECT_TASK, SELECT_TASK_NEW } from '../redux/types'
 import { logout } from '../db/auth'
 import { selectApp, selectTask, selectUser } from '../redux/selectors'
 
@@ -19,17 +19,27 @@ export const HeaderTab = () => {
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { newTaskId } = useSelector(selectTask)
+  const { selectedTaskId } = useSelector(selectTask)
   const { name } = useSelector(selectUser)
   const { loading } = useSelector(selectApp)
 
   const onClickHandler = (button) => {
     const { path, id } = button
-    id !== 2 &&
-      dispatch({
-        type: SELECT_TASK,
-        payload: id === 1 ? newTaskId : null
-      })
+    switch (id) {
+      case 0:
+        dispatch({
+          type: SELECT_TASK,
+          payload: selectedTaskId
+        })
+        break
+      case 1:
+        dispatch({
+          type: SELECT_TASK_NEW
+        })
+        break
+      default:
+        break
+    }
     navigate(path)
   }
 

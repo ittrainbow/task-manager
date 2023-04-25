@@ -3,13 +3,12 @@ import { Button, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker, DropdownUser, DropdownStatus } from '../../UI'
-import { SAVE_NEW_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
-import { selectTask, selectUser } from '../../redux/selectors'
+import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
+import { selectUser } from '../../redux/selectors'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
-  const { newTaskId } = useSelector(selectTask)
 
   const dispatch = useDispatch()
   const [name, setName] = useState('')
@@ -29,19 +28,20 @@ export const TaskNew = () => {
 
   const submitHandler = () => {
     if (checkFormValid()) {
+      const time = new Date().getTime()
       const task = {
         creator: uid,
-        lastmodified: new Date().getTime(),
+        id: time,
+        lastmodified: time,
         comments: [],
         name,
         description,
         deadline,
         status,
-        assigned,
-        id: newTaskId
+        assigned
       }
       dispatch({
-        type: SAVE_NEW_TASK_ATTEMPT,
+        type: SAVE_TASK_ATTEMPT,
         payload: { task }
       })
     }
@@ -72,12 +72,24 @@ export const TaskNew = () => {
         <div className="tasknew__dropdowns">
           <DropdownStatus value={status} onChange={onChangeStatus} />
           <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
-          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
         </div>
-        <Button onClick={submitHandler} disabled={!checkFormValid()}>
-          Submit
-        </Button>
-        <Button onClick={cancelHandler}>Cancel</Button>
+        <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
+        <div className="tasknew__dates">
+          <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
+          <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
+          <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
+          <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+          <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
+        </div>
+        <div className="tasks-footer">
+          <Button
+            onClick={submitHandler}
+            disabled={!checkFormValid()}
+          >
+            Submit
+          </Button>
+          <Button onClick={cancelHandler}>Cancel</Button>
+        </div>
       </div>
     </>
   )

@@ -14,10 +14,10 @@ export const TaskPage = () => {
   const loading = useSelector(selectLoading)
 
   useEffect(() => {
-    !user && navigate('/') 
+    !user && navigate('/')
     // eslint-disable-next-line
   }, [])
-  
+
   return (
     <div className="taskpage-container">
       {loading ? (

@@ -3,19 +3,19 @@ import { useSelector } from 'react-redux'
 
 import { TaskNew, TaskForm } from '.'
 import { selectTask } from '../../redux/selectors'
+import { useAppContext } from '../../context/Context'
 
 export const Task = () => {
-  const { selectedTaskId, newTask, newTaskId } = useSelector(selectTask)
+  const { selectedTaskIsOnList } = useAppContext()
+  const { selectedTaskId, newTask } = useSelector(selectTask)
 
   return (
     <div className="task">
       <div className="task__header">{newTask ? 'New Task' : 'Task'}</div>
-      {selectedTaskId !== null ? (
-        selectedTaskId === newTaskId ? (
-          <TaskNew />
-        ) : (
-          <TaskForm />
-        )
+      {newTask ? (
+        <TaskNew />
+      ) : selectedTaskId !== null && selectedTaskIsOnList ? (
+        <TaskForm />
       ) : (
         'No task selected'
       )}

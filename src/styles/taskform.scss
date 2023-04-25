@@ -2,18 +2,19 @@
   display: flex;
   left: calc(33% + 20px);
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   width: calc(100vw - 33% - 30px);
 
   &__header {
     border: 1px solid grey;
     border-radius: 8px;
+    padding-bottom: 1px;
   }
 
   &__container {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
     overflow-y: auto;
   }
 
@@ -43,7 +44,7 @@
   &__delete {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
   }
 }
 

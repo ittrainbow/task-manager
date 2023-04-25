@@ -26,16 +26,20 @@ export const TaskList = () => {
 
   useEffect(() => {
     const paddingHelper = () => setOverflow(getTaskListOverflow())
-    const list = sortTaskList({ taskSort, tasks, uid })
-    const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
 
-    setList(list)
-    setSelectedTaskIsOnList(selectedTaskIsOnList)
     setTimeout(() => paddingHelper(), 20)
     window.addEventListener('resize', paddingHelper)
     return () => window.removeEventListener('resize', paddingHelper)
     // eslint-disable-next-line
   }, [taskSort])
+
+  useEffect(() => {
+    const list = sortTaskList({ taskSort, tasks, uid })
+    const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
+    setList(list)
+    setSelectedTaskIsOnList(selectedTaskIsOnList)
+    // eslint-disable-next-line
+  }, [taskSort, selectedTaskId])
 
   const taskSelectHandler = (id) => {
     const setId = id === selectedTaskId ? null : id

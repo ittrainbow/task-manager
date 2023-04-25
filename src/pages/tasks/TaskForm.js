@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
-import { DropdownStatus, DropdownUser, Comments } from '../../UI'
+import { Comments, Dropdown } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import {
   SAVE_TASK_ATTEMPT,
@@ -12,23 +12,20 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { convertMilliesToISO, getFromUserlist, getTaskFormOverflow, emptyTask } from '../../helpers'
+import { convertMilliesToISO, getFromUserlist, emptyTask } from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
+  const { userlist } = useSelector(selectApp)
+  const { selectedTaskId, lastUpdate } = useSelector(selectTask)
+  const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
-  const [width, setWidth] = useState(0)
   const [height, setHeight] = useState(0)
   const [status, setStatus] = useState(null)
   const [assigned, setAssigned] = useState(null)
   const [deadline, setDeadline] = useState(null)
-  const [overflow, setOverflow] = useState(false)
   const [anyChanges, setAnyChanges] = useState(false)
   const [yourComments, setYourComments] = useState([])
-
-  const { userlist } = useSelector(selectApp)
-  const { selectedTaskId, lastUpdate } = useSelector(selectTask)
-  const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
   const { name, description, creator, id, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
@@ -66,16 +63,8 @@ export const TaskForm = () => {
   }, [lastUpdate])
 
   useEffect(() => {
-    const resizer = () => {
-      const { width, height, overflow } = getTaskFormOverflow()
-      setOverflow(overflow)
-      setWidth(width)
-      setHeight(height)
-    }
-
-    resizer()
-    window.addEventListener('resize', resizer)
-    return () => window.removeEventListener('resize', resizer)
+    const height = window.innerHeight - 165
+    setHeight(height)
   }, [comments])
 
   useEffect(() => {
@@ -89,9 +78,8 @@ export const TaskForm = () => {
     // eslint-disable-next-line
   }, [yourComments, status, assigned, selectedTask, deadline])
 
-  const onChangeStatus = (status) => setStatus(status)
-  const onChangeUser = (uid) => setAssigned(uid)
-
+  const onChangeStatus = (option) => setStatus(option.value)
+  const onChangeUser = (option) => setAssigned(option.value)
   const onSubmitComment = (comment) => {
     const newComments = [...yourComments]
     newComments.push(comment)
@@ -140,7 +128,9 @@ export const TaskForm = () => {
   return (
     <>
       <div className="task__container" style={{ height }}>
-        <div className="task__split-left" style={{ width }}>
+        <div className="task__split">
+          <Dropdown value={assigned} variant="users" onChange={onChangeUser} />
+          <Dropdown value={status} variant="status" onChange={onChangeStatus} />
           <div className="info-card">Name: {name}</div>
           <div className="info-card">Description: {description}</div>
           <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
@@ -150,16 +140,11 @@ export const TaskForm = () => {
           </div>
           <div className="info-buttons">
             <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
+            <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
             <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
           </div>
-          <hr />
-          <DropdownStatus value={status} onChange={onChangeStatus} />
-          <DropdownUser value={assigned} assigned={assigned} onChange={onChangeUser} />
         </div>
-        <div
-          className="task__split-right"
-          style={{ width: overflow ? 'calc(50% - 18px)' : 'calc(50% - 5px)' }}
-        >
+        <div className="task__split">
           <Comments
             listOne={comments}
             listTwo={yourComments}

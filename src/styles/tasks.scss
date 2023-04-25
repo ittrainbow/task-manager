@@ -22,7 +22,7 @@
   &__description {
     padding: 10px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 }
 
@@ -32,5 +32,9 @@
   flex-direction: row;
   position: fixed;
   bottom: 10px;
-  width: calc(100vw - 33% - 25px);
+  width: calc(100vw - 33% - 17px);
+}
+
+.btn {
+  --bs-btn-padding-x: 0.25rem!important;
 }

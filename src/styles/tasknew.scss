@@ -9,19 +9,26 @@
     flex-direction: column;
     gap: 5px;
     overflow-y: auto;
+    width: calc(100% - 1px);
     height: calc(100vh - 167px);
   }
 
   &__description {
     padding: 10px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 
   &__dropdowns {
     display: flex;
-    flex-direction: row;
     gap: 5px;
+    flex-direction: row;
+
+    &__select {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
   }
 
   &__dates {

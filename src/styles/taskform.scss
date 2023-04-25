@@ -3,12 +3,11 @@
   left: calc(33% + 20px);
   flex-direction: column;
   gap: 5px;
-  width: calc(100vw - 33% - 30px);
+  width: calc(100vw - 33% - 20px);
 
   &__header {
     border: 1px solid grey;
-    border-radius: 8px;
-    padding-bottom: 1px;
+    border-radius: 5px;
   }
 
   &__container {
@@ -21,18 +20,14 @@
   &__description {
     padding: 10px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 5px;
   }
 
-  &__split-left,
-  &__split-right {
+  &__split {
     display: flex;
     gap: 5px;
     flex-direction: column;
-  }
-
-  &__split-right {
-    width: calc(50% - 5px);
+    width: 100%;
   }
 
   &__dropdowns {
@@ -50,7 +45,7 @@
 
 .info-card {
   background-color: #383c44;
-  border-radius: 8px;
+  border-radius: 5px;
   font-size: 15px;
   text-align: left;
   padding: 5px 10px;

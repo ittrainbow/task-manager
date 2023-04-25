@@ -1,6 +1,4 @@
 export * from './Picker'
 export * from './Loader'
 export * from './Comments'
-export * from './DropdownStatus'
-export * from './DropdownSort'
-export * from './DropdownUser'
+export * from './Dropdown'

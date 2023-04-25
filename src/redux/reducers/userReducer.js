@@ -28,7 +28,6 @@ export const userReducer = (state = initialState, action) => {
       }
 
     case UPDATE_USER_SUCCESS:
-      console.log(0, payload)
       return {
         ...state,
         ...payload,

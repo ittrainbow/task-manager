@@ -1,26 +1,5 @@
-.dropdown-container {
-  padding: 0;
-}
-
-.dropdown {
-  width: 100%;
-}
-
-.dropdown-header {
+.select,
+.select-sort {
+  color: #282c34;
   font-size: 15px;
-  text-align: left;
-  padding-left: 10px;
-}
-
-.dropdown-scroller {
-  overflow-y: scroll;
-  max-height: 200px;
-}
-
-.hs-searchbox {
-  margin: 0 7px
-}
-
-.dropdown-menu {
-  transition: .25s ease-in-out
 }

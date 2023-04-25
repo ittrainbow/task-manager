@@ -8,7 +8,7 @@ import {
   getFromUserlist,
   getTaskListOverflow
 } from '../../helpers'
-import { DropdownSort } from '../../UI/'
+import { Dropdown } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
@@ -68,7 +68,7 @@ export const TaskList = () => {
   return (
     <div className="tasklist">
       <div className="tasklist__header">Task List</div>
-      <DropdownSort value={taskSort} onChange={onChangeSort} />
+      <Dropdown variant='sort' value={taskSort} onChange={onChangeSort}/>
       <div className="tasklist__container" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el

@@ -82,3 +82,12 @@ export const getTaskFormOverflow = () => {
   const windowHeight = window.innerHeight - 165
   return { windowHeight, width, overflow }
 }
+
+export const isAnyChanges = ({ selectedTask, assigned, status, commentsList, deadline }) => {
+  const statusChanged = selectedTask.status !== status
+  const assignedChanged = selectedTask.assigned !== assigned
+  const deadlineChanged = selectedTask.deadline !== deadline
+  const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
+  const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
+  return anyChanges
+}

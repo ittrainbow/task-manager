@@ -50,3 +50,8 @@
 .comments-div {
   max-height: calc(100% - 230px);
 }
+
+.MuiFormLabel-root,
+.MuiInputLabel-root {
+  z-index: 100
+}

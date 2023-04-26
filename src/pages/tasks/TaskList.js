@@ -17,7 +17,7 @@ export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
   const [list, setList] = useState([])
-  const { setSelectedTaskIsOnList, selectedTab } = useAppContext()
+  const { setSelectedTaskIsOnList, selectedTab, setSelectedTab } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
@@ -55,6 +55,7 @@ export const TaskList = () => {
       type: SELECT_TASK,
       payload: setId
     })
+    setSelectedTab(0)
   }
 
   const onChangeSort = (value) => {
@@ -65,13 +66,11 @@ export const TaskList = () => {
   }
 
   const getCardClass = (id) => {
-    switch (newTask) {
-      case false:
-        return id !== selectedTaskId ? 'tasklist__card flexcol' : 'tasklist__card-selected flexcol'
-      default:
-        break
-    }
-    return 'tasklist__card-selected-grey flexcol'
+    return newTask
+      ? 'tasklist__card-selected-grey flexcol'
+      : id !== selectedTaskId
+      ? 'tasklist__card flexcol'
+      : 'tasklist__card-selected flexcol'
   }
 
   return (

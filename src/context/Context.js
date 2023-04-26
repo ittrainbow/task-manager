@@ -10,10 +10,8 @@ export const ContextProvider = ({ children }) => {
   const { uid } = useSelector(selectUser)
   const [selectedTaskIsOnList, setSelectedTaskIsOnList] = useState(false)
   const [selectedTab, setSelectedTab] = useState(0)
-  const [contextStatus, setContextStatus] = useState('New')
-  const [contextAssigned, setContextAssigned] = useState(uid)
-  const [onChangeUser, setOnChangeUser] = useState(() => {})
-  const [onChangeStatus, setOnChangeStatus] = useState(() => {})
+  const [status, setStatus] = useState('New')
+  const [assigned, setAssigned] = useState(uid)
 
   return (
     <Context.Provider
@@ -22,14 +20,10 @@ export const ContextProvider = ({ children }) => {
         setSelectedTaskIsOnList,
         selectedTab,
         setSelectedTab,
-        contextAssigned,
-        setContextAssigned,
-        contextStatus,
-        setContextStatus,
-        onChangeUser,
-        setOnChangeUser,
-        onChangeStatus,
-        setOnChangeStatus
+        assigned,
+        setAssigned,
+        status,
+        setStatus
       }}
     >
       {children}

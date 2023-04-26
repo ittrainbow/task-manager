@@ -5,6 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 
 import { Comments, DrawModal } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
+import { useAppContext } from '../../context/Context'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -12,18 +13,24 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { useAppContext } from '../../context/Context'
-import { convertMilliesToISO, getFromUserlist, emptyTask, getTaskFormOverflow } from '../../helpers'
+import {
+  convertMilliesToISO,
+  getFromUserlist,
+  emptyTask,
+  getTaskFormOverflow,
+  isAnyChanges
+} from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
-  const { contextAssigned, setContextAssigned, contextStatus, setContextStatus } = useAppContext()
-  const [height, setHeight] = useState(0)
-  const [widthLeft, setWidthLeft] = useState(100)
-  const [widthRight, setWidthRight] = useState(100)
+  const { assigned, setAssigned, status, setStatus } = useAppContext()
+
+  const [height, setHeight] = useState()
+  const [width, setWidth] = useState()
+  const [overflow, setOverflow] = useState(false)
   const [drawModal, setDrawModal] = useState(false)
   const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
@@ -32,6 +39,9 @@ export const TaskForm = () => {
   const { name, description, creator, id, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
+  const onSubmitComment = (comment) => setYourComments([...yourComments, comment])
+  const outdated = () => new Date().getTime() > deadline
+  const listenerStop = () => dispatch({ type: LISTENER_STOP })
   const listenerStart = () => {
     const time = new Date().getTime()
     dispatch({
@@ -40,10 +50,6 @@ export const TaskForm = () => {
     })
   }
 
-  const listenerStop = () => dispatch({ type: LISTENER_STOP })
-
-  const outdated = () => new Date().getTime() > deadline
-
   useEffect(() => {
     listenerStart()
     return () => listenerStop() // eslint-disable-next-line
@@ -51,8 +57,8 @@ export const TaskForm = () => {
 
   useEffect(() => {
     const { status, assigned, deadline } = selectedTask
-    setContextStatus(status)
-    setContextAssigned(assigned)
+    setStatus(status)
+    setAssigned(assigned)
     setDeadline(deadline)
     setYourComments([]) // eslint-disable-next-line
   }, [selectedTask])
@@ -61,21 +67,20 @@ export const TaskForm = () => {
     const { windowHeight, width, overflow } = getTaskFormOverflow()
 
     setHeight(windowHeight)
-    setWidthLeft(width)
-    setWidthRight(overflow ? width - 30 : width)
+    setWidth(width)
+    setOverflow(overflow)
   }
 
   useEffect(() => {
     let timeout
-
-    const handleResize = () => {
+    const resizeHandler = () => {
       clearTimeout(timeout)
       timeout = setTimeout(() => resizer(), 250)
     }
 
     resizer()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    window.addEventListener('resize', resizeHandler)
+    return () => window.removeEventListener('resize', resizeHandler)
   }, [yourComments])
 
   useEffect(() => {
@@ -87,20 +92,9 @@ export const TaskForm = () => {
   }, [lastUpdate])
 
   useEffect(() => {
-    const statusChanged = selectedTask.status !== contextStatus
-    const assignedChanged = selectedTask.assigned !== contextAssigned
-    const deadlineChanged = selectedTask.deadline !== deadline
-    const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
-    const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
-
+    const anyChanges = isAnyChanges({ selectedTask, assigned, status, commentsList, deadline })
     setAnyChanges(anyChanges) // eslint-disable-next-line
-  }, [yourComments, contextStatus, contextAssigned, selectedTask, deadline])
-
-  const onSubmitComment = (comment) => {
-    const newComments = [...yourComments]
-    newComments.push(comment)
-    setYourComments(newComments)
-  }
+  }, [yourComments, status, assigned, selectedTask, deadline])
 
   const onDeleteComment = (index) => {
     const newComments = [...yourComments]
@@ -112,8 +106,8 @@ export const TaskForm = () => {
     const task = {
       lastmodified: new Date().getTime(),
       comments: commentsList,
-      status: contextStatus,
-      assigned: contextAssigned,
+      status,
+      assigned,
       deadline,
       id
     }
@@ -139,48 +133,44 @@ export const TaskForm = () => {
 
   return (
     <>
-      <div className="task__container flexcol" style={{ height }}>
-        <div className="flexrow">
-          <div className="task__split-left" style={{ minWidth: widthLeft }}>
-            <div className="flexcol">
-              <div className="info-card">Name: {name}</div>
-              <div className="info-card">Description: {description}</div>
-              <div className="info-card">
-                Created by: {getFromUserlist({ userlist, uid: creator })}
-              </div>
-              <div className="info-card">
-                Assigned to: {getFromUserlist({ userlist, uid: contextAssigned })}
-              </div>
-              <div className="info-card">
-                {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
-              </div>
-              <div className="flexrow">
-                <Button
-                  variant="contained"
-                  onClick={() => setDeadline(deadline - 10800000)}
-                  value="-3 hr"
-                />
-                <Button
-                  variant="contained"
-                  onClick={() => setDeadline(deadline + 10800000)}
-                  value="+3 hr"
-                />
-                <Button
-                  variant="contained"
-                  onClick={() => setDeadline(deadline + 86400000)}
-                  value="+1 day"
-                />
-              </div>
-            </div>
+      <div className="task__container flexrow" style={{ height }}>
+        <div className="task__split-left flexcol" style={{ width }}>
+          <div className="info-card">Name: {name}</div>
+          <div className="info-card">Description: {description}</div>
+          <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
+          <div className="info-card">
+            Assigned to: {getFromUserlist({ userlist, uid: assigned })}
           </div>
-          <div className="task__split-right" style={{ width: widthRight }}>
-            <Comments
-              listOne={comments}
-              listTwo={yourComments}
-              onSubmitComment={onSubmitComment}
-              onDeleteComment={onDeleteComment}
+          <hr style={{ width: 100 }} />
+          <div className="info-card">
+            {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
+          </div>
+          <div className="flexrow">
+            <Button
+              variant="contained"
+              onClick={() => setDeadline(deadline - 10800000)}
+              value="-3 hr"
+            />
+            <Button
+              variant="contained"
+              onClick={() => setDeadline(deadline + 10800000)}
+              value="+3 hr"
+            />
+            <Button
+              variant="contained"
+              onClick={() => setDeadline(deadline + 86400000)}
+              value="+1 day"
             />
           </div>
+        </div>
+        <div className="task__split-right" style={{ width: overflow ? width - 30 : width }}>
+          <Comments
+            comments={comments}
+            yourComments={yourComments}
+            onSubmit={onSubmitComment}
+            onDelete={onDeleteComment}
+            overflow={overflow}
+          />
         </div>
       </div>
       <div className="tasks-footer flexrow">

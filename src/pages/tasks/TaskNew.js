@@ -10,20 +10,15 @@ import { useAppContext } from '../../context/Context'
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
-  const {
-    contextAssigned,
-    setContextAssigned,
-    contextStatus,
-    setContextStatus
-  } = useAppContext()
+  const { assigned, setAssigned, status, setStatus } = useAppContext()
   const dispatch = useDispatch()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState(getTime() + 86400000)
 
   useEffect(() => {
-    setContextStatus('New')
-    setContextAssigned(uid) // eslint-disable-next-line
+    setStatus('New')
+    setAssigned(uid) // eslint-disable-next-line
   }, [uid])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
@@ -40,8 +35,8 @@ export const TaskNew = () => {
         name,
         description,
         deadline,
-        status: contextStatus,
-        assigned: contextAssigned
+        status: status,
+        assigned: assigned
       }
       dispatch({
         type: SAVE_TASK_ATTEMPT,

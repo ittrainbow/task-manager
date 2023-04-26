@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/joy": "^5.0.0-alpha.77",
+    "@mui/material": "^5.12.2",
+    "@mui/system": "^5.12.1",
     "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",
     "firebase": "^9.19.1",

@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Input } from '../../UI'
 
 import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
 import { auth } from '../../db/firebase'
@@ -47,31 +47,33 @@ export const Register = () => {
   }, [loading, user, navigate])
 
   return (
-    <div className="auth-container flexcol">
-      <Form.Control
+    <div className="auth-container flexcol15">
+      <Input
         type="text"
         value={name}
         onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
-        placeholder="Name"
+        label="Name"
       />
-      <Form.Control
+      <Input
         type="text"
         value={email}
         onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
-        placeholder="E-mail"
+        label="E-mail"
       />
-      <Form.Control
+      <Input
         type="password"
         value={password}
         onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-        placeholder="Password"
+        label="Password"
       />
       <div className="auth-container auth-container__button-block flexcol">
-        <Button onClick={register} disabled={!emailValid || !password || !name}>
-          Sign Up New User
-        </Button>
-        <Button onClick={signInWithGoogle}>Google Sign Up</Button>
-        <Button onClick={() => navigate('/login')}>Log In</Button>
+        <Button
+          onClick={register}
+          value="Sign Up New User"
+          disabled={!emailValid || !password || !name}
+        />
+        <Button onClick={signInWithGoogle} value="Google Sign Up" />
+        <Button onClick={() => navigate('/login')} value="Log In" />
       </div>
     </div>
   )

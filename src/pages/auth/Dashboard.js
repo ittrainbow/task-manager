@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from 'react-bootstrap'
+import { Button } from '../../UI'
 import { useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
@@ -15,7 +15,7 @@ export const Dashboard = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    !user && navigate('/') 
+    !user && navigate('/')
     // eslint-disable-next-line
   }, [])
 
@@ -28,7 +28,7 @@ export const Dashboard = () => {
           <div>{name}</div>
           <div>{email}</div>
           <div className="auth-container auth-container__button-block flexcol">
-            <Button onClick={() => navigate('/profile')}>Edit profile</Button>
+            <Button onClick={() => navigate('/profile')} value="Edit Profle" />
           </div>
         </>
       )}

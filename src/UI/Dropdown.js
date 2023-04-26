@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // import Select from 'react-select'
+import InputLabel from 'react-select'
 import Select from 'react-select-animated-v2'
 import { useSelector } from 'react-redux'
 import { selectApp, selectTask } from '../redux/selectors'
@@ -61,32 +62,30 @@ export const Dropdown = ({ variant, value, onChange, tasknew }) => {
         case 'sort':
           return
         case 'status':
-          return newTask ? 'Set task status' : ''
+          return newTask ? 'Status' : ''
         case 'users':
-          return newTask ? 'Appoint user' : ''
+          return newTask ? 'User' : ''
         default:
           break
       }
     }
 
-    const getClassname = tasknew ? 'picker-header-newtask' : 'picker-header'
-
     return (
       <>
-        <div className={getClassname}>{getHeader()}</div>
+        {/* <div className="dropdown-label">{getHeader()}</div> */}
         <Select
           options={options}
           onChange={handleChange}
           maxMenuHeight={tasknew ? 210 : 300}
-          className='select'
+          className="select"
           defaultValue={options.filter((option) => option.value === value)}
         />
       </>
     )
   }
   return (
-    <div className="app">
+    <>
       <CustomSelect />
-    </div>
+    </>
   )
 }

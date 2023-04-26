@@ -11,7 +11,7 @@ export const Task = () => {
 
   return (
     <div className="task flexcol">
-      <div className="task__header">{newTask ? 'New Task' : 'Task'}</div>
+      <div className="tasks-header">{newTask ? 'New Task' : 'Task'}</div>
       {newTask ? (
         <TaskNew />
       ) : selectedTaskId !== null && selectedTaskIsOnList ? (

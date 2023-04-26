@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Input } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Picker, Dropdown } from '../../UI'
+import { Picker, Dropdown, Select } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 
@@ -63,33 +63,60 @@ export const TaskNew = () => {
   return (
     <>
       <div className="tasknew__container flexcol">
-        <Form.Control
+        <Input
           value={name}
+          type="text"
           onChange={(e) => setName(e.target.value)}
-          placeholder="Task name"
+          label="Task name"
         />
-        <textarea
-          className="tasknew__description"
+        <Input
           value={description}
-          rows={4}
+          type="text"
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Task description"
+          label="Task description"
+          multiline={true}
+          rows={4}
         />
         <div className="tasknew__dropdowns flexcol">
-          <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
-          <Dropdown value={status} variant="status" tasknew={true} onChange={onChangeStatus} />
-          <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
           <div className="flexrow">
-            <Button onClick={() => setDeadline(deadline - 86400000)}>-1 day</Button>
-            <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
-            <Button onClick={() => setDeadline(deadline + 604800000)}>+1 week</Button>
+            <div className="picker-header flexcol">Appoint user</div>
+            <div className="picker-dropdown flexcol">
+              <Dropdown value={assigned} variant="users" tasknew={true} onChange={onChangeUser} />
+            </div>
+          </div>
+          <div className="flexrow">
+            <div className="picker-header flexcol">Select status</div>
+            <div className="picker-dropdown flexcol">
+              <Dropdown value={status} variant="status" tasknew={true} onChange={onChangeStatus} />
+            </div>
+          </div>
+          <div className="flexrow">
+            <div className="picker-header flexcol">Set deadline</div>
+            <Picker onChange={(e) => onChangeDeadline(e.target)} value={deadline} />
+          </div>
+
+          <div className="flexrow picker-buttons">
+            <Button onClick={() => setDeadline(deadline - 86400000)} value="-1 day" />
+            <Button
+              variant="contained"
+              onClick={() => setDeadline(deadline + 86400000)}
+              value="+1 day"
+            />
+            <Button
+              variant="contained"
+              onClick={() => setDeadline(deadline + 604800000)}
+              value="+1 week"
+            />
           </div>
         </div>
         <div className="tasks-footer flexrow">
-          <Button onClick={submitHandler} disabled={!checkFormValid()}>
-            Submit
-          </Button>
-          <Button onClick={cancelHandler}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={submitHandler}
+            disabled={!checkFormValid()}
+            value="Submit"
+          />
+          <Button variant="contained" onClick={cancelHandler} value="Cancel" />
         </div>
       </div>
     </>

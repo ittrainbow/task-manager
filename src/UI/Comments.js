@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button } from './Button'
 import { ReactComponent as Bin } from '../assets/trash-fill.svg'
 
 export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment }) => {
@@ -40,9 +40,7 @@ export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment })
         placeholder="Add comment here"
         onChange={(e) => setNewComment(e.target.value)}
       />
-      <Button onClick={submitComment} disabled={newComment.length === 0}>
-        Add comment
-      </Button>
+      <Button onClick={submitComment} disabled={newComment.length === 0} value="Add comment" />
     </div>
   )
 }

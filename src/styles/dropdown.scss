@@ -2,3 +2,23 @@
   color: #282c34;
   font-size: 15px;
 }
+
+.dropdown-label {
+  font-size: 12px;
+  position: fixed;
+  z-index: 100;
+  background: white;
+  border-radius: 5px;
+  width: 40px;
+  margin-left: 10px;
+  margin-top: -7px;
+  border: none;
+  color: black;
+}
+
+.dropdown-input {
+  &__label {
+    color: white;
+    background-color: red;
+  }
+}

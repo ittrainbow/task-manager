@@ -31,7 +31,7 @@ export const convertMilliesToISO = (value) => {
 
 export const sortTaskList = ({ taskSort, tasks, uid }) => {
   switch (taskSort) {
-    case 0:
+    case 1:
       const newTasksCase0 = tasks
         .filter((task) => {
           return task.creator === uid || task.assigned === uid
@@ -43,7 +43,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
           return a.deadline - b.deadline
         })
       return newTasksCase0
-    case 1:
+    case 2:
       const newTasksCase1 = tasks
         .filter((task) => {
           return task.creator === uid || task.assigned === uid
@@ -52,7 +52,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
           return b.id - a.id
         })
       return newTasksCase1
-    case 2:
+    case 3:
       const newTasksCase2 = tasks
         .filter((task) => {
           return task.status !== 'Closed'
@@ -61,7 +61,7 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
           return a.deadline - b.deadline
         })
       return newTasksCase2
-    case 3:
+    case 4:
       return tasks.sort((a, b) => {
         return b.id - a.id
       })

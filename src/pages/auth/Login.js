@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Input } from '../../UI'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../db/firebase'
@@ -14,7 +14,7 @@ export const Login = () => {
   const [emailValid, setEmailValid] = useState(false)
 
   useEffect(() => {
-    user && navigate('/') 
+    user && navigate('/')
     // eslint-disable-next-line
   }, [user])
 
@@ -38,19 +38,23 @@ export const Login = () => {
   }
 
   return (
-    <div className="auth-container flexcol">
-      <Form.Control onChange={emailInputHandler} value={email} type='text' placeholder="E-mail" />
-      <Form.Control onChange={passwordInputHandler} value={password} type='password' placeholder={'Password'} />
+    <div className="auth-container flexcol15">
+      <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
+      <Input
+        onChange={passwordInputHandler}
+        value={password}
+        type="password"
+        label={'Password'}
+      />
       <div className="auth-container auth-container__button-block flexcol">
         <Button
           onClick={() => logInWithEmailAndPassword(email, password)}
           disabled={!emailValid || password.length < 4}
-        >
-          Sign In
-        </Button>
-        <Button onClick={googleSignInHandler}>Google Sign In</Button>
-        <Button onClick={() => navigate('/reset')}>Recover Password</Button>
-        <Button onClick={() => navigate('/register')}>Sign Up</Button>
+          value="Sign In"
+        />
+        <Button value="Google Sign In" onClick={googleSignInHandler} />
+        <Button value="Recover Password" onClick={() => navigate('/reset')} />
+        <Button value="Sign Up" onClick={() => navigate('/register')} />
       </div>
     </div>
   )

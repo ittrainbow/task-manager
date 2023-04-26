@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
+import { Button } from '../UI'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -48,7 +48,7 @@ export const HeaderTab = () => {
     setTimeout(() => navigate('/login'), 20)
   }
 
-  const autnButton = user ? 'Logout' : 'No User'
+  const authButton = user ? 'Logout' : 'No User'
 
   return (
     <div className="header-container">
@@ -59,19 +59,16 @@ export const HeaderTab = () => {
             <Button
               key={index}
               onClick={() => onClickHandler(button)}
-              className="header__button"
               disabled={!user}
-            >
-              {name}
-            </Button>
+              value={name}
+              width={110}
+            />
           )
         })}
       </div>
       <div className="header">
         {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}
-        <Button onClick={logoutHandler} className="header__button" disabled={!user}>
-          {autnButton}
-        </Button>
+        <Button onClick={logoutHandler} disabled={!user} value={authButton} width={110} />
       </div>
     </div>
   )

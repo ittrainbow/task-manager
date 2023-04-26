@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, Form } from 'react-bootstrap'
 
 import { UPDATE_USER_ATTEMPT } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
+import { Button, Input } from '../../UI'
 
 export const Profile = () => {
   const { name, uid } = useSelector(selectUser)
@@ -24,11 +24,14 @@ export const Profile = () => {
 
   return (
     <div className="auth-container flexcol">
-      Change Name
-      <Form.Control onChange={(e) => setTempName(e.target.value)} value={tempName} />
+      <Input onChange={(e) => setTempName(e.target.value)} value={tempName} label="Change name" />
       <div className="auth-container auth-container__button-block flexcol">
-        <Button onClick={submitHandler} disabled={noChanges}>{noChanges ? 'No changes' : 'Save'}</Button>
-        <Button onClick={() => navigate(-1)}>Cancel</Button>
+        <Button
+          onClick={submitHandler}
+          disabled={noChanges}
+          value={noChanges ? 'No changes' : 'Save'}
+        />
+        <Button onClick={() => navigate(-1)} value="Cancel" />
       </div>
     </div>
   )

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-bootstrap'
+import { Button, Select } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
-import { Comments, DrawModal, Dropdown } from '../../UI'
+import { Comments, DrawModal } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import {
   SAVE_TASK_ATTEMPT,
@@ -21,10 +21,11 @@ export const TaskForm = () => {
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
   const [height, setHeight] = useState(0)
+  const [width, setWidth] = useState(100)
   const [drawModal, setDrawModal] = useState(false)
-  const [status, setStatus] = useState(null)
-  const [assigned, setAssigned] = useState(null)
-  const [deadline, setDeadline] = useState(null)
+  const [status, setStatus] = useState()
+  const [assigned, setAssigned] = useState('')
+  const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
   const [yourComments, setYourComments] = useState([])
 
@@ -56,6 +57,34 @@ export const TaskForm = () => {
   }, [selectedTask])
 
   useEffect(() => {
+    let timeout
+
+    const resizer = () => {
+      const width = Math.floor(document.getElementById('task-header-right').clientWidth / 2)
+      const height = document.getElementById('comments-container').clientHeight
+      const bigHeight = window.innerHeight
+      const overflow = bigHeight - height < 220
+
+      const windowHeight = window.innerHeight - 165
+
+      setHeight(windowHeight)
+      setWidth(overflow ? width - 20 : width)
+    }
+
+    const handleResize = () => {
+      clearTimeout(timeout)
+
+      timeout = setTimeout(() => {
+        resizer()
+      }, 250)
+    }
+
+    resizer()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [yourComments])
+
+  useEffect(() => {
     if (lastUpdate) {
       listenerStop()
       toast.success('Task data was silently updated')
@@ -63,11 +92,6 @@ export const TaskForm = () => {
     }
     // eslint-disable-next-line
   }, [lastUpdate])
-
-  useEffect(() => {
-    const height = window.innerHeight - 165
-    setHeight(height)
-  }, [comments])
 
   useEffect(() => {
     const statusChanged = selectedTask.status !== status
@@ -80,8 +104,10 @@ export const TaskForm = () => {
     // eslint-disable-next-line
   }, [yourComments, status, assigned, selectedTask, deadline])
 
-  const onChangeStatus = (option) => setStatus(option.value)
-  const onChangeUser = (option) => setAssigned(option.value)
+  const onChangeStatus = (value) => setStatus(value)
+
+  const onChangeUser = (value) => setAssigned(value)
+
   const onSubmitComment = (comment) => {
     const newComments = [...yourComments]
     newComments.push(comment)
@@ -127,38 +153,67 @@ export const TaskForm = () => {
 
   return (
     <>
-      <div className="task__container flexrow" style={{ height }}>
-        <div className="task__split flexcol">
-          <Dropdown value={assigned} variant="users" onChange={onChangeUser} />
-          <Dropdown value={status} variant="status" onChange={onChangeStatus} />
-          <div className="info-card">Name: {name}</div>
-          <div className="info-card">Description: {description}</div>
-          <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
-          <div className="info-card">Assigned: {getFromUserlist({ userlist, uid: assigned })}</div>
-          <div className="info-card">
-            {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline).readableTime}
+      <div className="task__container flexcol" style={{ height }}>
+        <div className="flexrow">
+          <div className="selector flexcol">
+            <Select value={assigned} variant="users" onChange={onChangeUser} label="Assign User" />
           </div>
-          <div className="flexrow">
-            <Button onClick={() => setDeadline(deadline - 3600000)}>-1 hour</Button>
-            <Button onClick={() => setDeadline(deadline + 3600000)}>+1 hour</Button>
-            <Button onClick={() => setDeadline(deadline + 86400000)}>+1 day</Button>
+          <div className="selector flexcol">
+            <Select value={status} variant="status" onChange={onChangeStatus} label="Set Status" />
           </div>
         </div>
-        <div className="task__split">
-          <Comments
-            listOne={comments}
-            listTwo={yourComments}
-            onSubmitComment={onSubmitComment}
-            onDeleteComment={onDeleteComment}
-          />
+        <div className="flexrow">
+          <div className="task__split-left">
+            <div className="flexcol">
+              <div className="info-card">Name: {name}</div>
+              <div className="info-card">Description: {description}</div>
+              <div className="info-card">
+                Created by: {getFromUserlist({ userlist, uid: creator })}
+              </div>
+              <div className="info-card">
+                Assigned to: {getFromUserlist({ userlist, uid: assigned })}
+              </div>
+              <div className="info-card">
+                {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
+              </div>
+              <div className="flexrow">
+                <Button
+                  variant="contained"
+                  onClick={() => setDeadline(deadline - 10800000)}
+                  value="-3 hr"
+                />
+                <Button
+                  variant="contained"
+                  onClick={() => setDeadline(deadline + 10800000)}
+                  value="+3 hr"
+                />
+                <Button
+                  variant="contained"
+                  onClick={() => setDeadline(deadline + 86400000)}
+                  value="+1 day"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="task__split-right" style={{ width }}>
+            <Comments
+              listOne={comments}
+              listTwo={yourComments}
+              onSubmitComment={onSubmitComment}
+              onDeleteComment={onDeleteComment}
+            />
+          </div>
         </div>
       </div>
       <div className="tasks-footer flexrow">
-        <Button onClick={submitHandler} disabled={!anyChanges}>
-          {anyChanges ? 'Submit' : 'No Changes'}
-        </Button>
-        <Button onClick={() => setDrawModal(true)}>Delete Task</Button>
-        <Button onClick={cancelHandler}>Cancel</Button>
+        <Button
+          variant="contained"
+          onClick={submitHandler}
+          disabled={!anyChanges}
+          value={anyChanges ? 'Submit' : 'No Changes'}
+        />
+        <Button variant="contained" onClick={() => setDrawModal(true)} value="Delete task" />
+        <Button variant="contained" onClick={cancelHandler} value="Cancel" />
       </div>
       <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
       <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />

@@ -50,6 +50,7 @@ function* fetchTasksSaga() {
   try {
     const tasks = yield call(fetchTasks)
     const lastTaskId = Number(localStorage.getItem('lastTaskId'))
+
     yield put({
       type: FETCH_TASKS_SUCCESS,
       payload: { tasks, lastTaskId }
@@ -63,10 +64,14 @@ function* fetchTasksSaga() {
 }
 
 function* initTaskSort() {
-  const taskSort = localStorage.getItem('taskSort')
+  let taskSort = Number(localStorage.getItem('taskSort'))
+  if (!taskSort || isNaN(taskSort)) {
+    taskSort = 4
+    localStorage.setItem('taskSort', taskSort)
+  }
   yield put({
     type: SET_TASK_SORT,
-    payload: taskSort !== null ? Number(taskSort) : 3
+    payload: taskSort
   })
 }
 

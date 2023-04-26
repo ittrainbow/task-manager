@@ -5,11 +5,8 @@
 }
 
 .header {
-  display: flex;
-  gap: 5px;
-
   &__button {
-    width: 100px;
+    width: 120px;
   }
 
   &__greeting {

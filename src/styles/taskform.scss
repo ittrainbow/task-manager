@@ -2,17 +2,17 @@
   left: calc(33% + 20px);
   width: calc(100vw - 33% - 20px);
 
-  &__header {
-    border: 1px solid grey;
-    border-radius: 5px;
-  }
-
   &__container {
     overflow-y: auto;
   }
 
-  &__split {
+  &__split-left,
+  &__split-right {
     width: 50%;
+  }
+
+  &__split-right {
+    width: 40%;
   }
 }
 

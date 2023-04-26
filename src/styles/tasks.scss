@@ -16,6 +16,8 @@
   width: calc(100vw - 33% - 18px);
 }
 
-.btn {
-  --bs-btn-padding-x: 0.25rem!important;
+.tasks-header {
+  border: 1px solid #5a5d63;
+  border-radius: 5px;
+  padding-bottom: 3px;
 }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Input } from '../../UI'
 
 import { sendPasswordReset } from '../../db/auth'
 import { auth } from '../../db/firebase'
 
-export const Reset = () => {
+export const Recover = () => {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [emailValid, setEmailValid] = useState(false)
@@ -28,13 +28,15 @@ export const Reset = () => {
 
   return (
     <div className="auth-container flexcol">
-      <Form.Control onChange={emailInputHandler} value={email} placeholder="E-mail" />
+      <Input onChange={emailInputHandler} value={email} type='text' label="E-mail" />
       <div className="auth-container auth-container__button-block flexcol">
-        <Button onClick={() => sendPasswordReset(email)} disabled={!emailValid}>
-          Send recovery e-mail
-        </Button>
-        <Button onClick={() => navigate('/register')}>Sign Up</Button>
-        <Button onClick={() => navigate('/login')}>Log In</Button>
+        <Button
+          onClick={() => sendPasswordReset(email)}
+          disabled={!emailValid}
+          value="Send recovery email"
+        />
+        <Button onClick={() => navigate('/register')} value="Sign Up" />
+        <Button onClick={() => navigate('/login')} value="Log In" />
       </div>
     </div>
   )

@@ -1,11 +1,19 @@
 .comment {
-  border: 1px solid grey;
-  border-radius: 5px;
-  font-size: 14px;
-  justify-content: space-between;
-  min-height: 30px;
-  text-align: left;
-  padding: 5px;
+
+  &__container,
+  &__container-bin {
+    border-radius: 5px;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 14px;
+    padding-left: 10px;
+    background-color: #383c44;
+    border-radius: 5px;
+    font-size: 15px;
+    text-align: left;
+    padding: 5px 10px;
+    padding: 5px 10px;
+  }
 
   &__new {
     border-radius: 5px;
@@ -21,14 +29,20 @@
 }
 
 .bin {
-  padding-top: 3px;
   display: flex;
+  scale: .8;
+  margin-top: -2px;
   justify-content: center;
   cursor: pointer;
   color: grey;
   transition: 0.22s ease-in;
+  max-height: 20px;
 
   &:hover {
     color: #f75;
   }
+}
+
+.no-comments {
+  font-size: 16px;
 }

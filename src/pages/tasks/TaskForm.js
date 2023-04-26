@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Select } from '../../UI'
+import { Button } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 
@@ -12,6 +12,7 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
+import { useAppContext } from '../../context/Context'
 import { convertMilliesToISO, getFromUserlist, emptyTask, getTaskFormOverflow } from '../../helpers'
 
 export const TaskForm = () => {
@@ -19,13 +20,11 @@ export const TaskForm = () => {
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
-
+  const { contextAssigned, setContextAssigned, contextStatus, setContextStatus } = useAppContext()
   const [height, setHeight] = useState(0)
   const [widthLeft, setWidthLeft] = useState(100)
   const [widthRight, setWidthRight] = useState(100)
   const [drawModal, setDrawModal] = useState(false)
-  const [status, setStatus] = useState()
-  const [assigned, setAssigned] = useState('')
   const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
   const [yourComments, setYourComments] = useState([])
@@ -43,22 +42,23 @@ export const TaskForm = () => {
 
   const listenerStop = () => dispatch({ type: LISTENER_STOP })
 
+  const outdated = () => new Date().getTime() > deadline
+
   useEffect(() => {
     listenerStart()
-    return () => listenerStop()
-    // eslint-disable-next-line
+    return () => listenerStop() // eslint-disable-next-line
   }, [selectedTaskId])
 
   useEffect(() => {
     const { status, assigned, deadline } = selectedTask
-    setStatus(status)
-    setAssigned(assigned)
+    setContextStatus(status)
+    setContextAssigned(assigned)
     setDeadline(deadline)
-    setYourComments([])
+    setYourComments([]) // eslint-disable-next-line
   }, [selectedTask])
 
   const resizer = () => {
-    const { windowHeight, width, overflow} = getTaskFormOverflow()
+    const { windowHeight, width, overflow } = getTaskFormOverflow()
 
     setHeight(windowHeight)
     setWidthLeft(width)
@@ -70,10 +70,7 @@ export const TaskForm = () => {
 
     const handleResize = () => {
       clearTimeout(timeout)
-
-      timeout = setTimeout(() => {
-        resizer()
-      }, 250)
+      timeout = setTimeout(() => resizer(), 250)
     }
 
     resizer()
@@ -86,24 +83,18 @@ export const TaskForm = () => {
       listenerStop()
       toast.success('Task data was silently updated')
       listenerStart()
-    }
-    // eslint-disable-next-line
+    } // eslint-disable-next-line
   }, [lastUpdate])
 
   useEffect(() => {
-    const statusChanged = selectedTask.status !== status
-    const assignedChanged = selectedTask.assigned !== assigned
+    const statusChanged = selectedTask.status !== contextStatus
+    const assignedChanged = selectedTask.assigned !== contextAssigned
     const deadlineChanged = selectedTask.deadline !== deadline
     const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
     const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
 
-    setAnyChanges(anyChanges)
-    // eslint-disable-next-line
-  }, [yourComments, status, assigned, selectedTask, deadline])
-
-  const onChangeStatus = (value) => setStatus(value)
-
-  const onChangeUser = (value) => setAssigned(value)
+    setAnyChanges(anyChanges) // eslint-disable-next-line
+  }, [yourComments, contextStatus, contextAssigned, selectedTask, deadline])
 
   const onSubmitComment = (comment) => {
     const newComments = [...yourComments]
@@ -117,16 +108,14 @@ export const TaskForm = () => {
     setYourComments(newComments)
   }
 
-  const outdated = () => new Date().getTime() > deadline
-
   const submitHandler = () => {
     const task = {
       lastmodified: new Date().getTime(),
       comments: commentsList,
-      status,
+      status: contextStatus,
+      assigned: contextAssigned,
       deadline,
-      id,
-      assigned
+      id
     }
     dispatch({
       type: SAVE_TASK_ATTEMPT,
@@ -152,14 +141,6 @@ export const TaskForm = () => {
     <>
       <div className="task__container flexcol" style={{ height }}>
         <div className="flexrow">
-          <div className="selector flexcol">
-            <Select value={assigned} variant="users" onChange={onChangeUser} label="Assign User" />
-          </div>
-          <div className="selector flexcol">
-            <Select value={status} variant="status" onChange={onChangeStatus} label="Set Status" />
-          </div>
-        </div>
-        <div className="flexrow">
           <div className="task__split-left" style={{ minWidth: widthLeft }}>
             <div className="flexcol">
               <div className="info-card">Name: {name}</div>
@@ -168,7 +149,7 @@ export const TaskForm = () => {
                 Created by: {getFromUserlist({ userlist, uid: creator })}
               </div>
               <div className="info-card">
-                Assigned to: {getFromUserlist({ userlist, uid: assigned })}
+                Assigned to: {getFromUserlist({ userlist, uid: contextAssigned })}
               </div>
               <div className="info-card">
                 {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
@@ -207,7 +188,7 @@ export const TaskForm = () => {
           variant="contained"
           onClick={submitHandler}
           disabled={!anyChanges}
-          value={anyChanges ? 'Submit' : 'No Changes'}
+          value={!anyChanges ? 'No changes' : 'Submit'}
         />
         <Button variant="contained" onClick={() => setDrawModal(true)} value="Delete task" />
         <Button variant="contained" onClick={cancelHandler} value="Cancel" />

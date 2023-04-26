@@ -14,8 +14,7 @@ export const Login = () => {
   const [emailValid, setEmailValid] = useState(false)
 
   useEffect(() => {
-    user && navigate('/')
-    // eslint-disable-next-line
+    user && navigate('/') // eslint-disable-next-line
   }, [user])
 
   const emailInputHandler = (e) => {

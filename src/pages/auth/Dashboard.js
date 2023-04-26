@@ -15,8 +15,7 @@ export const Dashboard = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    !user && navigate('/')
-    // eslint-disable-next-line
+    !user && navigate('/') // eslint-disable-next-line
   }, [])
 
   return (

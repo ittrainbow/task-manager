@@ -1,27 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Input } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Picker, Select } from '../../UI'
+import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
+import { useAppContext } from '../../context/Context'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
-
+  const {
+    contextAssigned,
+    setContextAssigned,
+    contextStatus,
+    setContextStatus
+  } = useAppContext()
   const dispatch = useDispatch()
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [deadline, setDeadline] = useState(getTime() + 86400000)
-  const [status, setStatus] = useState('New')
-  const [assigned, setAssigned] = useState(uid)
+
+  useEffect(() => {
+    setContextStatus('New')
+    setContextAssigned(uid) // eslint-disable-next-line
+  }, [uid])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
-
-  const onChangeDeadline = (value) => {
-    setDeadline(value)
-  }
+  const onChangeDeadline = (value) => setDeadline(value)
 
   const submitHandler = () => {
     if (checkFormValid()) {
@@ -34,8 +40,8 @@ export const TaskNew = () => {
         name,
         description,
         deadline,
-        status,
-        assigned
+        status: contextStatus,
+        assigned: contextAssigned
       }
       dispatch({
         type: SAVE_TASK_ATTEMPT,
@@ -50,20 +56,10 @@ export const TaskNew = () => {
       payload: null
     })
   }
-  const onChangeStatus = (value) =>setStatus(value)
-  const onChangeUser = (value) => setAssigned(value)
 
   return (
     <>
       <div className="tasknew__container flexcol">
-        <div className="flexrow">
-          <div className="selector flexcol">
-            <Select value={assigned} variant="users" onChange={onChangeUser} label="Assign User" />
-          </div>
-          <div className="selector flexcol">
-            <Select value={status} variant="status" onChange={onChangeStatus} label="Set Status" />
-          </div>
-        </div>
         <div className="flexcol15 ph10">
           <Input
             value={name}
@@ -77,7 +73,7 @@ export const TaskNew = () => {
             onChange={(e) => setDescription(e.target.value)}
             label="Task description"
             multiline={true}
-            rows={7}
+            maxRows={5}
           />
           <div className="flexcol">
             <Picker value={deadline} onChange={onChangeDeadline} />

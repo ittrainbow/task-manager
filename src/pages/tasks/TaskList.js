@@ -17,12 +17,21 @@ export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
   const [list, setList] = useState([])
-  const { setSelectedTaskIsOnList } = useAppContext()
+  const { setSelectedTaskIsOnList, selectedTab } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
 
   const today = new Date().getTime()
+
+  const animateCardPress = () => {
+    const card = document.querySelector('.tasklist__card-selected')
+    card && card.classList.add('animate-card-press')
+  }
+
+  useEffect(() => {
+    setTimeout(() => selectedTab === 0 && animateCardPress(), 20)
+  }, [selectedTab, selectedTaskId])
 
   useEffect(() => {
     const paddingHelper = () => setOverflow(getTaskListOverflow())
@@ -58,23 +67,14 @@ export const TaskList = () => {
   }
 
   const getCardClass = (id) => {
-    return id !== selectedTaskId
-      ? 'tasklist__card flexcol'
-      : !newTask
-      ? 'tasklist__card-selected flexcol'
-      : 'tasklist__card-selected-grey flexcol'
-  }
-
-  const animatCardPress = () => {
-    const card = document.querySelector('.tasklist__card-selected')
-
-    if (card) {
-      const tmp = card.className
-      card.className = tmp + ' animate-card-press'
+    switch (newTask) {
+      case false:
+        return id !== selectedTaskId ? 'tasklist__card flexcol' : 'tasklist__card-selected flexcol'
+      default:
+        break
     }
+    return 'tasklist__card-selected-grey flexcol'
   }
-
-  animatCardPress()
 
   return (
     <div className="tasklist flexcol">

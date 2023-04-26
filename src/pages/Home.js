@@ -5,18 +5,26 @@ import { useSelector } from 'react-redux'
 import { auth } from '../db/firebase'
 import { Login } from './auth'
 import { Loader } from '../UI'
-import { TaskPage } from './tasks'
-import { selectLoading } from '../redux/selectors'
+import { Task, TaskList, TaskNew } from './tasks'
+import { selectLoading, selectTask } from '../redux/selectors'
 
 export const Home = () => {
   const [user, loading] = useAuthState(auth)
   const appLoading = useSelector(selectLoading)
+  const { newTask } = useSelector(selectTask)
 
-  return loading || (user && appLoading) ? (
-    <Loader />
-  ) : user && !appLoading ? (
-    <TaskPage />
-  ) : (
-    <Login />
+  return (
+    <div className="taskpage-container">
+      {loading || (user && appLoading) ? (
+        <Loader />
+      ) : user && !appLoading ? (
+        <>
+          <TaskList />
+          {newTask ? <TaskNew /> : <Task />}
+        </>
+      ) : (
+        <Login />
+      )}
+    </div>
   )
 }

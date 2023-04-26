@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button } from '../UI'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import { auth } from '../db/firebase'
 import { SELECT_TASK, SELECT_TASK_NEW } from '../redux/types'
 import { logout } from '../db/auth'
 import { selectApp, selectTask, selectUser } from '../redux/selectors'
+import { useAppContext } from '../context/Context'
 
 const headerButtons = [
   { name: 'Tasks', path: '/', id: 0 },
@@ -16,7 +17,7 @@ const headerButtons = [
 ]
 
 export const HeaderTab = () => {
-  const [currentTab, setCurrentTab] = useState(0)
+  const { selectedTab, setSelectedTab } = useAppContext()
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -26,7 +27,7 @@ export const HeaderTab = () => {
 
   const onClickHandler = (button) => {
     const { path, id } = button
-    if (currentTab !== id) {
+    if (selectedTab !== id) {
       switch (id) {
         case 0:
           dispatch({
@@ -42,7 +43,7 @@ export const HeaderTab = () => {
         default:
           break
       }
-      setCurrentTab(id)
+      setSelectedTab(id)
       navigate(path)
     }
   }

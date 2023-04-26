@@ -1,5 +1,7 @@
 .tasklist {
-  width: 33%;
+  min-width: 33%;
+  max-width: 33%;
+  transition: .22s ease-in-out;
 
   &__container {
     overflow-y: auto;
@@ -34,16 +36,13 @@
     color: #ddd;
   }
 
-  &__card-selected,
-  &__card-selected-grey {
+  &__card-selected {
+    background-color: #53575d;
     color: white;
   }
 
-  &__card-selected {
-    background-color: #53575d;
-  }
-
   &__card-selected-grey {
+    color: #666;
     background-color: #383c44;
   }
 }

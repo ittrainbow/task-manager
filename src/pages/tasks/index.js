@@ -1,5 +1,4 @@
 export * from './Task'
 export * from './TaskList'
-export * from './TaskPage'
 export * from './TaskNew'
 export * from './TaskForm'

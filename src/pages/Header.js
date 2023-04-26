@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from '../UI'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +16,7 @@ const headerButtons = [
 ]
 
 export const HeaderTab = () => {
+  const [currentTab, setCurrentTab] = useState(0)
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -25,22 +26,25 @@ export const HeaderTab = () => {
 
   const onClickHandler = (button) => {
     const { path, id } = button
-    switch (id) {
-      case 0:
-        dispatch({
-          type: SELECT_TASK,
-          payload: selectedTaskId
-        })
-        break
-      case 1:
-        dispatch({
-          type: SELECT_TASK_NEW
-        })
-        break
-      default:
-        break
+    if (currentTab !== id) {
+      switch (id) {
+        case 0:
+          dispatch({
+            type: SELECT_TASK,
+            payload: selectedTaskId
+          })
+          break
+        case 1:
+          dispatch({
+            type: SELECT_TASK_NEW
+          })
+          break
+        default:
+          break
+      }
+      setCurrentTab(id)
+      navigate(path)
     }
-    navigate(path)
   }
 
   const logoutHandler = () => {

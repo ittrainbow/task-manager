@@ -65,16 +65,16 @@ export const TaskList = () => {
       : 'tasklist__card-selected-grey flexcol'
   }
 
-  const animate = () => {
+  const animatCardPress = () => {
     const card = document.querySelector('.tasklist__card-selected')
 
     if (card) {
       const tmp = card.className
-      card.className = tmp + ' animate'
+      card.className = tmp + ' animate-card-press'
     }
   }
 
-  animate()
+  animatCardPress()
 
   return (
     <div className="tasklist flexcol">

@@ -12,7 +12,7 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { convertMilliesToISO, getFromUserlist, emptyTask } from '../../helpers'
+import { convertMilliesToISO, getFromUserlist, emptyTask, getTaskFormOverflow } from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
@@ -21,7 +21,8 @@ export const TaskForm = () => {
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
 
   const [height, setHeight] = useState(0)
-  const [width, setWidth] = useState(100)
+  const [widthLeft, setWidthLeft] = useState(100)
+  const [widthRight, setWidthRight] = useState(100)
   const [drawModal, setDrawModal] = useState(false)
   const [status, setStatus] = useState()
   const [assigned, setAssigned] = useState('')
@@ -56,20 +57,16 @@ export const TaskForm = () => {
     setYourComments([])
   }, [selectedTask])
 
+  const resizer = () => {
+    const { windowHeight, width, overflow} = getTaskFormOverflow()
+
+    setHeight(windowHeight)
+    setWidthLeft(width)
+    setWidthRight(overflow ? width - 30 : width)
+  }
+
   useEffect(() => {
     let timeout
-
-    const resizer = () => {
-      const width = Math.floor(document.getElementById('task-header-right').clientWidth / 2)
-      const height = document.getElementById('comments-container').clientHeight
-      const bigHeight = window.innerHeight
-      const overflow = bigHeight - height < 220
-
-      const windowHeight = window.innerHeight - 165
-
-      setHeight(windowHeight)
-      setWidth(overflow ? width - 20 : width)
-    }
 
     const handleResize = () => {
       clearTimeout(timeout)
@@ -163,7 +160,7 @@ export const TaskForm = () => {
           </div>
         </div>
         <div className="flexrow">
-          <div className="task__split-left">
+          <div className="task__split-left" style={{ minWidth: widthLeft }}>
             <div className="flexcol">
               <div className="info-card">Name: {name}</div>
               <div className="info-card">Description: {description}</div>
@@ -195,7 +192,7 @@ export const TaskForm = () => {
               </div>
             </div>
           </div>
-          <div className="task__split-right" style={{ width }}>
+          <div className="task__split-right" style={{ width: widthRight }}>
             <Comments
               listOne={comments}
               listTwo={yourComments}

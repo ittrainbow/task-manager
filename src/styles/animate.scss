@@ -1,9 +1,8 @@
-.animate {
-  animation-name: div;
-  animation-duration: 0.3s;
+.animate-card-press {
+  animation: cardPress 0.3s ease-in-out;
 }
 
-@keyframes div {
+@keyframes cardPress {
   0% {
     scale: 1;
   }
@@ -12,5 +11,35 @@
   }
   100% {
     scale: 1;
+  }
+}
+
+.animate-add-comment {
+  opacity: 0;
+  animation: addComment .2s ease-in-out forwards;
+}
+
+@keyframes addComment {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-delete-comment {
+  opacity: 0;
+  animation: deleteComment .2s ease-in-out forwards;
+}
+
+@keyframes deleteComment {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }

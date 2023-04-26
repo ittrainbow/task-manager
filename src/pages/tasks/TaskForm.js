@@ -12,7 +12,13 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { convertMilliesToISO, getFromUserlist, emptyTask, isAnyChanges } from '../../helpers'
+import {
+  convertMilliesToISO,
+  getFromUserlist,
+  emptyTask,
+  isAnyChanges,
+  getOverflow
+} from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
@@ -22,6 +28,7 @@ export const TaskForm = () => {
   const { assigned, setAssigned, status, setStatus } = useAppContext()
 
   const [snack, setSnack] = useState(false)
+  const [overflow, setOverflow] = useState(false)
   const [drawModal, setDrawModal] = useState(false)
   const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
@@ -42,16 +49,21 @@ export const TaskForm = () => {
   }
 
   useEffect(() => {
-    listenerStart()
-    return () => listenerStop() // eslint-disable-next-line
-  }, [selectedTaskId])
+    const paddingHelper = () => setOverflow(getOverflow('comments'))
+
+    setTimeout(() => paddingHelper(), 20)
+    window.addEventListener('resize', paddingHelper)
+    return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
+  }, [yourComments])
 
   useEffect(() => {
+    listenerStart()
     const { status, assigned, deadline } = selectedTask
     setStatus(status)
     setAssigned(assigned)
     setDeadline(deadline)
-    setYourComments([]) // eslint-disable-next-line
+    setYourComments([])
+    return () => listenerStop() // eslint-disable-next-line
   }, [selectedTask])
 
   useEffect(() => {
@@ -107,7 +119,10 @@ export const TaskForm = () => {
   return (
     <div className="task-container flexcol">
       <div className="flexrow flexrow--task">
-        <div className="task__split-left flexcol">
+        <div
+          className="task__split-left flexcol"
+          style={{ minWidth: overflow ? 'calc(50% + 8px)' : '50%' }}
+        >
           <div className="info-card">Name: {name}</div>
           <div className="info-card">Description: {description}</div>
           <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
@@ -120,12 +135,14 @@ export const TaskForm = () => {
           </div>
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={3} />
         </div>
-        <Comments
-          comments={comments}
-          yourComments={yourComments}
-          onSubmit={onSubmitComment}
-          onDelete={onDeleteComment}
-        />
+        <div className="comments__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
+          <Comments
+            comments={comments}
+            yourComments={yourComments}
+            onSubmit={onSubmitComment}
+            onDelete={onDeleteComment}
+          />
+        </div>
       </div>
       <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
       <Snack

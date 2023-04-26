@@ -70,10 +70,10 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
 
 export const getOverflow = (variant) => {
   const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
-  const diff = variant === 'tasks' ? 185 : 240
+  const diff = variant === 'tasks' ? 185 : 230
   const windowHeight = () => window.innerHeight
   const height = () => document.querySelector(querySelector).scrollHeight
-  console.log(windowHeight(), height())
+  console.log(variant, windowHeight(), height(), windowHeight() - height(), windowHeight() - height() < diff)
   return windowHeight() - height() < diff
 }
 

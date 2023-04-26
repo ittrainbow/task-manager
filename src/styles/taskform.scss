@@ -9,7 +9,9 @@
   }
 
   &__split-left {
+    max-width: 50%;
     min-width: 50%;
+    // flex-grow: 1;
   }
 }
 

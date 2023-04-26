@@ -2,27 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Button, Input } from '.'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 
-import { getOverflow } from '../helpers'
-
 export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
   const [newComment, setNewComment] = useState('')
   const [newIndex, setNewIndex] = useState(0)
-  const [overflow, setOverflow] = useState(false)
 
   useEffect(() => {
     const doc = document.querySelector('.MuiInputBase-inputMultiline')
     doc.focus()
   }, [yourComments])
-
-  useEffect(() => {
-    const paddingHelper = () => setOverflow(getOverflow())
-
-    setTimeout(() => paddingHelper(), 20)
-    window.addEventListener('resize', paddingHelper)
-    return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
-  }, [yourComments])
-
-  console.log(overflow)
 
   const submitComment = () => {
     newComment.length > 0 && onSubmit(newComment)
@@ -44,10 +31,7 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
   const list = [...comments, ...yourComments]
 
   return (
-    <div
-      className="comments__container flexcol"
-      style={{ paddingRight: overflow ? 5 : 0, minWidth: overflow ? 'calc(50% - 5px)' : 'calc(50% - 30px)' }}
-    >
+    <>
       <Input
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
@@ -76,6 +60,6 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
           </div>
         )
       })}
-    </div>
+    </>
   )
 }

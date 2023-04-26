@@ -1,26 +1,36 @@
-import React from 'react'
-import { Modal } from 'react-bootstrap'
+import * as React from 'react'
+import { Dialog } from '@mui/material/'
+import { DialogActions } from '@mui/material/'
+import { DialogContent } from '@mui/material/'
+import { DialogContentText } from '@mui/material/'
+import { DialogTitle } from '@mui/material/'
+import { ThemeProvider } from '@mui/system'
 import { Button } from './Button'
 
-export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
-  const handleClose = () => setDrawModal(false)
+import { darkTheme } from './themes'
 
-  const style={
-    color: '#383c44',
-    backgroundColor: 'white',
-    gap: '5px'
-  }
+export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
+  const closeHandler = () => setDrawModal(false)
 
   return (
-    <Modal show={drawModal} onHide={handleClose}>
-      <Modal.Header closeButton style={style}>
-        <Modal.Title style={style}>Task Delete</Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={style}>You're going to delete this task, are you sure?</Modal.Body>
-      <Modal.Footer style={style}>
-        <Button onClick={handleClose} value='Cancel' />
-        <Button onClick={onDelete} value='Delete task' />
-      </Modal.Footer>
-    </Modal>
+    <ThemeProvider theme={darkTheme}>
+      <Dialog
+        open={drawModal}
+        onClose={closeHandler}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Task</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            You're going to delete this task. Do you really want to proceed?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeHandler} value="Cancel" />
+          <Button onClick={onDelete} value="OK" />
+        </DialogActions>
+      </Dialog>
+    </ThemeProvider>
   )
 }

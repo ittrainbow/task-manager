@@ -52,7 +52,7 @@ export const HeaderTab = () => {
 
   return (
     <div className="header-container">
-      <div className="header">
+      <div className="flexrow">
         {headerButtons.map((button, index) => {
           const { name } = button
           return (
@@ -66,7 +66,7 @@ export const HeaderTab = () => {
           )
         })}
       </div>
-      <div className="header">
+      <div className="flexrow">
         {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}
         <Button onClick={logoutHandler} disabled={!user} value={authButton} width={110} />
       </div>

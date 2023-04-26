@@ -6,8 +6,13 @@
     overflow-y: auto;
   }
 
-  &__split {
+  &__split-left,
+  &__split-right {
     width: 50%;
+  }
+
+  &__split-right {
+    width: 40%;
   }
 }
 

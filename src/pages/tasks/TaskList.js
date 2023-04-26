@@ -51,7 +51,6 @@ export const TaskList = () => {
   }
 
   const onChangeSort = (value) => {
-    console.log(12, value)
     dispatch({
       type: SET_TASK_SORT,
       payload: value
@@ -66,10 +65,21 @@ export const TaskList = () => {
       : 'tasklist__card-selected-grey flexcol'
   }
 
+  const animate = () => {
+    const card = document.querySelector('.tasklist__card-selected')
+
+    if (card) {
+      const tmp = card.className
+      card.className = tmp + ' animate'
+    }
+  }
+
+  animate()
+
   return (
     <div className="tasklist flexcol">
       <div className="tasks-header">Task List</div>
-      <Select variant='sort' value={taskSort} onChange={onChangeSort} label='Select Sort'/>
+      <Select variant="sort" value={taskSort} onChange={onChangeSort} label="Select Sort" />
       <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list.map((el, index) => {
           const { name, creator, assigned, status, id, deadline } = el
@@ -77,11 +87,13 @@ export const TaskList = () => {
           return (
             <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
               <div>Name: {taskListNameHelper(name)}</div>
-              <div>Created by: {getFromUserlist({ userlist, uid: creator })}</div>
-              <div>Assigned to: {getFromUserlist({ userlist, uid: assigned })}</div>
+              <div>
+                {getFromUserlist({ userlist, uid: creator })} assigned to{' '}
+                {getFromUserlist({ userlist, uid: assigned })}
+              </div>
               <div>Status: {status}</div>
               <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
-                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)[`readableTime`]}
+                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
               </div>
             </div>
           )

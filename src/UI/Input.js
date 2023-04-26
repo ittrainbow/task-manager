@@ -4,20 +4,20 @@ import { ThemeProvider } from '@mui/material/styles'
 
 import { darkTheme } from './themes'
 
-export const Input = ({ label, value, onChange, type, multiline }) => {
+export const Input = ({ label, value, onChange, type, multiline, minRows, comments }) => {
+  const classes = comments ? 'comments__new' : ''
+
   return (
     <ThemeProvider theme={darkTheme}>
       <TextField
+        className={classes}
         type={type}
         multiline={multiline}
-        maxRows={3}
+        minRows={minRows || 5}
         label={label}
         value={value}
         variant="outlined"
         onChange={onChange}
-        sx={{
-          minHeight: multiline ? 100 : 10
-        }}
       />
     </ThemeProvider>
   )

@@ -25,7 +25,6 @@ const statusOptions = [
 ]
 
 export const Select = ({ variant, value, onChange, label }) => {
-  console.log(13, value)
   const [options, setOptions] = useState()
   const [userOptions, setUserOptions] = useState()
   const { userlist } = useSelector(selectApp)
@@ -61,12 +60,11 @@ export const Select = ({ variant, value, onChange, label }) => {
 
   const changeHandler = (e) => {
     const { value } = e.target
-    console.log(11, value)
     onChange(value)
   }
 
   const clearHandler = () => {
-    onChange(null)
+    onChange('')
   }
 
   if (options)
@@ -75,13 +73,17 @@ export const Select = ({ variant, value, onChange, label }) => {
         <FormControl sx={{ m: 1, minWidth: 120 }}>
           <InputLabel>{label}</InputLabel>
           <MUISelect
+            sx={{ textAlign: 'left' }}
             value={value}
             label={label}
             onChange={changeHandler}
             endAdornment={
               value &&
               variant === 'users' && (
-                <IconButton onClick={clearHandler}>
+                <IconButton
+                  onClick={clearHandler}
+                  sx={{ color: '#ddd', fontSize: '15px', right: '10px' }}
+                >
                   <ClearIcon />
                 </IconButton>
               )

@@ -1,4 +1,4 @@
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 
 export const emptyTask = (uid) => {
   return {
@@ -24,9 +24,7 @@ export const getFromUserlist = ({ userlist, uid }) => {
 }
 
 export const convertMilliesToISO = (value) => {
-  const ISOTime = moment(value).format().substring(0, 16)
-  const readableTime = ISOTime.split('T').join(' ')
-  return { ISOTime, readableTime }
+  return dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
 export const sortTaskList = ({ taskSort, tasks, uid }) => {

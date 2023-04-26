@@ -16,9 +16,9 @@ export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment })
   }
 
   return (
-    <div className="flexcol15" id='comments-container'>
+    <div className="flexcol15" id="comments-container">
       <div className="flexcol">
-        {![...listOne, ...listTwo].length && <div className='no-comments'>No comments yet</div>}
+        {![...listOne, ...listTwo].length && <div className="no-comments">No comments yet</div>}
         {listOne.map((comment, index) => {
           return (
             <div key={index} className="comment__container">
@@ -28,13 +28,9 @@ export const Comments = ({ listOne, listTwo, onSubmitComment, onDeleteComment })
         })}
         {listTwo.map((comment, index) => {
           return (
-            <div
-              key={index}
-              className="comment__container flexrow"
-              onClick={() => onDeleteComment(index)}
-            >
+            <div key={index} className="comment__container flexrow">
               <div>{comment}</div>
-              <div className="bin">
+              <div className="bin" onClick={() => onDeleteComment(index)}>
                 <DeleteForeverIcon />
               </div>
             </div>

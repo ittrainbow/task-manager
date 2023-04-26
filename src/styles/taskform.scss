@@ -1,20 +1,15 @@
-.task {
-  left: calc(33% + 20px);
-  width: calc(100vw - 33% - 20px);
+.task-container {
+  min-width: 100%;
+  flex-grow: 1;
+}
 
+.task {
   &__container {
     overflow-y: auto;
-    width: calc(100% - 1px);
-    height: calc(100vh - 117px);
   }
 
-  &__split-left,
-  &__split-right {
-    width: 50%;
-  }
-
-  &__split-right {
-    width: 40%;
+  &__split-left {
+    min-width: 50%;
   }
 }
 

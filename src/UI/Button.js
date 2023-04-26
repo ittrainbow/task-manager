@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button as MUIButton } from '@mui/material'
 
-export const Button = ({ onClick, disabled, value, width }) => {
+export const Button = ({ onClick, disabled, label, width }) => {
   return (
     <MUIButton
       variant="contained"
@@ -17,7 +17,7 @@ export const Button = ({ onClick, disabled, value, width }) => {
         }
       }}
     >
-      {value}
+      {label}
     </MUIButton>
   )
 }

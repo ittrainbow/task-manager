@@ -1,8 +1,12 @@
+.tasknew-container {
+  flex-grow: 1
+}
+
 .tasknew {
   &__container {
     overflow-y: auto;
-    width: calc(100% - 1px);
-    height: calc(100vh - 167px);
+    width: 100%;
+    // height: calc(100vh - 167px);
   }
 
   &__description {

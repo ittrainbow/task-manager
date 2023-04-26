@@ -11,7 +11,7 @@ export const Task = () => {
   const { selectedTaskId, newTask } = useSelector(selectTask)
 
   return (
-    <div className="task__container flexcol">
+    <div className="task-task flexcol">
       <div className="tasks-header" id="task-header-right">
         {newTask ? 'New Task' : 'Edit Task'}
       </div>

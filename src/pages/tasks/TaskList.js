@@ -6,7 +6,7 @@ import {
   convertMilliesToISO,
   sortTaskList,
   getFromUserlist,
-  getTaskListOverflow
+  getOverflow
 } from '../../helpers'
 import { Select } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
@@ -34,7 +34,7 @@ export const TaskList = () => {
   }, [selectedTab, selectedTaskId])
 
   useEffect(() => {
-    const paddingHelper = () => setOverflow(getTaskListOverflow())
+    const paddingHelper = () => setOverflow(getOverflow('tasks'))
 
     setTimeout(() => paddingHelper(), 20)
     window.addEventListener('resize', paddingHelper)
@@ -89,7 +89,9 @@ export const TaskList = () => {
                 {getFromUserlist({ userlist, uid: assigned })}
               </div>
               <div>Status: {status}</div>
-              <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
+              <div
+              // style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}
+              >
                 {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
               </div>
             </div>

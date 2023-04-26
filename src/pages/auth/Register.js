@@ -69,11 +69,11 @@ export const Register = () => {
       <div className="auth-container auth-container__button-block flexcol">
         <Button
           onClick={register}
-          value="Sign Up New User"
+          label="Sign Up New User"
           disabled={!emailValid || !password || !name}
         />
-        <Button onClick={signInWithGoogle} value="Google Sign Up" />
-        <Button onClick={() => navigate('/login')} value="Log In" />
+        <Button onClick={signInWithGoogle} label="Google Sign Up" />
+        <Button onClick={() => navigate('/login')} label="Log In" />
       </div>
     </div>
   )

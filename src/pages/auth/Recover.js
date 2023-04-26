@@ -33,10 +33,10 @@ export const Recover = () => {
         <Button
           onClick={() => sendPasswordReset(email)}
           disabled={!emailValid}
-          value="Send recovery email"
+          label="Send recovery email"
         />
-        <Button onClick={() => navigate('/register')} value="Sign Up" />
-        <Button onClick={() => navigate('/login')} value="Log In" />
+        <Button onClick={() => navigate('/register')} label="Sign Up" />
+        <Button onClick={() => navigate('/login')} label="Log In" />
       </div>
     </div>
   )

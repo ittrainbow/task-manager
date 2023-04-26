@@ -68,19 +68,13 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
   }
 }
 
-export const getTaskListOverflow = () => {
+export const getOverflow = (variant) => {
+  const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
+  const diff = variant === 'tasks' ? 185 : 240
   const windowHeight = () => window.innerHeight
-  const taskListHeight = () => document.querySelector('.tasklist__container').scrollHeight
-  return windowHeight() - taskListHeight() < 185
-}
-
-export const getTaskFormOverflow = () => {
-  const width = document.getElementById('task-header-right').clientWidth / 2
-  const height = document.getElementById('comments-container').clientHeight
-  const bigHeight = window.innerHeight
-  const overflow = bigHeight - height < 250
-  const windowHeight = window.innerHeight - 165
-  return { windowHeight, width, overflow }
+  const height = () => document.querySelector(querySelector).scrollHeight
+  console.log(windowHeight(), height())
+  return windowHeight() - height() < diff
 }
 
 export const isAnyChanges = ({ selectedTask, assigned, status, commentsList, deadline }) => {

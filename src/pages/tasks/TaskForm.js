@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from '../../UI'
+import { Button, ButtonSet } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer, toast } from 'react-toastify'
 
-import { Comments, DrawModal } from '../../UI'
+import { Comments, DrawModal, Snack } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
 import {
@@ -13,13 +12,7 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import {
-  convertMilliesToISO,
-  getFromUserlist,
-  emptyTask,
-  getTaskFormOverflow,
-  isAnyChanges
-} from '../../helpers'
+import { convertMilliesToISO, getFromUserlist, emptyTask, isAnyChanges } from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
@@ -28,9 +21,7 @@ export const TaskForm = () => {
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
   const { assigned, setAssigned, status, setStatus } = useAppContext()
 
-  const [height, setHeight] = useState()
-  const [width, setWidth] = useState()
-  const [overflow, setOverflow] = useState(false)
+  const [snack, setSnack] = useState(false)
   const [drawModal, setDrawModal] = useState(false)
   const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
@@ -63,30 +54,10 @@ export const TaskForm = () => {
     setYourComments([]) // eslint-disable-next-line
   }, [selectedTask])
 
-  const resizer = () => {
-    const { windowHeight, width, overflow } = getTaskFormOverflow()
-
-    setHeight(windowHeight)
-    setWidth(width)
-    setOverflow(overflow)
-  }
-
-  useEffect(() => {
-    let timeout
-    const resizeHandler = () => {
-      clearTimeout(timeout)
-      timeout = setTimeout(() => resizer(), 250)
-    }
-
-    resizer()
-    window.addEventListener('resize', resizeHandler)
-    return () => window.removeEventListener('resize', resizeHandler)
-  }, [yourComments])
-
   useEffect(() => {
     if (lastUpdate) {
       listenerStop()
-      toast.success('Task data was silently updated')
+      setSnack(true)
       listenerStart()
     } // eslint-disable-next-line
   }, [lastUpdate])
@@ -95,6 +66,8 @@ export const TaskForm = () => {
     const anyChanges = isAnyChanges({ selectedTask, assigned, status, commentsList, deadline })
     setAnyChanges(anyChanges) // eslint-disable-next-line
   }, [yourComments, status, assigned, selectedTask, deadline])
+
+  const snackHandler = (value) => setSnack(value)
 
   const onDeleteComment = (index) => {
     const newComments = [...yourComments]
@@ -132,9 +105,9 @@ export const TaskForm = () => {
   }
 
   return (
-    <>
-      <div className="task__container flexrow" style={{ height }}>
-        <div className="task__split-left flexcol" style={{ width }}>
+    <div className="task-container flexcol">
+      <div className="flexrow flexrow--task">
+        <div className="task__split-left flexcol">
           <div className="info-card">Name: {name}</div>
           <div className="info-card">Description: {description}</div>
           <div className="info-card">Created by: {getFromUserlist({ userlist, uid: creator })}</div>
@@ -145,46 +118,31 @@ export const TaskForm = () => {
           <div className="info-card">
             {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
           </div>
-          <div className="flexrow">
-            <Button
-              variant="contained"
-              onClick={() => setDeadline(deadline - 10800000)}
-              value="-3 hr"
-            />
-            <Button
-              variant="contained"
-              onClick={() => setDeadline(deadline + 10800000)}
-              value="+3 hr"
-            />
-            <Button
-              variant="contained"
-              onClick={() => setDeadline(deadline + 86400000)}
-              value="+1 day"
-            />
-          </div>
+          <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={3} />
         </div>
-        <div className="task__split-right" style={{ width: overflow ? width - 30 : width }}>
-          <Comments
-            comments={comments}
-            yourComments={yourComments}
-            onSubmit={onSubmitComment}
-            onDelete={onDeleteComment}
-            overflow={overflow}
-          />
-        </div>
+        <Comments
+          comments={comments}
+          yourComments={yourComments}
+          onSubmit={onSubmitComment}
+          onDelete={onDeleteComment}
+        />
       </div>
-      <div className="tasks-footer flexrow">
+      <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
+      <Snack
+        open={snack}
+        snackHandler={snackHandler}
+        text="Task data was fetched from server and silently updated"
+      />
+      <div className="flexrow footer">
         <Button
           variant="contained"
           onClick={submitHandler}
           disabled={!anyChanges}
-          value={!anyChanges ? 'No changes' : 'Submit'}
+          label={!anyChanges ? 'No changes' : 'Submit'}
         />
-        <Button variant="contained" onClick={() => setDrawModal(true)} value="Delete task" />
-        <Button variant="contained" onClick={cancelHandler} value="Cancel" />
+        <Button onClick={() => setDrawModal(true)} label="Delete task" />
+        <Button onClick={cancelHandler} label="Cancel" />
       </div>
-      <ToastContainer position="top-center" autoClose={2500} theme="colored" pauseOnHover={false} />
-      <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
-    </>
+    </div>
   )
 }

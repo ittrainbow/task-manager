@@ -49,11 +49,11 @@ export const Login = () => {
         <Button
           onClick={() => logInWithEmailAndPassword(email, password)}
           disabled={!emailValid || password.length < 4}
-          value="Sign In"
+          label="Sign In"
         />
-        <Button value="Google Sign In" onClick={googleSignInHandler} />
-        <Button value="Recover Password" onClick={() => navigate('/reset')} />
-        <Button value="Sign Up" onClick={() => navigate('/register')} />
+        <Button label="Google Sign In" onClick={googleSignInHandler} />
+        <Button label="Recover Password" onClick={() => navigate('/reset')} />
+        <Button label="Sign Up" onClick={() => navigate('/register')} />
       </div>
     </div>
   )

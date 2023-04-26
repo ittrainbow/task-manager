@@ -10,7 +10,6 @@ export const Input = ({ label, value, onChange, type, multiline, minRows, commen
   return (
     <ThemeProvider theme={darkTheme}>
       <TextField
-        style={{ zIndex: 10 }}
         className={classes}
         type={type}
         multiline={multiline}

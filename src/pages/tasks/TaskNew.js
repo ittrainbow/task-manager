@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, Input } from '../../UI'
+import { Button, ButtonSet, Input } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker } from '../../UI'
@@ -54,8 +54,8 @@ export const TaskNew = () => {
 
   return (
     <>
-      <div className="tasknew__container flexcol">
-        <div className="flexcol15 ph10">
+      <div className="flexcol task-task">
+        <div className="tasknew-container flexcol15">
           <Input
             value={name}
             type="text"
@@ -73,30 +73,16 @@ export const TaskNew = () => {
           <div className="flexcol">
             <Picker value={deadline} onChange={onChangeDeadline} />
           </div>
-          <div className="flexrow">
-            <Button onClick={() => setDeadline(deadline - 86400000)} value="-1 day" />
-            <Button onClick={() => setDeadline(deadline - 10800000)} value="-3 hours" />
-            <Button onClick={() => setDeadline(deadline + 10800000)} value="+3 hours" />
-            <Button
-              variant="contained"
-              onClick={() => setDeadline(deadline + 86400000)}
-              value="+1 day"
-            />
-            <Button
-              variant="contained"
-              onClick={() => setDeadline(deadline + 604800000)}
-              value="+1 week"
-            />
-          </div>
+          <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={5} />
         </div>
         <div className="tasks-footer flexrow">
           <Button
             variant="contained"
             onClick={submitHandler}
             disabled={!checkFormValid()}
-            value="Submit"
+            label="Submit"
           />
-          <Button variant="contained" onClick={cancelHandler} value="Cancel" />
+          <Button variant="contained" onClick={cancelHandler} label="Cancel" />
         </div>
       </div>
     </>

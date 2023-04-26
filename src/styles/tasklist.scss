@@ -1,11 +1,9 @@
 .tasklist {
   min-width: 33%;
   max-width: 33%;
-  transition: .22s ease-in-out;
 
   &__container {
     overflow-y: auto;
-    height: calc(100vh - 186px);
   }
 
   &__description {

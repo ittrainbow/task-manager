@@ -47,7 +47,7 @@ export const Register = () => {
   }, [loading, user, navigate])
 
   return (
-    <div className="auth-container flexcol15">
+    <div className="auth-container flexcol10">
       <Input
         type="text"
         value={name}

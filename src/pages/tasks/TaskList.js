@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  taskListNameHelper,
-  convertMilliesToISO,
+  taskListName,
   sortTaskList,
   getFromUserlist,
-  getOverflow
+  getOverflow,
+  convertTime
 } from '../../helpers'
 import { Select } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
@@ -83,16 +83,14 @@ export const TaskList = () => {
           const outdated = deadline < today
           return (
             <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
-              <div>Name: {taskListNameHelper(name)}</div>
+              <div>Name: {taskListName(name)}</div>
               <div>
                 {getFromUserlist({ userlist, uid: creator })} assigned to{' '}
                 {getFromUserlist({ userlist, uid: assigned })}
               </div>
               <div>Status: {status}</div>
-              <div
-              // style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}
-              >
-                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
+              <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
+                {outdated ? 'Expired' : 'Deadline'}: {convertTime(deadline)}
               </div>
             </div>
           )

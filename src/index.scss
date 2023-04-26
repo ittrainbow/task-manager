@@ -1,7 +1,6 @@
 @import './styles/auth.scss';
 @import './styles/animate.scss';
 @import './styles/comments.scss';
-@import './styles/dropdown.scss';
 @import './styles/header.scss';
 @import './styles/loader.scss';
 @import './styles/picker.scss';
@@ -20,7 +19,6 @@ body {
   margin: 0;
   padding: 0;
   height: 100vh;
-  // min-width: 700px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -67,7 +65,7 @@ code {
 }
 
 .flexcol,
-.flexcol15 {
+.flexcol10{
   display: flex;
   flex-direction: column;
 }
@@ -76,6 +74,6 @@ code {
   gap: 5px
 }
 
-.flexcol15 {
-  gap: 15px
+.flexcol10 {
+  gap: 10px
 }

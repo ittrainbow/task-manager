@@ -37,7 +37,7 @@ export const Login = () => {
   }
 
   return (
-    <div className="auth-container flexcol15">
+    <div className="auth-container flexcol10">
       <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
       <Input
         onChange={passwordInputHandler}

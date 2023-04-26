@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Button, ButtonSet } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Comments, DrawModal, Snack } from '../../UI'
+import { Comments, DrawModal, Snack, Button, ButtonSet } from '../../UI'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
+import { convertTime, getFromUserlist, emptyTask, isAnyChanges, getOverflow } from '../../helpers'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -12,13 +12,6 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import {
-  convertMilliesToISO,
-  getFromUserlist,
-  emptyTask,
-  isAnyChanges,
-  getOverflow
-} from '../../helpers'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
@@ -131,11 +124,14 @@ export const TaskForm = () => {
           </div>
           <hr style={{ width: 100 }} />
           <div className="info-card">
-            {outdated() ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
+            {outdated() ? 'Expired' : 'Deadline'}: {convertTime(deadline)}
           </div>
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={3} />
         </div>
-        <div className="comments__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
+        <div
+          className="comments__container flexcol"
+          style={{ paddingRight: overflow ? 5 : 0 }}
+        >
           <Comments
             comments={comments}
             yourComments={yourComments}

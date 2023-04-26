@@ -1,21 +1,16 @@
 .comment {
   &__container,
   &__container-bin {
-    border-radius: 5px;
+    border-radius: 4px;
     justify-content: space-between;
     text-align: left;
     font-size: 14px;
-    padding-left: 10px;
     background-color: #383c44;
-    border-radius: 5px;
-    font-size: 15px;
-    text-align: left;
-    padding: 5px 10px;
     padding: 5px 10px;
   }
 
   &__new {
-    border-radius: 5px;
+    border-radius: 4px;
     font-size: 14px;
     padding: 4px 7px;
     border: 1px solid grey;
@@ -44,6 +39,7 @@
 
 .no-comments {
   font-size: 16px;
+  color: #777;
 }
 
 .comments {

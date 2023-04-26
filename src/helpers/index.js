@@ -13,7 +13,7 @@ export const emptyTask = (uid) => {
   }
 }
 
-export const taskListNameHelper = (name) => {
+export const taskListName = (name) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
@@ -23,7 +23,7 @@ export const getFromUserlist = ({ userlist, uid }) => {
   return userlist.filter((el) => el.uid === uid)[0].name
 }
 
-export const convertMilliesToISO = (value) => {
+export const convertTime = (value) => {
   return dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
@@ -73,7 +73,6 @@ export const getOverflow = (variant) => {
   const diff = variant === 'tasks' ? 185 : 230
   const windowHeight = () => window.innerHeight
   const height = () => document.querySelector(querySelector).scrollHeight
-  console.log(variant, windowHeight(), height(), windowHeight() - height(), windowHeight() - height() < diff)
   return windowHeight() - height() < diff
 }
 

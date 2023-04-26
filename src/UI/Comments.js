@@ -32,17 +32,14 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
 
   return (
     <>
-      <Input
-        value={newComment}
-        onChange={(e) => setNewComment(e.target.value)}
-        type="text"
-        label={yourComments.length ? 'New comment' : 'Add first comment'}
-        comments={true}
-        multiline={true}
-        minRows={2}
-      />
-      <Button onClick={submitComment} disabled={newComment.length === 0} label="Add comment" />
-      {!list.length && <div className="no-comments">No comments yet</div>}
+      {!list.length && (
+        <div
+          className="new-comment comment__container animate-add-comment"
+          style={{ color: 'grey' }}
+        >
+          No comments yet
+        </div>
+      )}
       {comments.map((comment, index) => {
         return (
           <div key={index} className="comment__container">
@@ -60,6 +57,17 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
           </div>
         )
       })}
+      <div className="flexcol" style={{ paddingTop: '10px' }}>
+        <Input
+          value={newComment}
+          type="text"
+          label={yourComments.length ? 'New comment' : 'Add first comment'}
+          comments={true}
+          multiline={true}
+          minRows={2}
+        />
+        <Button onClick={submitComment} disabled={newComment.length === 0} label="Add comment" />
+      </div>
     </>
   )
 }

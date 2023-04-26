@@ -22,6 +22,11 @@
 
 .tasks-header {
   border: 1px solid #5a5d63;
-  border-radius: 5px;
+  border-radius: 4px;
   padding-bottom: 3px;
+}
+
+.selector {
+  flex-shrink: 0;
+  width: 50%
 }

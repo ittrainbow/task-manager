@@ -21,6 +21,12 @@ export const TaskNew = () => {
     setAssigned(uid) // eslint-disable-next-line
   }, [uid])
 
+  
+  useEffect(() => {
+    const doc = document.querySelector('.MuiInputBase-input')
+    doc.focus()
+  }, [])
+
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeDeadline = (value) => setDeadline(value)
 
@@ -55,7 +61,7 @@ export const TaskNew = () => {
   return (
     <>
       <div className="flexcol task-task">
-        <div className="tasknew-container flexcol15">
+        <div className="tasknew-container flexcol10">
           <Input
             value={name}
             type="text"

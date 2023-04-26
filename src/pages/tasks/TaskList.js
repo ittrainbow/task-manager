@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
-  taskListNameHelper,
-  convertMilliesToISO,
+  taskListName,
   sortTaskList,
   getFromUserlist,
-  getTaskListOverflow
+  getOverflow,
+  convertTime
 } from '../../helpers'
 import { Select } from '../../UI/'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
@@ -17,7 +17,7 @@ export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
   const [list, setList] = useState([])
-  const { setSelectedTaskIsOnList, selectedTab } = useAppContext()
+  const { setSelectedTaskIsOnList, selectedTab, setSelectedTab } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
@@ -34,20 +34,18 @@ export const TaskList = () => {
   }, [selectedTab, selectedTaskId])
 
   useEffect(() => {
-    const paddingHelper = () => setOverflow(getTaskListOverflow())
+    const paddingHelper = () => setOverflow(getOverflow('tasks'))
 
     setTimeout(() => paddingHelper(), 20)
     window.addEventListener('resize', paddingHelper)
-    return () => window.removeEventListener('resize', paddingHelper)
-    // eslint-disable-next-line
+    return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
   }, [taskSort])
 
   useEffect(() => {
     const list = sortTaskList({ taskSort, tasks, uid })
     const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
     setList(list)
-    setSelectedTaskIsOnList(selectedTaskIsOnList)
-    // eslint-disable-next-line
+    setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
   }, [taskSort, selectedTaskId])
 
   const taskSelectHandler = (id) => {
@@ -57,6 +55,7 @@ export const TaskList = () => {
       type: SELECT_TASK,
       payload: setId
     })
+    setSelectedTab(0)
   }
 
   const onChangeSort = (value) => {
@@ -67,13 +66,11 @@ export const TaskList = () => {
   }
 
   const getCardClass = (id) => {
-    switch (newTask) {
-      case false:
-        return id !== selectedTaskId ? 'tasklist__card flexcol' : 'tasklist__card-selected flexcol'
-      default:
-        break
-    }
-    return 'tasklist__card-selected-grey flexcol'
+    return newTask
+      ? 'tasklist__card-selected-grey flexcol'
+      : id !== selectedTaskId
+      ? 'tasklist__card flexcol'
+      : 'tasklist__card-selected flexcol'
   }
 
   return (
@@ -86,14 +83,14 @@ export const TaskList = () => {
           const outdated = deadline < today
           return (
             <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
-              <div>Name: {taskListNameHelper(name)}</div>
+              <div>Name: {taskListName(name)}</div>
               <div>
                 {getFromUserlist({ userlist, uid: creator })} assigned to{' '}
                 {getFromUserlist({ userlist, uid: assigned })}
               </div>
               <div>Status: {status}</div>
               <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
-                {outdated ? 'Expired' : 'Deadline'}: {convertMilliesToISO(deadline)}
+                {outdated ? 'Expired' : 'Deadline'}: {convertTime(deadline)}
               </div>
             </div>
           )

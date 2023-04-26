@@ -1,23 +1,32 @@
 .taskpage-container {
+  flex-grow: 1;
   display: flex;
   flex-direction: row;
   gap: 5px;
-  padding: 10px 0;
+  padding: 10px 0 0;
+  max-height: calc(100vh - 70px);
+}
+
+.task-task {
   width: 100%;
+  height: 100%;
+}
+
+.footer {
+  bottom: 10px;
 }
 
 .spinner-div {
   padding-left: calc(50% - 48px);
 }
 
-.tasks-footer {
-  position: fixed;
-  bottom: 10px;
-  width: calc(100vw - 33% - 18px);
-}
-
 .tasks-header {
   border: 1px solid #5a5d63;
-  border-radius: 5px;
+  border-radius: 4px;
   padding-bottom: 3px;
+}
+
+.selector {
+  flex-shrink: 0;
+  width: 50%
 }

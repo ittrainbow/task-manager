@@ -15,8 +15,7 @@ export const Dashboard = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    !user && navigate('/')
-    // eslint-disable-next-line
+    !user && navigate('/') // eslint-disable-next-line
   }, [])
 
   return (
@@ -28,7 +27,7 @@ export const Dashboard = () => {
           <div>{name}</div>
           <div>{email}</div>
           <div className="auth-container auth-container__button-block flexcol">
-            <Button onClick={() => navigate('/profile')} value="Edit Profle" />
+            <Button onClick={() => navigate('/profile')} label="Edit Profle" />
           </div>
         </>
       )}

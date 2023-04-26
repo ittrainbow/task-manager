@@ -12,10 +12,10 @@ import { darkTheme } from './themes'
 import { selectApp } from '../redux/selectors'
 
 const sortOptions = [
-  { label: 'My (open, expiring first)', value: 1 },
-  { label: 'My (all, newest first)', value: 2 },
-  { label: 'All (open, expiring first)', value: 3 },
-  { label: 'All (all, newest first)', value: 4 }
+  { label: 'My tasks (open, expiring first)', value: 1 },
+  { label: 'My tasks (all, newest first)', value: 2 },
+  { label: 'All tasks (open, expiring first)', value: 3 },
+  { label: 'All tasks (all, newest first)', value: 4 }
 ]
 
 const statusOptions = [
@@ -70,7 +70,7 @@ export const Select = ({ variant, value, onChange, label }) => {
   if (options)
     return (
       <ThemeProvider theme={darkTheme}>
-        <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <FormControl sx={{ m: 1, minWidth: 120, background: 'none' }}>
           <InputLabel>{label}</InputLabel>
           <MUISelect
             sx={{ textAlign: 'left' }}

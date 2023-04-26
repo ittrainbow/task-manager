@@ -65,7 +65,7 @@ export const HeaderTab = () => {
               key={index}
               onClick={() => onClickHandler(button)}
               disabled={!user}
-              value={name}
+              label={name}
               width={110}
             />
           )
@@ -73,7 +73,7 @@ export const HeaderTab = () => {
       </div>
       <div className="flexrow">
         {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}
-        <Button onClick={logoutHandler} disabled={!user} value={authButton} width={110} />
+        <Button onClick={logoutHandler} disabled={!user} label={authButton} width={110} />
       </div>
     </div>
   )

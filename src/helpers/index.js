@@ -13,7 +13,7 @@ export const emptyTask = (uid) => {
   }
 }
 
-export const taskListNameHelper = (name) => {
+export const taskListName = (name) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
@@ -23,7 +23,7 @@ export const getFromUserlist = ({ userlist, uid }) => {
   return userlist.filter((el) => el.uid === uid)[0].name
 }
 
-export const convertMilliesToISO = (value) => {
+export const convertTime = (value) => {
   return dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
@@ -68,17 +68,19 @@ export const sortTaskList = ({ taskSort, tasks, uid }) => {
   }
 }
 
-export const getTaskListOverflow = () => {
+export const getOverflow = (variant) => {
+  const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
+  const diff = variant === 'tasks' ? 185 : 230
   const windowHeight = () => window.innerHeight
-  const taskListHeight = () => document.querySelector('.tasklist__container').scrollHeight
-  return windowHeight() - taskListHeight() < 185
+  const height = () => document.querySelector(querySelector).scrollHeight
+  return windowHeight() - height() < diff
 }
 
-export const getTaskFormOverflow = () => {
-  const width = document.getElementById('task-header-right').clientWidth / 2
-  const height = document.getElementById('comments-container').clientHeight
-  const bigHeight = window.innerHeight
-  const overflow = bigHeight - height < 250
-  const windowHeight = window.innerHeight - 165
-  return { windowHeight, width, overflow }
+export const isAnyChanges = ({ selectedTask, assigned, status, commentsList, deadline }) => {
+  const statusChanged = selectedTask.status !== status
+  const assignedChanged = selectedTask.assigned !== assigned
+  const deadlineChanged = selectedTask.deadline !== deadline
+  const commentsChanged = JSON.stringify(selectedTask.comments) !== JSON.stringify(commentsList)
+  const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
+  return anyChanges
 }

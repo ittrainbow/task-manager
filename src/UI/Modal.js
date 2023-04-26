@@ -27,8 +27,8 @@ export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeHandler} value="Cancel" />
-          <Button onClick={onDelete} value="OK" />
+          <Button onClick={closeHandler} label="Cancel" />
+          <Button onClick={onDelete} label="OK" />
         </DialogActions>
       </Dialog>
     </ThemeProvider>

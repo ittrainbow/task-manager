@@ -1,0 +1,28 @@
+import React from 'react'
+import { Select } from '../UI'
+import { useAppContext } from '../context/Context'
+
+export const Dropdowns = () => {
+  const { assigned, status, setAssigned, setStatus } = useAppContext()
+
+  return (
+    <div className="flexrow">
+      <div className="selector flexcol">
+        <Select
+          value={assigned}
+          variant="users"
+          onChange={(value) => setAssigned(value)}
+          label="Assign User"
+        />
+      </div>
+      <div className="selector flexcol">
+        <Select
+          value={status}
+          variant="status"
+          onChange={(value) => setStatus(value)}
+          label="Set Status"
+        />
+      </div>
+    </div>
+  )
+}

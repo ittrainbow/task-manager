@@ -29,9 +29,9 @@ export const Profile = () => {
         <Button
           onClick={submitHandler}
           disabled={noChanges}
-          value={noChanges ? 'No changes' : 'Save'}
+          label={noChanges ? 'No changes' : 'Save'}
         />
-        <Button onClick={() => navigate(-1)} value="Cancel" />
+        <Button onClick={() => navigate(-1)} label="Cancel" />
       </div>
     </div>
   )

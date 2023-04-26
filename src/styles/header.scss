@@ -1,10 +1,10 @@
 .header-container {
   display: flex;
   justify-content: space-between;
-  width: 100%;
 }
 
 .header {
+  transition: .2s ease-in;
   &__button {
     width: 120px;
   }

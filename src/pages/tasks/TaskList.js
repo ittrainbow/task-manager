@@ -8,7 +8,7 @@ import {
   getOverflow,
   convertTime
 } from '../../helpers'
-import { Select } from '../../UI/'
+import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
@@ -17,7 +17,7 @@ export const TaskList = () => {
   const dispatch = useDispatch()
   const [overflow, setOverflow] = useState(false)
   const [list, setList] = useState([])
-  const { setSelectedTaskIsOnList, selectedTab, setSelectedTab } = useAppContext()
+  const { setSelectedTaskIsOnList, selectedTab, setSelectedTab, unsavedTasksIDs } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
@@ -42,11 +42,11 @@ export const TaskList = () => {
   }, [taskSort])
 
   useEffect(() => {
-    const list = sortTaskList({ taskSort, tasks, uid })
+    const list = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
     const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
     setList(list)
     setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
-  }, [taskSort, selectedTaskId])
+  }, [taskSort, selectedTaskId, unsavedTasksIDs])
 
   const taskSelectHandler = (id) => {
     const setId = id === selectedTaskId && !newTask ? null : id

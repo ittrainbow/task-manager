@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Comments, DrawModal, Snack, Button, ButtonSet } from '../../UI'
+import { DrawModal, Snack, Button, ButtonSet } from '../../UI'
+import { Comments } from '../../components'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { convertTime, getFromUserlist, emptyTask, isAnyChanges, getOverflow } from '../../helpers'
+import {
+  convertTime,
+  getFromUserlist,
+  emptyTask,
+  isAnyChanges,
+  getOverflow
+} from '../../helpers'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -18,21 +25,35 @@ export const TaskForm = () => {
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
-  const { assigned, setAssigned, status, setStatus } = useAppContext()
+  const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } = useAppContext()
 
   const [snack, setSnack] = useState(false)
   const [overflow, setOverflow] = useState(false)
   const [drawModal, setDrawModal] = useState(false)
   const [deadline, setDeadline] = useState()
   const [anyChanges, setAnyChanges] = useState(false)
-  const [yourComments, setYourComments] = useState([])
+
+  const yourComments = newComments[selectedTaskId] || []
 
   const { name, description, creator, id, comments } = selectedTask
   const commentsList = [...comments, ...yourComments]
 
-  const onSubmitComment = (comment) => setYourComments([...yourComments, comment])
-  const outdated = () => new Date().getTime() > deadline
-  const listenerStop = () => dispatch({ type: LISTENER_STOP })
+  useEffect(() => {
+    const paddingHelper = () => setOverflow(getOverflow('comments'))
+
+    setTimeout(() => paddingHelper(), 20)
+    window.addEventListener('resize', paddingHelper)
+    return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
+  }, [newComments])
+
+  const outdated = () => {
+    return new Date().getTime() > deadline
+  }
+
+  const listenerStop = () => {
+    dispatch({ type: LISTENER_STOP })
+  }
+
   const listenerStart = () => {
     const time = new Date().getTime()
     dispatch({
@@ -42,20 +63,11 @@ export const TaskForm = () => {
   }
 
   useEffect(() => {
-    const paddingHelper = () => setOverflow(getOverflow('comments'))
-
-    setTimeout(() => paddingHelper(), 20)
-    window.addEventListener('resize', paddingHelper)
-    return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
-  }, [yourComments])
-
-  useEffect(() => {
     listenerStart()
     const { status, assigned, deadline } = selectedTask
     setStatus(status)
     setAssigned(assigned)
     setDeadline(deadline)
-    setYourComments([])
     return () => listenerStop() // eslint-disable-next-line
   }, [selectedTask])
 
@@ -68,17 +80,11 @@ export const TaskForm = () => {
   }, [lastUpdate])
 
   useEffect(() => {
-    const anyChanges = isAnyChanges({ selectedTask, assigned, status, commentsList, deadline })
+    const anyChanges = isAnyChanges({ selectedTask, assigned, status, yourComments, deadline })
     setAnyChanges(anyChanges) // eslint-disable-next-line
-  }, [yourComments, status, assigned, selectedTask, deadline])
+  }, [yourComments, status, assigned, deadline])
 
   const snackHandler = (value) => setSnack(value)
-
-  const onDeleteComment = (index) => {
-    const newComments = [...yourComments]
-    newComments.splice(index, 1)
-    setYourComments(newComments)
-  }
 
   const submitHandler = () => {
     const task = {
@@ -91,7 +97,7 @@ export const TaskForm = () => {
     }
     dispatch({
       type: SAVE_TASK_ATTEMPT,
-      payload: { task }
+      payload: { task, cleanCommentsOnSave }
     })
   }
 
@@ -128,16 +134,8 @@ export const TaskForm = () => {
           </div>
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={3} />
         </div>
-        <div
-          className="comments__container flexcol"
-          style={{ paddingRight: overflow ? 5 : 0 }}
-        >
-          <Comments
-            comments={comments}
-            yourComments={yourComments}
-            onSubmit={onSubmitComment}
-            onDelete={onDeleteComment}
-          />
+        <div className="comments__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
+          <Comments />
         </div>
       </div>
       <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
@@ -148,7 +146,6 @@ export const TaskForm = () => {
       />
       <div className="flexrow footer">
         <Button
-          variant="contained"
           onClick={submitHandler}
           disabled={!anyChanges}
           label={!anyChanges ? 'No changes' : 'Submit'}

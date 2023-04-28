@@ -1,5 +1,5 @@
 import React from 'react'
-import { Select } from '../UI'
+import { Select } from '.'
 import { useAppContext } from '../context/Context'
 
 export const Dropdowns = () => {

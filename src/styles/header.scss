@@ -1,17 +1,32 @@
-.header-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .header {
-  transition: .2s ease-in;
-  &__button {
-    width: 120px;
+  &__container {
+    display: flex;
+    justify-content: space-between;
   }
 
   &__greeting {
     display: flex;
-    font-size: 15px;
+    padding: 0;
     align-items: center;
+    font-size: 15px;
+    width: auto;
+  }
+}
+
+.alert {
+  display: flex;
+  padding: 0 !important;
+  align-items: center;
+
+  &__icon,
+  &__text {
+    background-color: #282c34 !important;
+  }
+
+  &__text {
+    display: flex;
+    font-size: 15px !important;
+    align-items: center;
+    justify-content: center;
   }
 }

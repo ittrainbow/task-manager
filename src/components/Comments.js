@@ -1,40 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import { Button, Input } from '.'
+import React, { useEffect } from 'react'
+import { Button, Input } from '../UI'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { useSelector } from 'react-redux'
 
-export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
-  const [newComment, setNewComment] = useState('')
-  const [newIndex, setNewIndex] = useState(0)
+import { useAppContext } from '../context/Context'
+import { selectTask } from '../redux/selectors'
+
+export const Comments = () => {
+  const { selectedTaskId, tasks } = useSelector(selectTask)
+  const { newComments, setComments, deleteComments, tempComments, setTempComment } = useAppContext()
+
+  const yourComments = newComments[selectedTaskId] || []
+  const tempComment = tempComments[selectedTaskId] || ''
 
   useEffect(() => {
     const doc = document.querySelector('.MuiInputBase-inputMultiline')
     doc.focus()
-  }, [yourComments])
+  }, [newComments])
+
+  const { comments } = tasks.filter((task) => task.id === selectedTaskId)[0]
 
   const submitComment = () => {
-    newComment.length > 0 && onSubmit(newComment)
-    setNewComment('')
-    setNewIndex(newIndex + 1)
+    setComments(tempComment)
+    setTempComment('')
   }
 
-  const deleteCommemtHandler = (index) => {
+  const deleteCommentHandler = (index) => {
     const tempClass = 'animate-delete-comment'
     const comments = document.getElementsByClassName('new-comment')
     const div = comments[index]
     div.classList.add(tempClass)
     setTimeout(() => {
       div.classList.remove(tempClass)
-      onDelete(index)
+      deleteComments(index)
     }, 250)
   }
 
-  const list = [...comments, ...yourComments]
+  const changeCommentHandler = ({ value}) => {
+    setTempComment(value)
+  }
 
   return (
     <>
-      {!list.length && (
+      {![...comments, ...yourComments].length && (
         <div
-          className="new-comment comment__container animate-add-comment"
+          className="new-comment comment__container"
           style={{ color: 'grey' }}
         >
           No comments yet
@@ -51,7 +61,7 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
         return (
           <div key={index} className="comment__container flexrow animate-add-comment new-comment">
             <div>{comment}</div>
-            <div className="bin" onClick={() => deleteCommemtHandler(index)}>
+            <div className="bin" onClick={() => deleteCommentHandler(index)}>
               <DeleteForeverIcon />
             </div>
           </div>
@@ -59,14 +69,15 @@ export const Comments = ({ comments, yourComments, onSubmit, onDelete }) => {
       })}
       <div className="flexcol" style={{ paddingTop: '10px' }}>
         <Input
-          value={newComment}
+          value={tempComment}
           type="text"
           label={yourComments.length ? 'New comment' : 'Add first comment'}
           comments={true}
           multiline={true}
           minRows={2}
+          onChange={(e) => changeCommentHandler(e.target)}
         />
-        <Button onClick={submitComment} disabled={newComment.length === 0} label="Add comment" />
+        <Button onClick={submitComment} disabled={!tempComment.length} label="Add comment" />
       </div>
     </>
   )

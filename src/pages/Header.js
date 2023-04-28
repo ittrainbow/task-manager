@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '../UI'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,6 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../db/firebase'
 import { SELECT_TASK, SELECT_TASK_NEW } from '../redux/types'
 import { logout } from '../db/auth'
+import { CommentsAlert } from '../UI'
 import { selectApp, selectTask, selectUser } from '../redux/selectors'
 import { useAppContext } from '../context/Context'
 
@@ -17,13 +18,18 @@ const headerButtons = [
 ]
 
 export const HeaderTab = () => {
-  const { selectedTab, setSelectedTab } = useAppContext()
+  const { selectedTab, setSelectedTab, newComments, gotNewComments } = useAppContext()
   const [user] = useAuthState(auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { selectedTaskId } = useSelector(selectTask)
   const { name } = useSelector(selectUser)
   const { loading } = useSelector(selectApp)
+  const [drawAlert, setDrawAlert] = useState(false)
+
+  useEffect(() => {
+    setTimeout(() => setDrawAlert(Object.keys(newComments).length), 270)
+  }, [newComments])
 
   const onClickHandler = (button) => {
     const { path, id } = button
@@ -56,7 +62,7 @@ export const HeaderTab = () => {
   const authButton = user ? 'Logout' : 'No User'
 
   return (
-    <div className="header-container">
+    <div className="header__container">
       <div className="flexrow">
         {headerButtons.map((button, index) => {
           const { name } = button
@@ -71,6 +77,13 @@ export const HeaderTab = () => {
           )
         })}
       </div>
+      {gotNewComments ? (
+        <div className="fade-in">
+          <CommentsAlert />
+        </div>
+      ) : (
+        <div className="fade-out">{drawAlert ? <CommentsAlert /> : null}</div>
+      )}
       <div className="flexrow">
         {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}
         <Button onClick={logoutHandler} disabled={!user} label={authButton} width={110} />

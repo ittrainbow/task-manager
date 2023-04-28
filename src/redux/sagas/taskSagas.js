@@ -6,21 +6,21 @@ import {
   DELETE_TASK_FAILURE,
   SAVE_TASK_ATTEMPT,
   SAVE_TASK_FAILURE,
-  SAVE_TASK_SUCCESS,
+  SAVE_TASK_SUCCESS
 } from '../types'
-import {
-  writeTaskToFirestore,
-  deleteTaskFromFirestore
-} from '../../api/firebase'
+import { writeTaskToFirestore, deleteTaskFromFirestore } from '../../api/firebase'
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
 function* saveTaskSaga({ payload }) {
+  const { cleanCommentsOnSave, task } = payload
+  const { id } = task
   try {
     yield call(writeTaskToFirestore, payload)
     yield put({
       type: SAVE_TASK_SUCCESS,
       payload
     })
+    yield call(cleanCommentsOnSave, id)
   } catch (error) {
     yield put({
       type: SAVE_TASK_FAILURE,

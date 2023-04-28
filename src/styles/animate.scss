@@ -16,7 +16,7 @@
 
 .animate-add-comment {
   opacity: 0;
-  animation: addComment .2s ease-in-out forwards;
+  animation: addComment 0.2s ease-in-out forwards;
 }
 
 @keyframes addComment {
@@ -32,7 +32,7 @@
 
 .animate-delete-comment {
   opacity: 0;
-  animation: deleteComment .2s ease-in-out forwards;
+  animation: deleteComment 0.2s ease-in-out forwards;
 }
 
 @keyframes deleteComment {
@@ -40,6 +40,40 @@
     opacity: 1;
   }
   100% {
+    opacity: 0;
+  }
+}
+
+.fade-in {
+  animation: fadeIn ease 0.3s;
+  -webkit-animation: fadeIn ease 0.3s;
+  -moz-animation: fadeIn ease 1.3ss;
+  -o-animation: fadeIn ease 0.3s;
+  -ms-animation: fadeIn ease 0.3s;
+}
+
+.fade-out {
+  animation: fadeOut ease 0.3s;
+  -webkit-animation: fadeOut ease 0.3s;
+  -moz-animation: fadeOut ease 0.3s;
+  -o-animation: fadeOut ease 0.3s;
+  -ms-animation: fadeOut ease 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
   }
 }

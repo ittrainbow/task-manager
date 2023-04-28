@@ -4,14 +4,29 @@
 }
 
 .header {
-  transition: .2s ease-in;
+  transition: 0.2s ease-in;
+
   &__button {
     width: 120px;
   }
 
   &__greeting {
     display: flex;
-    font-size: 15px;
     align-items: center;
+    font-size: 15px;
+    width: auto;
+  }
+}
+
+.alert {
+  display: flex;
+  padding: 0 !important;
+  align-items: center;
+
+  &__inner {
+    font-size: 15px !important;
+    // transition: 0.22 ease-in-out !important;
+    background-color: #282c34 !important;
+    padding: 0 !important;
   }
 }

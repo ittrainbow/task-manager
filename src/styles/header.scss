@@ -1,17 +1,12 @@
-.header-container {
-  display: flex;
-  justify-content: space-between;
-}
-
 .header {
-  transition: 0.2s ease-in;
-
-  &__button {
-    width: 120px;
+  &__container {
+    display: flex;
+    justify-content: space-between;
   }
 
   &__greeting {
     display: flex;
+    padding: 0;
     align-items: center;
     font-size: 15px;
     width: auto;
@@ -23,10 +18,15 @@
   padding: 0 !important;
   align-items: center;
 
-  &__inner {
-    font-size: 15px !important;
-    // transition: 0.22 ease-in-out !important;
+  &__icon,
+  &__text {
     background-color: #282c34 !important;
-    padding: 0 !important;
+  }
+
+  &__text {
+    display: flex;
+    font-size: 15px !important;
+    align-items: center;
+    justify-content: center;
   }
 }

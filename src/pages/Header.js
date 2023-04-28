@@ -62,7 +62,7 @@ export const HeaderTab = () => {
   const authButton = user ? 'Logout' : 'No User'
 
   return (
-    <div className="header-container">
+    <div className="header__container">
       <div className="flexrow">
         {headerButtons.map((button, index) => {
           const { name } = button

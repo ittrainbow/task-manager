@@ -27,54 +27,12 @@ export const convertTime = (value) => {
   return dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
-export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }) => {
-  switch (taskSort) {
-    case 1:
-      const newTasksCase0 = tasks
-        .filter((task) => {
-          return task.creator === uid || task.assigned === uid
-        })
-        .filter((task) => {
-          return task.status !== 'Closed'
-        })
-        .sort((a, b) => {
-          return a.deadline - b.deadline
-        })
-      return newTasksCase0
-    case 2:
-      const newTasksCase1 = tasks
-        .filter((task) => {
-          return task.creator === uid || task.assigned === uid
-        })
-        .sort((a, b) => {
-          return b.id - a.id
-        })
-      return newTasksCase1
-    case 3:
-      const newTasksCase2 = tasks
-        .filter((task) => {
-          return task.status !== 'Closed'
-        })
-        .sort((a, b) => {
-          return a.deadline - b.deadline
-        })
-      return newTasksCase2
-    case 4:
-      return tasks.sort((a, b) => {
-        return b.id - a.id
-      })
-    case 5:
-      return tasks.filter((task) => unsavedTasksIDs.includes(task.id.toString()))
-    default:
-      break
-  }
-}
-
 export const getOverflow = (variant) => {
   const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
   const diff = variant === 'tasks' ? 185 : 230
   const windowHeight = () => window.innerHeight
-  const height = () => document.querySelector(querySelector).scrollHeight
+  const height = () =>
+    document.querySelector(querySelector) ? document.querySelector(querySelector).scrollHeight : 0
   return windowHeight() - height() < diff
 }
 

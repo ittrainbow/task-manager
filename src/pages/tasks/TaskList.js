@@ -7,7 +7,7 @@ import {
   getFromUserlist,
   getOverflow,
   convertTime
-} from '../../helpers/helpers'
+} from '../../helpers'
 import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
@@ -46,7 +46,7 @@ export const TaskList = () => {
     const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
     setList(list)
     setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
-  }, [taskSort, selectedTaskId])
+  }, [taskSort, selectedTaskId, unsavedTasksIDs])
 
   const taskSelectHandler = (id) => {
     const setId = id === selectedTaskId && !newTask ? null : id

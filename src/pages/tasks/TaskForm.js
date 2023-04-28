@@ -11,7 +11,7 @@ import {
   emptyTask,
   isAnyChanges,
   getOverflow
-} from '../../helpers/helpers'
+} from '../../helpers'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -25,8 +25,7 @@ export const TaskForm = () => {
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
-  const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } =
-    useAppContext()
+  const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } = useAppContext()
 
   const [snack, setSnack] = useState(false)
   const [overflow, setOverflow] = useState(false)
@@ -96,10 +95,9 @@ export const TaskForm = () => {
       deadline,
       id
     }
-    cleanCommentsOnSave()
     dispatch({
       type: SAVE_TASK_ATTEMPT,
-      payload: { task }
+      payload: { task, cleanCommentsOnSave }
     })
   }
 

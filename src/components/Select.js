@@ -10,6 +10,7 @@ import ClearIcon from '@mui/icons-material/Clear'
 
 import { selectApp } from '../redux/selectors'
 import { darkTheme } from '../UI'
+import { useAppContext } from '../context/Context'
 
 const sortOptions = [
   { label: 'My tasks (open, expiring first)', value: 1 },
@@ -18,6 +19,8 @@ const sortOptions = [
   { label: 'All tasks (all, newest first)', value: 4 }
 ]
 
+const sortBonusOption = [{ label: 'Unsaved comments only', value: 5 }]
+
 const statusOptions = [
   { label: 'New', value: 'New' },
   { label: 'Open', value: 'Open' },
@@ -25,6 +28,7 @@ const statusOptions = [
 ]
 
 export const Select = ({ variant, value, onChange, label }) => {
+  const { gotNewComments } = useAppContext()
   const [options, setOptions] = useState()
   const [userOptions, setUserOptions] = useState()
   const { userlist } = useSelector(selectApp)
@@ -32,7 +36,8 @@ export const Select = ({ variant, value, onChange, label }) => {
   useEffect(() => {
     switch (variant) {
       case 'sort':
-        setOptions(sortOptions)
+        const advancedOption = [...sortOptions, ...sortBonusOption]
+        setOptions(gotNewComments ? advancedOption : sortOptions)
         break
       case 'status':
         setOptions(statusOptions)
@@ -43,7 +48,7 @@ export const Select = ({ variant, value, onChange, label }) => {
       default:
         break
     }
-  }, [userOptions, variant])
+  }, [userOptions, variant, gotNewComments])
 
   useEffect(() => {
     if (userlist) {

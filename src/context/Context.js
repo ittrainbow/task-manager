@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect, useContext } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 
 import { selectTask, selectUser } from '../redux/selectors'
+import { SET_TASK_SORT } from '../redux/types'
 
 export const Context = React.createContext()
 export const useAppContext = () => useContext(Context)
 
 export const ContextProvider = ({ children }) => {
+  const dispatch = useDispatch()
   const { uid } = useSelector(selectUser)
   const { selectedTaskId } = useSelector(selectTask)
   const [selectedTaskIsOnList, setSelectedTaskIsOnList] = useState(false)
@@ -15,6 +17,18 @@ export const ContextProvider = ({ children }) => {
   const [assigned, setAssigned] = useState(uid)
   const [newComments, setNewComments] = useState({})
   const [tempComments, setTempComments] = useState({})
+  const [unsavedTasksIDs, setUnsavedTasksIDs] = useState([])
+
+  const cleanCommentsOnSave = (id) => {
+    const tempObject = { ...newComments }
+    delete tempObject[id]
+    !Object.keys(tempObject).length && resetSort()
+    setNewComments(tempObject)
+  }
+
+  useEffect(() => {
+    setUnsavedTasksIDs(Object.keys(newComments))
+  }, [newComments])
 
   const setComments = (comment) => {
     const tempObject = { ...newComments }
@@ -24,12 +38,22 @@ export const ContextProvider = ({ children }) => {
     setNewComments(tempObject)
   }
 
+  const resetSort = () => {
+    dispatch({
+      type: SET_TASK_SORT,
+      payload: 1
+    })
+  }
+
   const deleteComments = (index) => {
     const tempObject = { ...newComments }
     const tempComments = tempObject[selectedTaskId]
     tempComments.splice(index, 1)
     if (tempComments.length) tempObject[selectedTaskId] = tempComments
     else delete tempObject[selectedTaskId]
+    if (!Object.keys(tempObject).length) {
+      resetSort()
+    }
     setNewComments(tempObject)
   }
 
@@ -39,15 +63,7 @@ export const ContextProvider = ({ children }) => {
     setTempComments(tempObject)
   }
 
-  const cleanCommentsOnSave = () => {
-    const tempObject = { ...newComments }
-    delete tempObject[selectedTaskId]
-    setNewComments(tempObject)
-  }
-
   const gotNewComments = Object.keys(newComments).length
-
-  const unsavedTasksIDs = Object.keys(newComments) || []
 
   return (
     <Context.Provider
@@ -65,9 +81,9 @@ export const ContextProvider = ({ children }) => {
         deleteComments,
         tempComments,
         setTempComment,
-        cleanCommentsOnSave,
         gotNewComments,
-        unsavedTasksIDs
+        unsavedTasksIDs,
+        cleanCommentsOnSave
       }}
     >
       {children}

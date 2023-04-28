@@ -120,7 +120,7 @@ export const TaskForm = () => {
       <div className="flexrow flexrow--task">
         <div
           className="task__split-left flexcol"
-          // style={{ minWidth: overflow ? 'calc(50% + 8px)' : '50%' }}
+          style={{ minWidth: overflow ? 'calc(50% + 5px)' : 'calc(50% - 3px)' }}
         >
           <div className="info-card">Name: {name}</div>
           <div className="info-card">Description: {description}</div>

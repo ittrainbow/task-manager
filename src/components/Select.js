@@ -75,7 +75,12 @@ export const Select = ({ variant, value, onChange, label }) => {
   if (options)
     return (
       <ThemeProvider theme={darkTheme}>
-        <FormControl sx={{ m: 1, minWidth: 120, background: 'none' }}>
+        <FormControl
+          sx={{
+            margin: '8px 0',
+            width: '100%'
+          }}
+        >
           <InputLabel>{label}</InputLabel>
           <MUISelect
             sx={{ textAlign: 'left' }}

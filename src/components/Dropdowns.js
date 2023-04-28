@@ -6,8 +6,8 @@ export const Dropdowns = () => {
   const { assigned, status, setAssigned, setStatus } = useAppContext()
 
   return (
-    <div className="flexrow">
-      <div className="selector flexcol">
+    <div className="selector__container">
+      <div className="selector__div">
         <Select
           value={assigned}
           variant="users"
@@ -15,7 +15,7 @@ export const Dropdowns = () => {
           label="Assign User"
         />
       </div>
-      <div className="selector flexcol">
+      <div className="selector__div">
         <Select
           value={status}
           variant="status"

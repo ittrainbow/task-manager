@@ -28,15 +28,17 @@ export const Recover = () => {
 
   return (
     <div className="auth-container flexcol">
-      <Input onChange={emailInputHandler} value={email} type='text' label="E-mail" />
-      <div className="auth-container auth-container__button-block flexcol">
-        <Button
-          onClick={() => sendPasswordReset(email)}
-          disabled={!emailValid}
-          label="Send recovery email"
-        />
-        <Button onClick={() => navigate('/register')} label="Sign Up" />
-        <Button onClick={() => navigate('/login')} label="Log In" />
+      <div className="auth-container__inner">
+        <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
+        <div className="auth-container flexcol10">
+          <Button
+            onClick={() => sendPasswordReset(email)}
+            disabled={!emailValid}
+            label="Send recovery email"
+          />
+          <Button onClick={() => navigate('/register')} label="Sign Up" />
+          <Button onClick={() => navigate('/login')} label="Log In" />
+        </div>
       </div>
     </div>
   )

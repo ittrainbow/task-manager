@@ -21,9 +21,8 @@ export const TaskNew = () => {
     setAssigned(uid) // eslint-disable-next-line
   }, [uid])
 
-  
   useEffect(() => {
-    const doc = document.querySelector('.MuiInputBase-input')
+    const doc = document.querySelector('.input')
     doc.focus()
   }, [])
 
@@ -61,24 +60,24 @@ export const TaskNew = () => {
   return (
     <>
       <div className="flexcol task-task">
-        <div className="tasknew-container flexcol10">
+        <div className="tasknew-container flexnew">
           <Input
             value={name}
             type="text"
             onChange={(e) => setName(e.target.value)}
             label="Task name"
+            rows={1}
+            task={true}
           />
           <Input
             value={description}
             type="text"
             onChange={(e) => setDescription(e.target.value)}
-            label="Task description"
-            multiline={true}
-            maxRows={5}
+            label="Description"
+            rows={5}
+            task={true}
           />
-          <div className="flexcol">
-            <Picker value={deadline} onChange={onChangeDeadline} />
-          </div>
+          <Picker value={deadline} onChange={onChangeDeadline} />
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={5} />
         </div>
         <div className="tasks-footer flexrow">

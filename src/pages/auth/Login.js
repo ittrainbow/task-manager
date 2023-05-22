@@ -38,22 +38,26 @@ export const Login = () => {
 
   return (
     <div className="auth-container flexcol10">
-      <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
-      <Input
-        onChange={passwordInputHandler}
-        value={password}
-        type="password"
-        label={'Password'}
-      />
-      <div className="auth-container auth-container__button-block flexcol">
-        <Button
-          onClick={() => logInWithEmailAndPassword(email, password)}
-          disabled={!emailValid || password.length < 4}
-          label="Sign In"
-        />
-        <Button label="Google Sign In" onClick={googleSignInHandler} />
-        <Button label="Recover Password" onClick={() => navigate('/reset')} />
-        <Button label="Sign Up" onClick={() => navigate('/register')} />
+      <div className="auth-container__inner">
+        <div className="flexcol10">
+          <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
+          <Input
+            onChange={passwordInputHandler}
+            value={password}
+            type="password"
+            label={'Password'}
+          />
+        </div>
+        <div className="auth-container flexcol10">
+          <Button
+            onClick={() => logInWithEmailAndPassword(email, password)}
+            disabled={!emailValid || password.length < 4}
+            label="Sign In"
+          />
+          <Button label="Google Sign In" onClick={googleSignInHandler} />
+          <Button label="Recover Password" onClick={() => navigate('/reset')} />
+          <Button label="Sign Up" onClick={() => navigate('/register')} />
+        </div>
       </div>
     </div>
   )

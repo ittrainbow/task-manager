@@ -48,32 +48,36 @@ export const Register = () => {
 
   return (
     <div className="auth-container flexcol10">
-      <Input
-        type="text"
-        value={name}
-        onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
-        label="Name"
-      />
-      <Input
-        type="text"
-        value={email}
-        onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
-        label="E-mail"
-      />
-      <Input
-        type="password"
-        value={password}
-        onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
-        label="Password"
-      />
-      <div className="auth-container auth-container__button-block flexcol">
-        <Button
-          onClick={register}
-          label="Sign Up New User"
-          disabled={!emailValid || !password || !name}
-        />
-        <Button onClick={signInWithGoogle} label="Google Sign Up" />
-        <Button onClick={() => navigate('/login')} label="Log In" />
+      <div className="auth-container__inner">
+        <div className="flexcol10">
+          <Input
+            type="text"
+            value={name}
+            onChange={(e) => dispatch({ type: 'NAME', payload: e.target.value })}
+            label="Name"
+          />
+          <Input
+            type="text"
+            value={email}
+            onChange={(e) => dispatch({ type: 'EMAIL', payload: e.target.value })}
+            label="E-mail"
+          />
+          <Input
+            type="password"
+            value={password}
+            onChange={(e) => dispatch({ type: 'PASSWORD', payload: e.target.value })}
+            label="Password"
+          />
+        </div>
+        <div className="auth-container flexcol10">
+          <Button
+            onClick={register}
+            label="Sign Up New User"
+            disabled={!emailValid || !password || !name}
+          />
+          <Button onClick={signInWithGoogle} label="Google Sign Up" />
+          <Button onClick={() => navigate('/login')} label="Log In" />
+        </div>
       </div>
     </div>
   )

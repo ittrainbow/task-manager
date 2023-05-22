@@ -5,13 +5,7 @@ import { DrawModal, Snack, Button, ButtonSet } from '../../UI'
 import { Comments } from '../../components'
 import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import {
-  convertTime,
-  getFromUserlist,
-  emptyTask,
-  isAnyChanges,
-  getOverflow
-} from '../../helpers'
+import { convertTime, getFromUserlist, emptyTask, isAnyChanges, getOverflow } from '../../helpers'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -25,7 +19,8 @@ export const TaskForm = () => {
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
   const selectedTask = useSelector(selectCurrentTask) || emptyTask()
-  const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } = useAppContext()
+  const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } =
+    useAppContext()
 
   const [snack, setSnack] = useState(false)
   const [overflow, setOverflow] = useState(false)
@@ -80,8 +75,10 @@ export const TaskForm = () => {
   }, [lastUpdate])
 
   useEffect(() => {
-    const anyChanges = isAnyChanges({ selectedTask, assigned, status, yourComments, deadline })
-    setAnyChanges(anyChanges) // eslint-disable-next-line
+    setTimeout(() => {
+      const anyChanges = isAnyChanges({ selectedTask, assigned, status, yourComments, deadline })
+      setAnyChanges(anyChanges)
+    }) // eslint-disable-next-line
   }, [yourComments, status, assigned, deadline])
 
   const snackHandler = (value) => setSnack(value)
@@ -120,7 +117,10 @@ export const TaskForm = () => {
       <div className="flexrow flexrow--task">
         <div
           className="task__split-left flexcol"
-          style={{ minWidth: overflow ? 'calc(50% + 5px)' : 'calc(50% - 3px)' }}
+          style={{
+            minWidth: overflow ? 'calc(50% + 5px)' : 'calc(50% - 3px)',
+            maxWidth: overflow ? 'calc(50% + 5px)' : 'calc(50% - 3px)'
+          }}
         >
           <div className="info-card">Name: {name}</div>
           <div className="info-card">Description: {description}</div>

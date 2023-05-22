@@ -14,7 +14,7 @@ export const Comments = () => {
   const tempComment = tempComments[selectedTaskId] || ''
 
   useEffect(() => {
-    const doc = document.querySelector('.MuiInputBase-inputMultiline')
+    const doc = document.querySelector('.input')
     doc.focus()
   }, [newComments])
 
@@ -73,9 +73,9 @@ export const Comments = () => {
           type="text"
           label={yourComments.length ? 'New comment' : 'Add first comment'}
           comments={true}
-          multiline={true}
-          minRows={2}
+          rows={2}
           onChange={(e) => changeCommentHandler(e.target)}
+          task={true}
         />
         <Button onClick={submitComment} disabled={!tempComment.length} label="Add comment" />
       </div>

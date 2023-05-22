@@ -44,6 +44,10 @@ code {
   padding: 0 9px;
 }
 
+.mt40 {
+  margin-top: 40px;
+}
+
 .flexrow,
 .flexrow15 {
   display: flex;
@@ -77,5 +81,11 @@ code {
 }
 
 .flexcol10 {
+  gap: 10px;
+}
+
+.flexnew {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }

@@ -24,14 +24,16 @@ export const Profile = () => {
 
   return (
     <div className="auth-container flexcol">
-      <Input onChange={(e) => setTempName(e.target.value)} value={tempName} label="Change name" />
-      <div className="auth-container auth-container__button-block flexcol">
-        <Button
-          onClick={submitHandler}
-          disabled={noChanges}
-          label={noChanges ? 'No changes' : 'Save'}
-        />
-        <Button onClick={() => navigate(-1)} label="Cancel" />
+      <div className="auth-container__inner">
+        <Input onChange={(e) => setTempName(e.target.value)} value={tempName} label="Change name" />
+        <div className="mt40 flexcol10">
+          <Button
+            onClick={submitHandler}
+            disabled={noChanges}
+            label={noChanges ? 'No changes' : 'Save'}
+          />
+          <Button onClick={() => navigate(-1)} label="Cancel" />
+        </div>
       </div>
     </div>
   )

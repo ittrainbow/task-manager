@@ -1,24 +1,18 @@
 import React from 'react'
-import { TextField } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
 
-import { darkTheme } from './themes'
+import '../styles/input.scss'
 
-export const Input = ({ label, value, onChange, type, multiline, minRows, comments }) => {
-  const classes = comments ? 'comments__new' : ''
+export const Input = ({ value, type, onChange, label, rows }) => {
+  const labelClass = value ? 'user-label-up' : 'user-label'
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      <TextField
-        className={classes}
-        type={type}
-        multiline={multiline}
-        minRows={minRows || 3}
-        label={label}
-        value={value}
-        variant="outlined"
-        onChange={onChange}
-      />
-    </ThemeProvider>
+    <div className="input-group">
+      {rows > 1 ? (
+        <textarea type={type} value={value} onChange={onChange} name="text" className="input" />
+      ) : (
+        <input type={type} value={value} onChange={onChange} name="text" className="input" />
+      )}
+      <label className={labelClass}>{label}</label>
+    </div>
   )
 }

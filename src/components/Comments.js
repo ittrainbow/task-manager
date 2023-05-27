@@ -18,7 +18,7 @@ export const Comments = () => {
     doc.focus()
   }, [newComments])
 
-  const { comments } = tasks.filter((task) => task.id === selectedTaskId)[0]
+  const { comments } = tasks.find((task) => task.id === selectedTaskId)
 
   const submitComment = () => {
     setComments(tempComment)

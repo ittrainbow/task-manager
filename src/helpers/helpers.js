@@ -20,7 +20,7 @@ export const taskListName = (name) => {
 export const getFromUserlist = ({ userlist, uid }) => {
   if (!userlist || !uid) return '(not assigned)'
   if (!userlist.some((el) => el.uid === uid)) return 'user deleted'
-  return userlist.filter((el) => el.uid === uid)[0].name
+  return userlist.find((el) => el.uid === uid).name
 }
 
 export const convertTime = (value) => {

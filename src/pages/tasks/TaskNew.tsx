@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button, ButtonSet, Input } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -6,15 +6,17 @@ import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
+import { EventTarget } from '../../interfaces'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
   const { assigned, setAssigned, status, setStatus } = useAppContext()
   const dispatch = useDispatch()
-  const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [deadline, setDeadline] = useState(getTime() + 86400000)
+
+  const [name, setName] = useState<string>('')
+  const [description, setDescription] = useState<string>('')
+  const [deadline, setDeadline] = useState<number>(getTime() + 86400000)
 
   useEffect(() => {
     setStatus('New')
@@ -22,12 +24,12 @@ export const TaskNew = () => {
   }, [uid])
 
   useEffect(() => {
-    const doc = document.querySelector('.input')
+    const doc = document.querySelector('.input') as HTMLElement
     doc.focus()
   }, [])
 
   const checkFormValid = () => name.length > 0 && description.length > 0
-  const onChangeDeadline = (value) => setDeadline(value)
+  const onChangeDeadline = (value: number) => setDeadline(value)
 
   const submitHandler = () => {
     if (checkFormValid()) {
@@ -57,22 +59,32 @@ export const TaskNew = () => {
     })
   }
 
+  const nameHandler = (e: EventTarget) => {
+    const { value } = e.target
+    setName(value)
+  }
+
+  const descriptionHandler = (e: EventTarget) => {
+    const { value } = e.target
+    setDescription(value)
+  }
+
   return (
     <>
       <div className="flexcol task-task">
         <div className="tasknew-container flexnew">
           <Input
-            value={name}
             type="text"
-            onChange={(e) => setName(e.target.value)}
+            value={name}
+            onChange={nameHandler}
             label="Task name"
             rows={1}
             task={true}
           />
           <Input
-            value={description}
             type="text"
-            onChange={(e) => setDescription(e.target.value)}
+            value={description}
+            onChange={descriptionHandler}
             label="Description"
             rows={5}
             task={true}
@@ -82,12 +94,12 @@ export const TaskNew = () => {
         </div>
         <div className="tasks-footer flexrow">
           <Button
-            variant="contained"
+            // variant="contained"
             onClick={submitHandler}
             disabled={!checkFormValid()}
             label="Submit"
           />
-          <Button variant="contained" onClick={cancelHandler} label="Cancel" />
+          <Button onClick={cancelHandler} label="Cancel" />
         </div>
       </div>
     </>

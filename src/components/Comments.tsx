@@ -20,8 +20,8 @@ export const Comments = () => {
   }, [newComments])
 
   const { comments } = tasks.find((task: Task) => {
-    return task.id === selectedTaskId
-  }) // TODO
+    return task.id === selectedTaskId || []
+  })
 
   const submitComment = () => {
     setComments(tempComment)

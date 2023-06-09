@@ -12,15 +12,18 @@ import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
+import { Task } from '../../interfaces'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
-  const [overflow, setOverflow] = useState(false)
-  const [list, setList] = useState([])
+
   const { setSelectedTaskIsOnList, selectedTab, setSelectedTab, unsavedTasksIDs } = useAppContext()
   const { tasks, selectedTaskId, taskSort, newTask } = useSelector(selectTask)
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
+
+  const [overflow, setOverflow] = useState<boolean>(false)
+  const [list, setList] = useState<any>([])
 
   const today = new Date().getTime()
 
@@ -43,15 +46,16 @@ export const TaskList = () => {
 
   useEffect(() => {
     const list = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
-    setList(list)
-
-    const selectedTaskIsOnList = list && list.some((task) => task.id === selectedTaskId)
-    setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
+    if (list) {
+      const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
+      setList(list)
+      setSelectedTaskIsOnList(selectedTaskIsOnList)
+    } // eslint-disable-next-line
   }, [taskSort, selectedTaskId, unsavedTasksIDs])
 
-  const taskSelectHandler = (id) => {
-    const setId = id === selectedTaskId && !newTask ? null : id
-    localStorage.setItem('lastTaskId', setId)
+  const taskSelectHandler = (id: number) => {
+    const setId: number = id === selectedTaskId && !newTask ? 0 : id
+    localStorage.setItem('lastTaskId', setId.toString())
     dispatch({
       type: SELECT_TASK,
       payload: setId
@@ -59,14 +63,14 @@ export const TaskList = () => {
     setSelectedTab(0)
   }
 
-  const onChangeSort = (value) => {
+  const onChangeSort = (value: number) => {
     dispatch({
       type: SET_TASK_SORT,
       payload: value
     })
   }
 
-  const getCardClass = (id) => {
+  const getCardClass = (id: number) => {
     return newTask
       ? 'tasklist__card-selected-grey flexcol'
       : id !== selectedTaskId
@@ -80,7 +84,7 @@ export const TaskList = () => {
       <Select variant="sort" value={taskSort} onChange={onChangeSort} label="Select Sort" />
       <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list &&
-          list.map((el, index) => {
+          list.map((el: Task, index: number) => {
             const { name, creator, assigned, status, id, deadline } = el
             const outdated = deadline < today
             return (

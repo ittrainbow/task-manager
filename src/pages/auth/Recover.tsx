@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input } from '../../UI'
@@ -9,8 +9,8 @@ import { EventTarget } from '../../interfaces'
 
 export const Recover = () => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [emailValid, setEmailValid] = useState(false)
+  const [email, setEmail] = useState<string>('')
+  const [emailValid, setEmailValid] = useState<boolean>(false)
   const [user, loading] = useAuthState(auth)
 
   useEffect(() => {

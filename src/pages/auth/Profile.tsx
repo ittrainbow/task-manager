@@ -11,7 +11,8 @@ export const Profile = () => {
   const { name, uid } = useSelector(selectUser)
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [tempName, setTempName] = useState(name)
+  
+  const [tempName, setTempName] = useState<string>(name)
 
   const submitHandler = async () => {
     dispatch({

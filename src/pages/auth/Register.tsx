@@ -1,48 +1,17 @@
-import React, { useEffect, useState, useReducer } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
-import { Button, Input } from '../../UI'
 
 import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth.js'
+import { Button, Input } from '../../UI'
 import { auth } from '../../db/firebase'
 import { EventTarget } from '../../interfaces'
-
-type State = {
-  email: string
-  password: string
-  name: string
-  emailValid: boolean
-}
-
-const initialState: State = {
-  email: '',
-  password: '',
-  name: '',
-  emailValid: false
-}
-
-// const reducer = (state: State, action) => {
-//   switch (action.type) {
-//     case 'EMAIL':
-//       const email = action.payload.replace(/ /g, '')
-//       const emailValid = /\S+@\S+\.\S+/.test(email)
-//       return { ...state, email, emailValid }
-//     case 'PASSWORD':
-//       return { ...state, password: action.payload.replace(/ /g, '') }
-//     case 'NAME':
-//       return { ...state, name: action.payload }
-//     default:
-//       return state
-//   }
-// }
 
 export const Register = () => {
   const [name, setName] = useState<string>('')
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
-  // const [state, dispatch] = useReducer(reducer, initialState)
-  // const { email, emailValid, password, name } = state
   const [user, loading] = useAuthState(auth)
   const navigate = useNavigate()
 
@@ -53,19 +22,19 @@ export const Register = () => {
     else registerWithEmailAndPassword(name, email, password)
   }
 
-  const nameInputHandler = (e: EventTarget) => {
+  const nameHandler = (e: EventTarget) => {
     const { value } = e.target
     setName(value)
   }
 
-  const emailInputHandler = (e: EventTarget) => {
+  const emailHandler = (e: EventTarget) => {
     const { value } = e.target
     const emailValid = /\S+@\S+\.\S+/.test(value)
     setEmail(value)
     setEmailValid(emailValid)
   }
 
-  const passwordInputHandler = (e: EventTarget) => {
+  const passwordHandler = (e: EventTarget) => {
     const { value } = e.target
     setPassword(value)
   }
@@ -79,14 +48,9 @@ export const Register = () => {
     <div className="auth-container flexcol10">
       <div className="auth-container__inner">
         <div className="flexcol10">
-          <Input type="text" value={name} onChange={nameInputHandler} label="Name" />
-          <Input type="text" value={email} onChange={emailInputHandler} label="E-mail" />
-          <Input
-            type="password"
-            value={password}
-            onChange={passwordInputHandler}
-            label="Password"
-          />
+          <Input type="text" value={name} onChange={nameHandler} label="Name" />
+          <Input type="text" value={email} onChange={emailHandler} label="E-mail" />
+          <Input type="password" value={password} onChange={passwordHandler} label="Password" />
         </div>
         <div className="auth-container flexcol10">
           <Button

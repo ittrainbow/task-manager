@@ -25,13 +25,14 @@ export const HeaderTab = () => {
   const { selectedTaskId } = useSelector(selectTask)
   const { name } = useSelector(selectUser)
   const { loading } = useSelector(selectApp)
-  const [drawAlert, setDrawAlert] = useState(false)
+  
+  const [drawAlert, setDrawAlert] = useState<boolean>(false)
 
   useEffect(() => {
-    setTimeout(() => setDrawAlert(Object.keys(newComments).length), 270)
+    setTimeout(() => setDrawAlert(Object.keys(newComments).length > 0), 270)
   }, [newComments])
 
-  const onClickHandler = (button) => {
+  const onClickHandler = (button: { path: string; id: number }) => {
     const { path, id } = button
     if (selectedTab !== id) {
       switch (id) {

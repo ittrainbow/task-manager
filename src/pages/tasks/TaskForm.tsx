@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { DrawModal, Snack, Button, ButtonSet } from '../../UI'
 import { Comments } from '../../components'
-import { selectApp, selectTask, selectCurrentTask } from '../../redux/selectors'
+import { selectApp, selectTask, selectCurrentTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { convertTime, getFromUserlist, emptyTask, isAnyChanges, getOverflow } from '../../helpers'
+import { convertTime, getFromUserlist, isAnyChanges, getOverflow, emptyTask } from '../../helpers'
 import {
   SAVE_TASK_ATTEMPT,
   SELECT_TASK,
@@ -15,24 +15,24 @@ import {
 } from '../../redux/types'
 
 export const TaskForm = () => {
-
   const dispatch = useDispatch()
+  const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
-  const selectedTask = useSelector(selectCurrentTask) || emptyTask()
+  const selectedTask = useSelector(selectCurrentTask) || emptyTask(uid)
   const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } =
     useAppContext()
 
-  const [snack, setSnack] = useState(false)
-  const [overflow, setOverflow] = useState(false)
-  const [drawModal, setDrawModal] = useState(false)
-  const [deadline, setDeadline] = useState()
-  const [anyChanges, setAnyChanges] = useState(false)
+  const [snack, setSnack] = useState<boolean>(false)
+  const [overflow, setOverflow] = useState<boolean>(false)
+  const [drawModal, setDrawModal] = useState<boolean>(false)
+  const [deadline, setDeadline] = useState<number>(0)
+  const [anyChanges, setAnyChanges] = useState<boolean>(false)
 
-  const yourComments = newComments[selectedTaskId] || []
+  const yourComments: string[] = newComments[selectedTaskId] || []
 
   const { name, description, creator, id, comments } = selectedTask
-  const commentsList = [...comments, ...yourComments]
+  const commentsList: string[] = [...comments, ...yourComments]
 
   useEffect(() => {
     const paddingHelper = () => setOverflow(getOverflow('comments'))
@@ -82,7 +82,9 @@ export const TaskForm = () => {
     }) // eslint-disable-next-line
   }, [yourComments, status, assigned, deadline])
 
-  const snackHandler = (value) => setSnack(value)
+  const snackHandler = (value: boolean) => {
+    setSnack(value)
+  }
 
   const submitHandler = () => {
     const task = {

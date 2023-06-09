@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-export const emptyTask = (uid) => {
+export const emptyTask = (uid: string) => {
   return {
     creator: uid,
     lastmodified: new Date().getTime(),
@@ -13,30 +13,48 @@ export const emptyTask = (uid) => {
   }
 }
 
-export const taskListName = (name) => {
+export const taskListName = (name: string) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
-export const getFromUserlist = ({ userlist, uid }) => {
-  if (!userlist || !uid) return '(not assigned)'
-  if (!userlist.some((el) => el.uid === uid)) return 'user deleted'
-  return userlist.find((el) => el.uid === uid).name
+type getFromUserlistProps = {
+  userlist: { [key: string]: string }[]
+  uid: string
 }
 
-export const convertTime = (value) => {
+export const getFromUserlist = (props: getFromUserlistProps) => {
+  const { userlist, uid } = props
+  if (!userlist || !uid) return '(not assigned)'
+  if (!userlist.some((el) => el.uid === uid)) return 'user deleted'
+  const name: string | undefined = userlist.find((el) => el.uid === uid)?.name
+  return name
+}
+
+export const convertTime = (value: number) => {
   return dayjs(value).format('YYYY-MM-DD HH:mm')
 }
 
-export const getOverflow = (variant) => {
+export const getOverflow = (variant: string) => {
   const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
   const diff = variant === 'tasks' ? 185 : 230
   const windowHeight = () => window.innerHeight
   const height = () =>
-    document.querySelector(querySelector) ? document.querySelector(querySelector).scrollHeight : 0
+    document.querySelector(querySelector)
+      ? (document.querySelector(querySelector) as HTMLElement).scrollHeight
+      : 0
   return windowHeight() - height() < diff
 }
 
-export const isAnyChanges = ({ selectedTask, assigned, status, yourComments, deadline }) => {
+type isAnyChangesProps = {
+  selectedTask: any
+  assigned: any
+  status: any
+  yourComments: any
+  deadline: number
+}
+
+export const isAnyChanges = (props: isAnyChangesProps) => {
+  const { selectedTask, assigned, status, yourComments, deadline } = props
   const statusChanged = selectedTask.status !== status
   const assignedChanged = selectedTask.assigned !== assigned
   const deadlineChanged = selectedTask.deadline !== deadline

@@ -10,9 +10,9 @@ import { ContextProvider } from './context/Context'
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-    <Provider store={store}>
-      <ContextProvider>
-        <App />
-      </ContextProvider>
-    </Provider>
+  <Provider store={store}>
+    <ContextProvider>
+      <App />
+    </ContextProvider>
+  </Provider>
 )

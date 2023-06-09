@@ -1,7 +1,7 @@
 import { collection, getDocs, getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
 
 import { db } from '../db/firebase'
-import { Task, User } from '../interfaces'
+import { Task, TaskFetch, User } from '../interfaces'
 
 interface UserFromUserlist extends User {
   uid: string
@@ -16,10 +16,10 @@ export const fetchNameFromFirestore = async (uid: string | null) => {
 }
 
 export const fetchTasks = async () => {
-  const tasklist: Task[] = []
+  const tasklist: (Task | TaskFetch)[] = []
   const response = await getDocs(collection(db, 'tasks'))
   response.forEach((doc) => {
-    const task: Task = doc.data()
+    const task: TaskFetch = doc.data()
     tasklist.push(task)
   })
   return tasklist

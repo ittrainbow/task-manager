@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input } from '../../UI'
 
-import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth.js'
 import { auth } from '../../db/firebase'
 import { EventTarget } from '../../interfaces'
 

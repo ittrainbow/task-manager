@@ -4,7 +4,7 @@ import { Button, Input } from '../../UI'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../db/firebase'
-import { logInWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { logInWithEmailAndPassword, signInWithGoogle } from '../../db/auth.js'
 import { EventTarget } from '../../interfaces'
 
 export const Login = () => {

@@ -7,9 +7,13 @@ import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker
 
 import { darkTheme } from './themes'
 
-export const Picker = ({ value, onChange }) => {
+interface PickerProps {
+  value: number
+  onChange: any
+}
 
-  const changeHandler = (value) => {
+export const Picker = ({ value, onChange }: PickerProps) => {
+  const changeHandler = (value: any): void => { // TODO
     const millies = dayjs(value).valueOf()
     onChange(millies)
   }
@@ -17,10 +21,7 @@ export const Picker = ({ value, onChange }) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DesktopDateTimePicker
-          value={dayjs(value)}
-          onChange={changeHandler}
-        />
+        <DesktopDateTimePicker value={dayjs(value)} onChange={changeHandler} />
       </LocalizationProvider>
     </ThemeProvider>
   )

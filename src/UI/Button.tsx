@@ -1,10 +1,17 @@
-import React from 'react'
+// import React from 'react'
 import { Button as MUIButton } from '@mui/material'
 import { ThemeProvider } from '@mui/system'
 
 import { darkTheme } from './themes'
 
-export const Button = ({ onClick, disabled, label, width }) => {
+interface ButtonProps {
+  onClick: any // TODO
+  label: string
+  disabled?: boolean
+  width?: number | undefined
+}
+
+export const Button = ({ onClick, disabled, label, width }: ButtonProps) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <MUIButton

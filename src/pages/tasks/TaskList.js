@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import {
@@ -43,8 +43,9 @@ export const TaskList = () => {
 
   useEffect(() => {
     const list = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
-    const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
     setList(list)
+
+    const selectedTaskIsOnList = list && list.some((task) => task.id === selectedTaskId)
     setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
   }, [taskSort, selectedTaskId, unsavedTasksIDs])
 
@@ -78,23 +79,24 @@ export const TaskList = () => {
       <div className="tasks-header">Task List</div>
       <Select variant="sort" value={taskSort} onChange={onChangeSort} label="Select Sort" />
       <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
-        {list.map((el, index) => {
-          const { name, creator, assigned, status, id, deadline } = el
-          const outdated = deadline < today
-          return (
-            <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
-              <div>Name: {taskListName(name)}</div>
-              <div>
-                {getFromUserlist({ userlist, uid: creator })} assigned to{' '}
-                {getFromUserlist({ userlist, uid: assigned })}
+        {list &&
+          list.map((el, index) => {
+            const { name, creator, assigned, status, id, deadline } = el
+            const outdated = deadline < today
+            return (
+              <div key={index} className={getCardClass(id)} onClick={() => taskSelectHandler(id)}>
+                <div>Name: {taskListName(name)}</div>
+                <div>
+                  {getFromUserlist({ userlist, uid: creator })} assigned to{' '}
+                  {getFromUserlist({ userlist, uid: assigned })}
+                </div>
+                <div>Status: {status}</div>
+                <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
+                  {outdated ? 'Expired' : 'Deadline'}: {convertTime(deadline)}
+                </div>
               </div>
-              <div>Status: {status}</div>
-              <div style={{ color: outdated && status !== 'Closed' ? '#f75' : '' }}>
-                {outdated ? 'Expired' : 'Deadline'}: {convertTime(deadline)}
-              </div>
-            </div>
-          )
-        })}
+            )
+          })}
       </div>
     </div>
   )

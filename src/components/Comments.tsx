@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux'
 
 import { useAppContext } from '../context/Context'
 import { selectTask } from '../redux/selectors'
+import { EventTarget, Task } from '../interfaces'
 
 export const Comments = () => {
   const { selectedTaskId, tasks } = useSelector(selectTask)
@@ -14,18 +15,20 @@ export const Comments = () => {
   const tempComment = tempComments[selectedTaskId] || ''
 
   useEffect(() => {
-    const doc = document.querySelector('.input')
+    const doc = document.querySelector('.input') as HTMLElement
     doc.focus()
   }, [newComments])
 
-  const { comments } = tasks.find((task) => task.id === selectedTaskId)
+  const { comments } = tasks.find((task: Task) => {
+    return task.id === selectedTaskId
+  }) // TODO
 
   const submitComment = () => {
     setComments(tempComment)
     setTempComment('')
   }
 
-  const deleteCommentHandler = (index) => {
+  const deleteCommentHandler = (index: number) => {
     const tempClass = 'animate-delete-comment'
     const comments = document.getElementsByClassName('new-comment')
     const div = comments[index]
@@ -36,28 +39,26 @@ export const Comments = () => {
     }, 250)
   }
 
-  const changeCommentHandler = ({ value}) => {
+  const changeCommentHandler = (e: EventTarget) => {
+    const { value } = e.target
     setTempComment(value)
   }
 
   return (
     <>
       {![...comments, ...yourComments].length && (
-        <div
-          className="new-comment comment__container"
-          style={{ color: 'grey' }}
-        >
+        <div className="new-comment comment__container" style={{ color: 'grey' }}>
           No comments yet
         </div>
       )}
-      {comments.map((comment, index) => {
+      {comments.map((comment: string, index: number) => {
         return (
           <div key={index} className="comment__container">
             {comment}
           </div>
         )
       })}
-      {yourComments.map((comment, index) => {
+      {yourComments.map((comment: string, index: number) => {
         return (
           <div key={index} className="comment__container flexrow animate-add-comment new-comment">
             <div>{comment}</div>
@@ -74,7 +75,7 @@ export const Comments = () => {
           label={yourComments.length ? 'New comment' : 'Add first comment'}
           comments={true}
           rows={2}
-          onChange={(e) => changeCommentHandler(e.target)}
+          onChange={changeCommentHandler}
           task={true}
         />
         <Button onClick={submitComment} disabled={!tempComment.length} label="Add comment" />

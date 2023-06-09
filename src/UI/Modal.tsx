@@ -1,4 +1,4 @@
-import * as React from 'react'
+// import * as React from 'react'
 import { Dialog } from '@mui/material/'
 import { DialogActions } from '@mui/material/'
 import { DialogContent } from '@mui/material/'
@@ -9,7 +9,13 @@ import { Button } from './Button'
 
 import { darkTheme } from './themes'
 
-export const DrawModal = ({ drawModal, setDrawModal, onDelete }) => {
+interface ModalProps {
+  drawModal: boolean
+  setDrawModal: any // TODO
+  onDelete: any // TODO
+}
+
+export const DrawModal = ({ drawModal, setDrawModal, onDelete }: ModalProps) => {
   const closeHandler = () => setDrawModal(false)
 
   return (

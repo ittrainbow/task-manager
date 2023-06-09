@@ -8,7 +8,7 @@ function* listenFirebase({ payload }) {
   const { time } = payload
   const { newTask } = yield select(selectTask)
   while (!newTask) {
-    yield delay(15000)
+    yield delay(5000)
     try {
       const task = yield call(listenToFirebase, payload)
 

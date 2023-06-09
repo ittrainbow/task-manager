@@ -1,4 +1,4 @@
-import React from 'react'
+// import React from 'react'
 import { Button } from './Button'
 
 const buttons = [
@@ -9,8 +9,16 @@ const buttons = [
   { increment: 604800000, label: '+1 week' }
 ]
 
-export const ButtonSet = ({ deadline, setDeadline, variant }) => {
-  const clicker = (count) => setDeadline(deadline + count)
+interface ButtonSetProps {
+  deadline: number
+  setDeadline: any // TODO
+  variant: number
+}
+
+type Increment = number
+
+export const ButtonSet = ({ deadline, setDeadline, variant }: ButtonSetProps) => {
+  const clicker = (increment: Increment) => setDeadline(deadline + increment)
   const arr = variant === 5 ? buttons : [...buttons].splice(1, 3)
 
   return (

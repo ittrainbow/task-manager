@@ -15,7 +15,7 @@ function* saveTaskSaga({ payload }) {
   const { cleanCommentsOnSave, task } = payload
   const { id } = task
   try {
-    yield call(writeTaskToFirestore, payload)
+    yield call(writeTaskToFirestore, task)
     yield put({
       type: SAVE_TASK_SUCCESS,
       payload
@@ -30,8 +30,9 @@ function* saveTaskSaga({ payload }) {
 }
 
 function* deleteTaskSaga({ payload }) {
+  const { id } = payload
   try {
-    yield call(deleteTaskFromFirestore, payload)
+    yield call(deleteTaskFromFirestore, id)
     yield put({
       type: DELETE_TASK_SUCCESS,
       payload

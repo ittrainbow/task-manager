@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../db/firebase'
 import { logInWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
+import { EventTarget } from '../../interfaces'
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -17,7 +18,7 @@ export const Login = () => {
     user && navigate('/') // eslint-disable-next-line
   }, [user])
 
-  const emailInputHandler = (e) => {
+  const emailInputHandler = (e: EventTarget) => {
     const { value } = e.target
     const email = value.replace(/ /g, '')
     const emailValid = /\S+@\S+\.\S+/.test(email)
@@ -26,7 +27,7 @@ export const Login = () => {
     setEmailValid(emailValid)
   }
 
-  const passwordInputHandler = (e) => {
+  const passwordInputHandler = (e: EventTarget) => {
     const { value } = e.target
     setPassword(value.replace(/ /g, ''))
   }

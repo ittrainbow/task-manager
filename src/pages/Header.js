@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '../UI'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -78,11 +78,11 @@ export const HeaderTab = () => {
         })}
       </div>
       {gotNewComments ? (
-        <div className="fade-in">
+        <div className="fade-in flexrow">
           <CommentsAlert />
         </div>
       ) : (
-        <div className="fade-out">{drawAlert ? <CommentsAlert /> : null}</div>
+        <div className="fade-out flexrow">{drawAlert ? <CommentsAlert /> : null}</div>
       )}
       <div className="flexrow">
         {!loading && <div className="header__greeting">{user && `Welcome, ${name}`}</div>}

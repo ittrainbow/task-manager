@@ -4,10 +4,11 @@ type sortTaskListProps = {
   taskSort: number
   tasks: Task[]
   uid: string
-  unsavedTasksIDs: any
+  unsavedTasksIDs: string[]
 }
 
 export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }: sortTaskListProps) => {
+  console.log(unsavedTasksIDs)
   switch (taskSort) {
     case 1:
       const newTasksCase1 = tasks

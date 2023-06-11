@@ -82,8 +82,8 @@ export const TaskForm = () => {
     }) // eslint-disable-next-line
   }, [yourComments, status, assigned, deadline])
 
-  const snackHandler = (value: boolean) => {
-    setSnack(value)
+  const snackCloseHandler = () => {
+    setSnack(false)
   }
 
   const submitHandler = () => {
@@ -144,7 +144,7 @@ export const TaskForm = () => {
       <DrawModal drawModal={drawModal} setDrawModal={setDrawModal} onDelete={deleteHandler} />
       <Snack
         open={snack}
-        snackHandler={snackHandler}
+        onClose={snackCloseHandler}
         text="Task data was fetched from server and silently updated"
       />
       <div className="flexrow footer">

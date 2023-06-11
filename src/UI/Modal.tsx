@@ -11,8 +11,8 @@ import { darkTheme } from './themes'
 
 interface ModalProps {
   drawModal: boolean
-  setDrawModal: any // TODO
-  onDelete: any // TODO
+  setDrawModal: any
+  onDelete: any
 }
 
 export const DrawModal = ({ drawModal, setDrawModal, onDelete }: ModalProps) => {

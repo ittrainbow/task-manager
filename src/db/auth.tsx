@@ -82,7 +82,6 @@ const AuthContext = createContext({})
 
 type AuthProviderProps = {
   children: JSX.Element
-  value: any
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {

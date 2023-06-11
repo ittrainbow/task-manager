@@ -2,7 +2,7 @@ import '../styles/input.scss'
 
 interface InputProps {
   value: string
-  onChange: any // TODO
+  onChange: any
   label: string
   type: string
   rows?: number

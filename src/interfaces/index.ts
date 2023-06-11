@@ -30,7 +30,7 @@ export interface User {
 
 export interface Action {
   type: string
-  payload: any
+  payload?: any
 }
 
 export type EventTarget = React.ChangeEvent<HTMLInputElement>

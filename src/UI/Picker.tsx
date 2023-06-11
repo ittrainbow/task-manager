@@ -14,6 +14,7 @@ interface PickerProps {
 
 export const Picker = ({ value, onChange }: PickerProps) => {
   const changeHandler = (value: any): void => { // TODO
+    console.log(111, typeof value)
     const millies = dayjs(value).valueOf()
     onChange(millies)
   }

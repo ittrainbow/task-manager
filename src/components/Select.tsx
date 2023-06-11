@@ -12,11 +12,11 @@ import FormControl from '@mui/material/FormControl'
 import { selectApp } from '../redux/selectors'
 import { darkTheme } from '../UI'
 import { useAppContext } from '../context/Context'
-import { User, DropdownValue } from '../interfaces'
+import { User } from '../interfaces'
 
 type Option = {
   label?: string
-  value?: DropdownValue
+  value?: string | number
 }
 
 const sortOptions: Option[] = [

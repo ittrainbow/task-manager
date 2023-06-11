@@ -12,9 +12,10 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
+      const { displayName: name, email, uid } = user
       dispatch({
         type: INIT_APP,
-        payload: user
+        payload: { name, email, uid}
       })
     }
   }, [user, dispatch])

@@ -10,50 +10,69 @@ import {
 } from '../types'
 import { writeTaskToFirestore, deleteTaskFromFirestore } from '../../api/firebase'
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
+import { Task } from '../../interfaces'
 
-function* saveTaskSaga({ payload }) {
+type SaveTaskPayload = {
+  task: Task
+  cleanCommentsOnSave: any
+}
+
+type SaveTaskAction = {
+  type: string,
+  payload: SaveTaskPayload
+}
+
+type DeleteTaskPayload = {
+  id: number
+}
+
+type DeleteTaskAction = {
+  type: string,
+  payload: DeleteTaskPayload
+}
+
+function* saveTaskSaga(payload: SaveTaskPayload) {
   const { cleanCommentsOnSave, task } = payload
-  const { id } = task
+  
   try {
     yield call(writeTaskToFirestore, task)
     yield put({
       type: SAVE_TASK_SUCCESS,
       payload
     })
-    yield call(cleanCommentsOnSave, id)
-  } catch (error) {
+    yield call(cleanCommentsOnSave, task.id)
+  } catch (error: any) {
     yield put({
       type: SAVE_TASK_FAILURE,
-      payload: { error: error.message }
+      payload: error.message
     })
   }
 }
 
-function* deleteTaskSaga({ payload }) {
-  const { id } = payload
+function* deleteTaskSaga(payload: DeleteTaskPayload) {
   try {
-    yield call(deleteTaskFromFirestore, id)
+    yield call(deleteTaskFromFirestore, payload.id)
     yield put({
       type: DELETE_TASK_SUCCESS,
       payload
     })
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: DELETE_TASK_FAILURE,
-      payload: { error: error.message }
+      payload: error.message
     })
   }
 }
 
-function* saveTask(action) {
+function* saveTask(action: SaveTaskAction) {
   yield call(setLoadingTrueSaga)
-  yield call(saveTaskSaga, action)
+  yield call(saveTaskSaga, action.payload)
   yield call(setLoadingFalseSaga)
 }
 
-function* deleteTask(action) {
+function* deleteTask(action: DeleteTaskAction) {
   yield call(setLoadingTrueSaga)
-  yield call(deleteTaskSaga, action)
+  yield call(deleteTaskSaga, action.payload)
   yield call(setLoadingFalseSaga)
 }
 

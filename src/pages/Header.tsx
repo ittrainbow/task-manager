@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../db/firebase'
 import { SELECT_TASK, SELECT_TASK_NEW } from '../redux/types'
-import { logout } from '../db/auth.js'
+import { logout } from '../db/auth'
 import { CommentsAlert } from '../UI'
 import { selectApp, selectTask, selectUser } from '../redux/selectors'
 import { useAppContext } from '../context/Context'

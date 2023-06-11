@@ -1,4 +1,5 @@
 import dayjs from 'dayjs'
+import { Task } from '../interfaces'
 
 export const emptyTask = (uid: string) => {
   return {
@@ -35,10 +36,11 @@ export const convertTime = (value: number) => {
 }
 
 export const getOverflow = (variant: string) => {
-  const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
-  const diff = variant === 'tasks' ? 185 : 230
-  const windowHeight = () => window.innerHeight
-  const height = () =>
+  const querySelector: string =
+    variant === 'tasks' ? '.tasklist__container' : '.comments__container'
+  const diff: number = variant === 'tasks' ? 185 : 230
+  const windowHeight = (): number => window.innerHeight
+  const height = (): number =>
     document.querySelector(querySelector)
       ? (document.querySelector(querySelector) as HTMLElement).scrollHeight
       : 0
@@ -46,19 +48,24 @@ export const getOverflow = (variant: string) => {
 }
 
 type isAnyChangesProps = {
-  selectedTask: any
-  assigned: any
-  status: any
-  yourComments: any
+  selectedTask: Task
+  assigned: string
+  status: string
+  yourComments: string[]
   deadline: number
 }
 
-export const isAnyChanges = (props: isAnyChangesProps) => {
-  const { selectedTask, assigned, status, yourComments, deadline } = props
+export const isAnyChanges = ({
+  selectedTask,
+  assigned,
+  status,
+  yourComments,
+  deadline
+}: isAnyChangesProps) => {
   const statusChanged = selectedTask.status !== status
   const assignedChanged = selectedTask.assigned !== assigned
   const deadlineChanged = selectedTask.deadline !== deadline
-  const commentsChanged = yourComments.length
+  const commentsChanged = yourComments.length > 0
   const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
   return anyChanges
 }

@@ -28,7 +28,7 @@ export const Dashboard = () => {
             <div>{name}</div>
             <div>{email}</div>
             <div className="auth-container flexcol">
-              <Button onClick={() => navigate('/profile')} label="Edit Profle" />
+              <Button onClick={() => navigate('/profile')} label="Edit Profile" />
             </div>
           </>
         )}

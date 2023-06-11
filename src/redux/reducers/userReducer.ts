@@ -1,3 +1,4 @@
+import { Action } from '../../interfaces'
 import {
   LOGIN_SUCCESS,
   UPDATE_USER_SUCCESS,
@@ -6,6 +7,8 @@ import {
   FETCH_NAME_FAILURE
 } from '../types'
 
+import { User } from '../../interfaces'
+
 const initialState = {
   name: null,
   email: null,
@@ -13,42 +16,34 @@ const initialState = {
   error: null
 }
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: Action) => {
   const { type, payload } = action
 
   switch (type) {
     case LOGIN_SUCCESS:
-      const { displayName: name, email, uid} = payload
+    case UPDATE_USER_SUCCESS:
+      const userPayload: User = payload
       
       return {
         ...state,
-        name,
-        email,
-        uid
-      }
-
-    case UPDATE_USER_SUCCESS:
-      return {
-        ...state,
-        ...payload,
-      }
-
-    case UPDATE_USER_FAILURE:
-      return {
-        ...state,
-        ...payload
+        ...userPayload
       }
 
     case FETCH_NAME_SUCCESS:
+      const fetchNamePayload: string = payload
+
       return {
         ...state,
-        ...payload
+        name: fetchNamePayload
       }
 
     case FETCH_NAME_FAILURE:
+    case UPDATE_USER_FAILURE:
+      const error: string = payload
+
       return {
         ...state,
-        ...payload
+        error
       }
 
     default:

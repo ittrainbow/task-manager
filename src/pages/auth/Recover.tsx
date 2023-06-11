@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import { Button, Input } from '../../UI'
 
-import { sendPasswordReset } from '../../db/auth.js'
+import { sendPasswordReset } from '../../db/auth'
 import { auth } from '../../db/firebase'
 import { EventTarget } from '../../interfaces'
 

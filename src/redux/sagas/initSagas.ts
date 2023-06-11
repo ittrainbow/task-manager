@@ -13,17 +13,18 @@ import {
   FETCH_TASKS_FAILURE,
   SET_TASK_SORT
 } from '../types'
+import { Task, User } from '../../interfaces'
 
-function* fetchNameSaga({ payload }) {
+function* fetchNameSaga(payload: User) {
   const { uid } = payload
   try {
-    const name = yield call(fetchNameFromFirestore, uid)
+    const name: unknown = yield call(fetchNameFromFirestore, uid)
     yield put({
       type: FETCH_NAME_SUCCESS,
-      payload: { name }
+      payload: name
     })
     yield put
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: FETCH_NAME_FAILURE,
       payload: { error: error.message }
@@ -31,43 +32,44 @@ function* fetchNameSaga({ payload }) {
   }
 }
 
-function* fetchUserListSaga({ payload }) {
+function* fetchUserListSaga(payload: User) {
   try {
-    const userlist = yield call(fetchUserList)
+    const userlist: User[] = yield call(fetchUserList)
     yield put({
       type: FETCH_USERLIST_SUCCESS,
       payload: { userlist, user: payload }
     })
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: FETCH_USERLIST_FAILURE,
-      payload: { error: error.message }
+      payload: error.message
     })
   }
 }
 
 function* fetchTasksSaga() {
   try {
-    const tasks = yield call(fetchTasks)
+    const tasks: Task[] = yield call(fetchTasks)
     const lastTaskId = Number(localStorage.getItem('lastTaskId'))
 
     yield put({
       type: FETCH_TASKS_SUCCESS,
       payload: { tasks, lastTaskId }
     })
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: FETCH_TASKS_FAILURE,
-      payload: { error: error.message }
+      payload: error.message
     })
   }
 }
 
 function* initTaskSort() {
   let taskSort = Number(localStorage.getItem('taskSort'))
+  
   if (!taskSort || taskSort === 5 || isNaN(taskSort)) {
     taskSort = 4
-    localStorage.setItem('taskSort', taskSort)
+    localStorage.setItem('taskSort', taskSort.toString())
   }
   yield put({
     type: SET_TASK_SORT,
@@ -75,19 +77,25 @@ function* initTaskSort() {
   })
 }
 
-export function* initSagas(action) {
+export function* initSagas(payload: User) {
+  const { name, email, uid } = payload
   yield put({
     type: LOGIN_SUCCESS,
-    payload: action.payload
+    payload: { name, email, uid }
   })
   yield call(initTaskSort)
-  yield all([fetchNameSaga(action), fetchTasksSaga(action), fetchUserListSaga(action)])
+  yield all([fetchNameSaga(payload), fetchTasksSaga(), fetchUserListSaga(payload)])
   yield call(setLoadingFalseSaga)
+}
+
+type InitAction = {
+  type: string
+  payload: User
 }
 
 export function* initSaga() {
   while (true) {
-    const action = yield take(INIT_APP)
-    yield call(initSagas, action)
+    const action: InitAction = yield take(INIT_APP)
+    yield call(initSagas, action.payload)
   }
 }

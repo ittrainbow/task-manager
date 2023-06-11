@@ -1,6 +1,5 @@
 import { Select } from '.'
 import { useAppContext } from '../context/Context'
-import { DropdownValue } from '../interfaces'
 
 export const Dropdowns = () => {
   const { assigned, status, setAssigned, setStatus } = useAppContext()
@@ -11,7 +10,7 @@ export const Dropdowns = () => {
         <Select
           value={assigned}
           variant="users"
-          onChange={(value: DropdownValue) => setAssigned(value)}
+          onChange={(value: React.SetStateAction<string>) => setAssigned(value)}
           label="Assign User"
         />
       </div>
@@ -19,7 +18,7 @@ export const Dropdowns = () => {
         <Select
           value={status}
           variant="status"
-          onChange={(value: DropdownValue) => setStatus(value)}
+          onChange={(value: React.SetStateAction<string>) => setStatus(value)}
           label="Set Status"
         />
       </div>

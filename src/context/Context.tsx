@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, createContext } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { selectTask, selectUser } from '../redux/selectors'
 import { SET_TASK_SORT } from '../redux/types'
-import { DropdownValue } from '../interfaces'
 
 type NewComments = { [key: number]: string[] }
 type TempComments = { [key: number]: string }
@@ -14,9 +13,9 @@ type ContextType = {
   selectedTab: number
   setSelectedTab: React.Dispatch<React.SetStateAction<number>>
   assigned: string
-  setAssigned: any
+  setAssigned: React.Dispatch<React.SetStateAction<string>>
   status: string
-  setStatus: any
+  setStatus: React.Dispatch<React.SetStateAction<string>>
   newComments: NewComments
   tempComments: TempComments
   gotNewComments: boolean
@@ -31,7 +30,7 @@ type ContextChildren = {
   children: JSX.Element
 }
 
-const Context = React.createContext<ContextType>({} as ContextType)
+const Context = createContext<ContextType>({} as ContextType)
 
 export const useAppContext = () => useContext(Context)
 

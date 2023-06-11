@@ -1,4 +1,5 @@
-import { takeEvery, put, call } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
+import * as Effects from 'redux-saga/effects'
 
 import { writeNameToFirestore } from '../../api/firebase'
 import {
@@ -9,7 +10,20 @@ import {
 } from '../types'
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
 
-function* writeNameToFS({ payload }) {
+const call: any = Effects.call
+
+type UserPayload = {
+  name: string
+  uid: string
+}
+
+type WriteNameAction = {
+  type: string
+  payload: UserPayload
+}
+
+function* writeNameToFS(payload: UserPayload) {
+  console.log(1, payload)
   try {
     yield call(writeNameToFirestore, payload)
     yield put({
@@ -20,17 +34,17 @@ function* writeNameToFS({ payload }) {
       type: UPDATE_USERLIST,
       payload
     })
-  } catch (error) {
+  } catch (error: any) {
     yield put({
       type: UPDATE_USER_FAILURE,
-      payload: {error: error.message}
+      payload: { error: error.message }
     })
   }
 }
-
-function* writeName(action) {
+function* writeName(action: WriteNameAction) {
+  const { payload } = action
   yield call(setLoadingTrueSaga)
-  yield call(writeNameToFS, action)
+  yield call(writeNameToFS, payload)
   yield call(setLoadingFalseSaga)
 }
 

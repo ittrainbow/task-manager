@@ -28,5 +28,9 @@ export interface User {
   uid: string
 }
 
+export interface Action {
+  type: string
+  payload: any
+}
+
 export type EventTarget = React.ChangeEvent<HTMLInputElement>
-export type DropdownValue = string | number

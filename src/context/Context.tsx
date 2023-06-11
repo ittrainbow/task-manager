@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, createContext } from 'react'
+import { useState, useEffect, useContext, createContext, Dispatch, SetStateAction } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { selectTask, selectUser } from '../redux/selectors'
@@ -9,13 +9,13 @@ type TempComments = { [key: number]: string }
 
 type ContextType = {
   selectedTaskIsOnList: boolean
-  setSelectedTaskIsOnList: React.Dispatch<React.SetStateAction<boolean>>
+  setSelectedTaskIsOnList: Dispatch<SetStateAction<boolean>>
   selectedTab: number
-  setSelectedTab: React.Dispatch<React.SetStateAction<number>>
+  setSelectedTab: Dispatch<SetStateAction<number>>
   assigned: string
-  setAssigned: React.Dispatch<React.SetStateAction<string>>
+  setAssigned: Dispatch<SetStateAction<string>>
   status: string
-  setStatus: React.Dispatch<React.SetStateAction<string>>
+  setStatus: Dispatch<SetStateAction<string>>
   newComments: NewComments
   tempComments: TempComments
   gotNewComments: boolean
@@ -38,7 +38,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
   const dispatch = useDispatch()
   const { uid } = useSelector(selectUser)
   const { selectedTaskId } = useSelector(selectTask)
-  
+
   const [selectedTaskIsOnList, setSelectedTaskIsOnList] = useState<boolean>(false)
   const [selectedTab, setSelectedTab] = useState<number>(0)
   const [status, setStatus] = useState<string>('New')

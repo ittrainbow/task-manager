@@ -1,5 +1,5 @@
 import { db, auth } from './firebase'
-import React, { useContext } from 'react'
+import { useContext, createContext } from 'react'
 import { getDoc, setDoc, doc } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
@@ -78,7 +78,7 @@ export function useAuthValue() {
   return useContext(AuthContext)
 }
 
-const AuthContext = React.createContext({})
+const AuthContext = createContext({})
 
 type AuthProviderProps = {
   children: JSX.Element

@@ -20,10 +20,10 @@ type ContextType = {
   tempComments: TempComments
   gotNewComments: boolean
   unsavedTasksIDs: string[]
-  setComments?: any
-  deleteComments?: any
-  setTempComment?: any
-  cleanCommentsOnSave: any
+  setComments: (comments: string) => void
+  deleteComments: (index: number) => void
+  setTempComment: (value: string) => void
+  cleanCommentsOnSave: (id: number) => void
 }
 
 type ContextChildren = {
@@ -70,7 +70,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
   const resetSort = () => {
     dispatch({
       type: SET_TASK_SORT,
-      payload: 1
+      payload: '1'
     })
   }
 

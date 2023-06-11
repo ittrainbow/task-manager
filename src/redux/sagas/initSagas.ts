@@ -65,11 +65,11 @@ function* fetchTasksSaga() {
 }
 
 function* initTaskSort() {
-  let taskSort = Number(localStorage.getItem('taskSort'))
-  
-  if (!taskSort || taskSort === 5 || isNaN(taskSort)) {
-    taskSort = 4
-    localStorage.setItem('taskSort', taskSort.toString())
+  let taskSort = localStorage.getItem('taskSort')
+
+  if (!taskSort || taskSort === '5') {
+    taskSort = '4'
+    localStorage.setItem('taskSort', taskSort)
   }
   yield put({
     type: SET_TASK_SORT,

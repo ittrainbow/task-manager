@@ -14,7 +14,7 @@ import { Task } from '../../interfaces'
 
 type SaveTaskPayload = {
   task: Task
-  cleanCommentsOnSave: any
+  cleanCommentsOnSave: (id: number) => void
 }
 
 type SaveTaskAction = {

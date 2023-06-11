@@ -30,7 +30,16 @@ export interface User {
 
 export interface Action {
   type: string
-  payload?: any
+  payload?: any // TODO
+}
+
+export interface InputProps {
+  value: string
+  label: string
+  type: string
+  comments?: boolean
+  rows?: number
+  task?: boolean
 }
 
 export type EventTarget = React.ChangeEvent<HTMLInputElement>

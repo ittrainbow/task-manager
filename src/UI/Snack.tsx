@@ -9,12 +9,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
 
 interface SnackProps {
   open: boolean
-  onClose: any
+  onClose: () => void
   text: string
 }
 
 export const Snack = ({ open, onClose, text }: SnackProps) => {
-  console.log(1)
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar

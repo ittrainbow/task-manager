@@ -1,4 +1,4 @@
-// import * as React from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { Dialog } from '@mui/material/'
 import { DialogActions } from '@mui/material/'
 import { DialogContent } from '@mui/material/'
@@ -11,8 +11,8 @@ import { darkTheme } from './themes'
 
 interface ModalProps {
   drawModal: boolean
-  setDrawModal: any
-  onDelete: any
+  setDrawModal: Dispatch<SetStateAction<boolean>>
+  onDelete: () => void
 }
 
 export const DrawModal = ({ drawModal, setDrawModal, onDelete }: ModalProps) => {

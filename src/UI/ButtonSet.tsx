@@ -10,7 +10,7 @@ const buttons = [
 
 interface ButtonSetProps {
   deadline: number
-  setDeadline: any
+  setDeadline: (value: number) => void
   variant: number
 }
 

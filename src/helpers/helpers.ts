@@ -1,9 +1,10 @@
 import dayjs from 'dayjs'
-import { Task } from '../interfaces'
+import { Task, User } from '../interfaces'
 
 export const emptyTask = (uid: string) => {
   return {
     creator: uid,
+    id: new Date().getTime(),
     lastmodified: new Date().getTime(),
     comments: [],
     name: '',
@@ -19,7 +20,7 @@ export const taskListName = (name: string) => {
 }
 
 type getFromUserlistProps = {
-  userlist: { [key: string]: string }[]
+  userlist: User[]
   uid: string
 }
 

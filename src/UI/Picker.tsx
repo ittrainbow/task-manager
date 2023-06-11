@@ -9,12 +9,12 @@ import { darkTheme } from './themes'
 
 interface PickerProps {
   value: number
-  onChange: any
+  onChange: (value: number) => void
 }
 
 export const Picker = ({ value, onChange }: PickerProps) => {
-  const changeHandler = (value: any): void => { // TODO
-    console.log(111, typeof value)
+  const changeHandler = (value: any): void => {
+    // TODO
     const millies = dayjs(value).valueOf()
     onChange(millies)
   }

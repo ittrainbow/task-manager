@@ -19,7 +19,7 @@ const initialState = {
   yourTask: false,
   taskInProgress: false,
   selectedTaskId: null,
-  taskSort: 3,
+  taskSort: '3',
   lastUpdate: null
 }
 
@@ -114,9 +114,9 @@ export const taskReducer = (state = initialState, action: Action) => {
       }
 
     case SET_TASK_SORT:
-      const taskSort: number = payload
+      const taskSort: string = payload
 
-      localStorage.setItem('taskSort', taskSort.toString())
+      localStorage.setItem('taskSort', taskSort)
       
       return {
         ...state,

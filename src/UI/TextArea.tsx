@@ -1,16 +1,16 @@
 import '../styles/input.scss'
 import { EventTarget, InputProps } from '../interfaces'
 
-interface InputPropsInput extends InputProps {
+interface InputPropsTextArea extends InputProps {
   onChange: (e: EventTarget) => void
 }
 
-export const Input = ({ value, type, onChange, label }: InputPropsInput) => {
+export const TextArea = ({ value, onChange, label, rows }: InputPropsTextArea) => {
   const labelClass = value ? 'user-label-up' : 'user-label'
 
   return (
     <div className="input-group">
-      <input type={type} value={value} onChange={onChange} name="text" className="input" />
+      <textarea rows={rows} value={value} onChange={onChange} name="text" className="input" />
       <label className={labelClass}>{label}</label>
     </div>
   )

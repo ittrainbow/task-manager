@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Button, Input } from '../UI'
+import { Button, TextArea } from '../UI'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useSelector } from 'react-redux'
 
@@ -19,9 +19,9 @@ export const Comments = () => {
     doc.focus()
   }, [newComments])
 
-  const { comments } = tasks.find((task: Task) => {
-    return task.id === selectedTaskId || []
-  })
+  const findTask = tasks.find((task: Task) => task.id === selectedTaskId)
+
+  const comments = findTask ? findTask.comments : []
 
   const submitComment = () => {
     setComments(tempComment)
@@ -69,12 +69,11 @@ export const Comments = () => {
         )
       })}
       <div className="flexcol" style={{ paddingTop: '10px' }}>
-        <Input
+        <TextArea
           value={tempComment}
           type="text"
           label={yourComments.length ? 'New comment' : 'Add first comment'}
-          comments={true}
-          rows={2}
+          rows={3}
           onChange={changeCommentHandler}
           task={true}
         />

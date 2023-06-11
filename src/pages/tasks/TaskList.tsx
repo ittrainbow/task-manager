@@ -63,7 +63,7 @@ export const TaskList = () => {
     setSelectedTab(0)
   }
 
-  const onChangeSort = (value: number) => {
+  const onChangeSort = (value: string) => {
     dispatch({
       type: SET_TASK_SORT,
       payload: value

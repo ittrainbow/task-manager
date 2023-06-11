@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Button, ButtonSet, Input } from '../../UI'
+import { Button, ButtonSet, Input, TextArea } from '../../UI'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { Picker } from '../../UI'
@@ -78,16 +78,15 @@ export const TaskNew = () => {
             value={name}
             onChange={nameHandler}
             label="Task name"
-            rows={1}
             task={true}
           />
-          <Input
+          <TextArea
             type="text"
             value={description}
             onChange={descriptionHandler}
             label="Description"
-            rows={5}
             task={true}
+            rows={5}
           />
           <Picker value={deadline} onChange={onChangeDeadline} />
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={5} />

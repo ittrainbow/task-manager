@@ -20,13 +20,13 @@ type Option = {
 }
 
 const sortOptions: Option[] = [
-  { label: 'My tasks (open, expiring first)', value: 1 },
-  { label: 'My tasks (all, newest first)', value: 2 },
-  { label: 'All tasks (open, expiring first)', value: 3 },
-  { label: 'All tasks (all, newest first)', value: 4 }
+  { label: 'My tasks (open, expiring first)', value: '1' },
+  { label: 'My tasks (all, newest first)', value: '2' },
+  { label: 'All tasks (open, expiring first)', value: '3' },
+  { label: 'All tasks (all, newest first)', value: '4' }
 ]
 
-const sortBonusOption: Option[] = [{ label: 'Unsaved comments only', value: 5 }]
+const sortBonusOption: Option[] = [{ label: 'Unsaved comments only', value: '5' }]
 
 const statusOptions: Option[] = [
   { label: 'New', value: 'New' },
@@ -78,13 +78,9 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
     setUserOptions(array)
   }, [userlist])
 
-  const changeHandler = (e: SelectChangeEvent) => {
-    onChange(e.target.value)
-  }
+  const changeHandler = (e: SelectChangeEvent) => onChange(e.target.value)
 
-  const clearHandler = () => {
-    onChange('')
-  }
+  const clearHandler = () => onChange('')
 
   return (
     <ThemeProvider theme={darkTheme}>

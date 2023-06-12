@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 import { useAppContext } from '../context/Context'
 import { selectTask } from '../redux/selectors'
-import { EventTarget, Task } from '../interfaces'
+import { TextAreaTarget, Task } from '../interfaces'
 
 export const Comments = () => {
   const { selectedTaskId, tasks } = useSelector(selectTask)
@@ -39,7 +39,7 @@ export const Comments = () => {
     }, 250)
   }
 
-  const changeCommentHandler = (e: EventTarget) => {
+  const changeCommentHandler = (e: TextAreaTarget) => {
     const { value } = e.target
     setTempComment(value)
   }

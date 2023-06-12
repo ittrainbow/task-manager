@@ -12,7 +12,7 @@ import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { Task } from '../../interfaces'
+import { DropdownValue, Task } from '../../interfaces'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
@@ -63,7 +63,7 @@ export const TaskList = () => {
     setSelectedTab(0)
   }
 
-  const onChangeSort = (value: string) => {
+  const onChangeSort = (value: DropdownValue) => {
     dispatch({
       type: SET_TASK_SORT,
       payload: value

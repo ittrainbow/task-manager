@@ -1,8 +1,8 @@
 import '../styles/input.scss'
-import { EventTarget, InputProps } from '../interfaces'
+import { TextAreaTarget, InputProps } from '../interfaces'
 
 interface InputPropsTextArea extends InputProps {
-  onChange: (e: EventTarget) => void
+  onChange: (e: TextAreaTarget) => void
 }
 
 export const TextArea = ({ value, onChange, label, rows }: InputPropsTextArea) => {

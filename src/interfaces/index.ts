@@ -1,3 +1,5 @@
+import { SelectChangeEvent } from '@mui/material'
+
 export interface TaskFetch {
   comments?: string[]
   creator?: string
@@ -30,7 +32,7 @@ export interface User {
 
 export interface Action {
   type: string
-  payload?: any // TODO
+  payload?: any
 }
 
 export interface InputProps {
@@ -43,3 +45,5 @@ export interface InputProps {
 }
 
 export type EventTarget = React.ChangeEvent<HTMLInputElement>
+export type TextAreaTarget = React.ChangeEvent<HTMLTextAreaElement>
+export type DropdownValue = SelectChangeEvent<string> | string

@@ -24,11 +24,12 @@ function* fetchNameSaga(payload: User) {
       payload: name
     })
     yield put
-  } catch (error: any) {
-    yield put({
-      type: FETCH_NAME_FAILURE,
-      payload: { error: error.message }
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: FETCH_NAME_FAILURE,
+        payload: { error: error.message }
+      })
   }
 }
 
@@ -39,11 +40,12 @@ function* fetchUserListSaga(payload: User) {
       type: FETCH_USERLIST_SUCCESS,
       payload: { userlist, user: payload }
     })
-  } catch (error: any) {
-    yield put({
-      type: FETCH_USERLIST_FAILURE,
-      payload: error.message
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: FETCH_USERLIST_FAILURE,
+        payload: error.message
+      })
   }
 }
 
@@ -56,11 +58,12 @@ function* fetchTasksSaga() {
       type: FETCH_TASKS_SUCCESS,
       payload: { tasks, lastTaskId }
     })
-  } catch (error: any) {
-    yield put({
-      type: FETCH_TASKS_FAILURE,
-      payload: error.message
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: FETCH_TASKS_FAILURE,
+        payload: error.message
+      })
   }
 }
 

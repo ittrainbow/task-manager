@@ -34,11 +34,12 @@ function* writeNameToFS(payload: UserPayload) {
       type: UPDATE_USERLIST,
       payload
     })
-  } catch (error: any) {
-    yield put({
-      type: UPDATE_USER_FAILURE,
-      payload: { error: error.message }
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: UPDATE_USER_FAILURE,
+        payload: { error: error.message }
+      })
   }
 }
 function* writeName(action: WriteNameAction) {

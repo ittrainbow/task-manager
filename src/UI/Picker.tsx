@@ -1,4 +1,3 @@
-import * as React from 'react'
 import dayjs from 'dayjs'
 import { ThemeProvider } from '@mui/material/styles'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -13,8 +12,7 @@ interface PickerProps {
 }
 
 export const Picker = ({ value, onChange }: PickerProps) => {
-  const changeHandler = (value: any): void => {
-    // TODO
+  const changeHandler = (value: any) => {
     const millies = dayjs(value).valueOf()
     onChange(millies)
   }

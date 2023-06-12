@@ -38,7 +38,7 @@ interface SelectProps {
   variant: string
   value: string
   label: string
-  onChange: any // TODO
+  onChange: (event: SelectChangeEvent | string) => void
 }
 
 export const Select = ({ variant, value, onChange, label }: SelectProps) => {
@@ -78,9 +78,14 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
     setUserOptions(array)
   }, [userlist])
 
-  const changeHandler = (e: SelectChangeEvent) => onChange(e.target.value)
+  const changeHandler = (e: SelectChangeEvent<string>) => {
+    const { value } = e.target
+    onChange(value)
+  }
 
-  const clearHandler = () => onChange('')
+  const clearHandler = () => {
+    onChange('')
+  }
 
   return (
     <ThemeProvider theme={darkTheme}>

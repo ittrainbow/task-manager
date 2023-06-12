@@ -6,7 +6,7 @@ import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { EventTarget } from '../../interfaces'
+import { EventTarget, TextAreaTarget } from '../../interfaces'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
@@ -64,7 +64,7 @@ export const TaskNew = () => {
     setName(value)
   }
 
-  const descriptionHandler = (e: EventTarget) => {
+  const descriptionHandler = (e: TextAreaTarget) => {
     const { value } = e.target
     setDescription(value)
   }
@@ -93,7 +93,6 @@ export const TaskNew = () => {
         </div>
         <div className="tasks-footer flexrow">
           <Button
-            // variant="contained"
             onClick={submitHandler}
             disabled={!checkFormValid()}
             label="Submit"

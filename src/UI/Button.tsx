@@ -4,7 +4,7 @@ import { ThemeProvider } from '@mui/system'
 import { darkTheme } from './themes'
 
 interface ButtonProps {
-  onClick: any
+  onClick: () => void
   label: string
   disabled?: boolean
   width?: number | undefined

@@ -13,9 +13,9 @@ type ContextType = {
   selectedTab: number
   setSelectedTab: Dispatch<SetStateAction<number>>
   assigned: string
-  setAssigned: Dispatch<SetStateAction<string>>
+  setAssigned: (value: string) => void
   status: string
-  setStatus: Dispatch<SetStateAction<string>>
+  setStatus: (value: string) => void
   newComments: NewComments
   tempComments: TempComments
   gotNewComments: boolean

@@ -16,27 +16,27 @@ const googleProvider = new GoogleAuthProvider()
 export const signInWithGoogle = async () => {
   try {
     const response = await signInWithPopup(auth, googleProvider)
-    const {
-      email,
-      displayName: name,
-      uid
-    } = response.user
+    const { email, displayName: name, uid } = response.user
     const docs = await getDoc(doc(db, 'users', uid))
     if (docs.data() === undefined) {
       await setDoc(doc(db, 'users', uid), { name, email })
     }
-  } catch (error: any) {
-    console.error(error)
-    alert(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+      console.error(error)
+    }
   }
 }
 
 export const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
     await signInWithEmailAndPassword(auth, email, password)
-  } catch (error: any) {
-    console.error(error)
-    alert(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+      console.error(error)
+    }
   }
 }
 
@@ -50,9 +50,11 @@ export const registerWithEmailAndPassword = async (
     const { uid } = response.user
     const data: { name: string; email: string } = { name, email }
     await setDoc(doc(db, 'users', uid), data)
-  } catch (error: any) {
-    console.error(error)
-    alert(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+      console.error(error)
+    }
   }
 }
 
@@ -60,9 +62,11 @@ export const sendPasswordReset = async (email: string) => {
   try {
     await sendPasswordResetEmail(auth, email)
     alert('Password reset link sent!')
-  } catch (error: any) {
-    console.error(error)
-    alert(error.message)
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message)
+      console.error(error)
+    }
   }
 }
 

@@ -18,7 +18,7 @@ type SaveTaskPayload = {
 }
 
 type SaveTaskAction = {
-  type: string,
+  type: string
   payload: SaveTaskPayload
 }
 
@@ -27,13 +27,13 @@ type DeleteTaskPayload = {
 }
 
 type DeleteTaskAction = {
-  type: string,
+  type: string
   payload: DeleteTaskPayload
 }
 
 function* saveTaskSaga(payload: SaveTaskPayload) {
   const { cleanCommentsOnSave, task } = payload
-  
+
   try {
     yield call(writeTaskToFirestore, task)
     yield put({
@@ -41,11 +41,12 @@ function* saveTaskSaga(payload: SaveTaskPayload) {
       payload
     })
     yield call(cleanCommentsOnSave, task.id)
-  } catch (error: any) {
-    yield put({
-      type: SAVE_TASK_FAILURE,
-      payload: error.message
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: SAVE_TASK_FAILURE,
+        payload: error.message
+      })
   }
 }
 
@@ -56,11 +57,12 @@ function* deleteTaskSaga(payload: DeleteTaskPayload) {
       type: DELETE_TASK_SUCCESS,
       payload
     })
-  } catch (error: any) {
-    yield put({
-      type: DELETE_TASK_FAILURE,
-      payload: error.message
-    })
+  } catch (error) {
+    if (error instanceof Error)
+      yield put({
+        type: DELETE_TASK_FAILURE,
+        payload: error.message
+      })
   }
 }
 

@@ -15,8 +15,8 @@ import { useAppContext } from '../context/Context'
 import { User } from '../interfaces'
 
 type Option = {
-  label?: string
-  value?: string | number
+  label: string
+  value: string
 }
 
 const sortOptions: Option[] = [
@@ -50,8 +50,10 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
   useEffect(() => {
     switch (variant) {
       case 'sort':
-        const advancedOption: Option[] = [...sortOptions, ...sortBonusOption]
-        const options: Option[] = gotNewComments ? advancedOption : sortOptions
+        // const advancedOption: Option[] = [...sortOptions, ...sortBonusOption]
+        const options: Option[] = gotNewComments
+          ? [...sortOptions, ...sortBonusOption]
+          : sortOptions
         setOptions(options)
         break
       case 'status':
@@ -70,7 +72,7 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
   useEffect(() => {
     const array: Option[] = []
     userlist.forEach((user: User) => {
-      const obj: Option = {}
+      const obj: Option = {} as Option
       obj['label'] = user.name
       obj['value'] = user.uid
       array.push(obj)

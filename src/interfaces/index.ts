@@ -1,4 +1,5 @@
 import { SelectChangeEvent } from '@mui/material'
+import { DocumentData, QueryDocumentSnapshot } from 'firebase/firestore'
 
 export interface TaskFetch {
   comments?: string[]
@@ -47,3 +48,5 @@ export interface InputProps {
 export type EventTarget = React.ChangeEvent<HTMLInputElement>
 export type TextAreaTarget = React.ChangeEvent<HTMLTextAreaElement>
 export type DropdownValue = SelectChangeEvent<string> | string
+// export type FetchDoc = QueryDocumentSnapshot<DocumentData>
+// export type 

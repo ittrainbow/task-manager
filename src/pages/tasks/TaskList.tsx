@@ -23,7 +23,7 @@ export const TaskList = () => {
   const { userlist } = useSelector(selectApp)
 
   const [overflow, setOverflow] = useState<boolean>(false)
-  const [list, setList] = useState<any>([])
+  const [list, setList] = useState<Task[]>([])
 
   const today = new Date().getTime()
 

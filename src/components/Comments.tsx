@@ -30,7 +30,7 @@ export const Comments = () => {
 
   const deleteCommentHandler = (index: number) => {
     const tempClass = 'animate-delete-comment'
-    const comments = document.getElementsByClassName('new-comment')
+    const comments: HTMLCollectionOf<Element> = document.getElementsByClassName('new-comment')
     const div = comments[index]
     div.classList.add(tempClass)
     setTimeout(() => {

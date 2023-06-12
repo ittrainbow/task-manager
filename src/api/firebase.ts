@@ -1,4 +1,16 @@
-import { collection, getDocs, getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  getDoc,
+  setDoc,
+  doc,
+  deleteDoc,
+  DocumentData,
+  DocumentReference,
+  QuerySnapshot,
+  QueryDocumentSnapshot,
+  DocumentSnapshot
+} from 'firebase/firestore'
 
 import { db } from '../db/firebase'
 import { Task, TaskFetch, User } from '../interfaces'
@@ -9,63 +21,51 @@ interface UserFromUserlist extends User {
 
 export const fetchNameFromFirestore = async (uid: string | null) => {
   if (typeof uid === 'string') {
-    const response = await getDoc(doc(db, 'users', uid))
-    const data = response.data()
+    const response: DocumentSnapshot<DocumentData> = await getDoc(doc(db, 'users', uid))
+    const data: DocumentData | undefined = response.data()
     if (data) return data.name
   }
 }
 
 export const fetchTasks = async () => {
   const tasklist: (Task | TaskFetch)[] = []
-  const response = await getDocs(collection(db, 'tasks'))
-  response.forEach((doc) => {
+  const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, 'tasks'))
+  response.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
     const task: TaskFetch = doc.data()
     tasklist.push(task)
   })
   return tasklist
 }
 
-export const fetchTasksNumbers = async () => {
-  const numbers: number[] = []
-  const response = await getDocs(collection(db, 'tasks'))
-  response.forEach((doc) => {
-    numbers.push(doc.data().id)
-  })
-  const lastNum = numbers.sort((a, b) => b - a)[0]
-  return [numbers, lastNum]
-}
-
 export const fetchUserList = async () => {
   const userlist: UserFromUserlist[] = []
-  const response = await getDocs(collection(db, 'users'))
-  response.forEach((doc) => {
+  const response: QuerySnapshot<DocumentData> = await getDocs(collection(db, 'users'))
+  response.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
     const { name, email } = doc.data()
-    const uid = doc.id
-    userlist.push({ uid, name, email })
+    userlist.push({ uid: doc.id, name, email })
   })
   return userlist
 }
 
 export const writeNameToFirestore = async ({ uid, name }: UserFromUserlist) => {
-  const docRef = doc(db, 'users', uid)
+  const docRef: DocumentReference<DocumentData> = doc(db, 'users', uid)
   await setDoc(docRef, { name }, { merge: true })
 }
 
 export const writeTaskToFirestore = async (task: Task) => {
-  const { id = 0 } = task // TODO
-  const docRef = doc(db, 'tasks', id.toString())
+  const id: number = task.id
+  const docRef: DocumentReference<DocumentData> = doc(db, 'tasks', id.toString())
   await setDoc(docRef, task, { merge: true })
 }
 
 export const deleteTaskFromFirestore = async (id = 0) => {
-  // TODO
-  const docRef = doc(db, 'tasks', id.toString())
+  const docRef: DocumentReference<DocumentData> = doc(db, 'tasks', id.toString())
   await deleteDoc(docRef)
 }
 
 export const listenToFirebase = async ({ id = 0 }) => {
-  const docRef = doc(db, 'tasks', id.toString())
-  const response = await getDoc(docRef)
+  const docRef: DocumentReference<DocumentData> = doc(db, 'tasks', id.toString())
+  const response: DocumentSnapshot<DocumentData> = await getDoc(docRef)
   const data = response.data()
   return data
 }

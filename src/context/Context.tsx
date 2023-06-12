@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectTask, selectUser } from '../redux/selectors'
 import { SET_TASK_SORT } from '../redux/types'
 
-type NewComments = { [key: number]: string[] }
-type TempComments = { [key: number]: string }
+type NewCommentsType = { [key: number]: string[] }
+type TempCommentsType = { [key: number]: string }
 
 type ContextType = {
   selectedTaskIsOnList: boolean
@@ -13,11 +13,11 @@ type ContextType = {
   selectedTab: number
   setSelectedTab: Dispatch<SetStateAction<number>>
   assigned: string
-  setAssigned: (value: string) => void
+  setAssigned: Dispatch<SetStateAction<string>>
   status: string
   setStatus: (value: string) => void
-  newComments: NewComments
-  tempComments: TempComments
+  newComments: NewCommentsType
+  tempComments: TempCommentsType
   gotNewComments: boolean
   unsavedTasksIDs: string[]
   setComments: (comments: string) => void
@@ -43,8 +43,8 @@ export const ContextProvider = ({ children }: ContextChildren) => {
   const [selectedTab, setSelectedTab] = useState<number>(0)
   const [status, setStatus] = useState<string>('New')
   const [assigned, setAssigned] = useState<string>(uid)
-  const [newComments, setNewComments] = useState<NewComments>({})
-  const [tempComments, setTempComments] = useState<TempComments>({})
+  const [newComments, setNewComments] = useState<NewCommentsType>({} as NewCommentsType)
+  const [tempComments, setTempComments] = useState<TempCommentsType>({} as TempCommentsType)
   const [unsavedTasksIDs, setUnsavedTasksIDs] = useState<string[]>([])
 
   const cleanCommentsOnSave = (id: number) => {

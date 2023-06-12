@@ -13,11 +13,16 @@
   }
 }
 
+.message-alert-icon {
+  display: flex;
+  align-items: center;
+}
+
 .alert {
   display: flex;
   padding: 0 !important;
   align-items: center;
-
+  
   &__icon,
   &__text {
     background-color: #282c34 !important;

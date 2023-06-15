@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
-import { Task, User } from '../interfaces'
+
+import { Task, User, Option } from '../interfaces'
 
 export const emptyTask = (uid: string) => {
   return {
@@ -69,4 +70,11 @@ export const isAnyChanges = ({
   const commentsChanged = yourComments.length > 0
   const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
   return anyChanges
+}
+
+export const getOptions = (label: string, value: string) => {
+  const obj: Option = {} as Option
+  obj['label'] = label
+  obj['value'] = value
+  return obj
 }

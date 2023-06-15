@@ -27,7 +27,7 @@ type ContextType = {
 }
 
 type ContextChildren = {
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 const Context = createContext<ContextType>({} as ContextType)
@@ -91,7 +91,6 @@ export const ContextProvider = ({ children }: ContextChildren) => {
 
   const setTempComment = (value: string) => {
     const tempObject: { [key: number]: string } = { ...tempComments }
-    console.log('set temp comment', value, tempObject, selectedTaskId)
     tempObject[selectedTaskId] = value
     setTempComments(tempObject)
   }

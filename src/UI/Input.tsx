@@ -6,6 +6,7 @@ interface InputPropsInput extends InputProps {
 }
 
 export const Input = ({ value, type, onChange, label }: InputPropsInput) => {
+  console.log(type)
   const labelClass = value ? 'user-label-up' : 'user-label'
 
   return (

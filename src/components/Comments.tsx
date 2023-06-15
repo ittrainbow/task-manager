@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { Button, TextArea } from '../UI'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { useSelector } from 'react-redux'
 
+import { Button, TextArea } from '../UI'
 import { useAppContext } from '../context/Context'
 import { selectTask } from '../redux/selectors'
 import { TextAreaTarget, Task } from '../interfaces'
@@ -11,17 +11,16 @@ export const Comments = () => {
   const { selectedTaskId, tasks } = useSelector(selectTask)
   const { newComments, setComments, deleteComments, tempComments, setTempComment } = useAppContext()
 
-  const yourComments = newComments[selectedTaskId] || []
-  const tempComment = tempComments[selectedTaskId] || ''
+  const yourComments: string[] = newComments[selectedTaskId] || []
+  const tempComment: string = tempComments[selectedTaskId] || ''
 
   useEffect(() => {
-    const doc = document.querySelector('.input') as HTMLElement
-    doc.focus()
+    const doc: HTMLElement | null = document.querySelector('.input')
+    doc && doc.focus()
   }, [newComments])
 
-  const findTask = tasks.find((task: Task) => task.id === selectedTaskId)
-
-  const comments = findTask ? findTask.comments : []
+  const findTask: Task | undefined = tasks.find((task: Task) => task.id === selectedTaskId)
+  const comments: string[] = findTask ? findTask.comments : []
 
   const submitComment = () => {
     setComments(tempComment)
@@ -30,11 +29,11 @@ export const Comments = () => {
 
   const deleteCommentHandler = (index: number) => {
     const tempClass = 'animate-delete-comment'
-    const comments: HTMLCollectionOf<Element> = document.getElementsByClassName('new-comment')
-    const div = comments[index]
-    div.classList.add(tempClass)
+    const commentsHtml: HTMLCollectionOf<Element> | null =
+      document.getElementsByClassName('new-comment')
+    commentsHtml[index].classList.add(tempClass)
     setTimeout(() => {
-      div.classList.remove(tempClass)
+      commentsHtml[index].classList.remove(tempClass)
       deleteComments(index)
     }, 250)
   }
@@ -46,7 +45,7 @@ export const Comments = () => {
 
   return (
     <>
-      {![...comments, ...yourComments].length && (
+      {[...yourComments, ...comments].length < 1 && (
         <div className="new-comment comment__container" style={{ color: 'grey' }}>
           No comments yet
         </div>
@@ -77,7 +76,7 @@ export const Comments = () => {
           onChange={changeCommentHandler}
           task={true}
         />
-        <Button onClick={submitComment} disabled={!tempComment.length} label="Add comment" />
+        <Button onClick={submitComment} disabled={tempComment.length < 1} label="Add comment" />
       </div>
     </>
   )

@@ -6,12 +6,12 @@ import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { EventTarget, TextAreaTarget } from '../../interfaces'
+import { EventTarget, TextAreaTarget, Task } from '../../interfaces'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
   const { uid } = useSelector(selectUser)
-  const { assigned, setAssigned, status, setStatus } = useAppContext()
+  const { assigned, setAssigned, status, setStatus, cleanCommentsOnSave } = useAppContext()
   const dispatch = useDispatch()
 
   const [name, setName] = useState<string>('')
@@ -34,7 +34,7 @@ export const TaskNew = () => {
   const submitHandler = () => {
     if (checkFormValid()) {
       const time = new Date().getTime()
-      const task = {
+      const task: Task = {
         creator: uid,
         id: time,
         lastmodified: time,
@@ -47,7 +47,7 @@ export const TaskNew = () => {
       }
       dispatch({
         type: SAVE_TASK_ATTEMPT,
-        payload: { task }
+        payload: { task, cleanCommentsOnSave }
       })
     }
   }
@@ -73,13 +73,7 @@ export const TaskNew = () => {
     <>
       <div className="flexcol task-task">
         <div className="tasknew-container flexnew">
-          <Input
-            type="text"
-            value={name}
-            onChange={nameHandler}
-            label="Task name"
-            task={true}
-          />
+          <Input type="text" value={name} onChange={nameHandler} label="Task name" task={true} />
           <TextArea
             type="text"
             value={description}
@@ -92,11 +86,7 @@ export const TaskNew = () => {
           <ButtonSet deadline={deadline} setDeadline={setDeadline} variant={5} />
         </div>
         <div className="tasks-footer flexrow">
-          <Button
-            onClick={submitHandler}
-            disabled={!checkFormValid()}
-            label="Submit"
-          />
+          <Button onClick={submitHandler} disabled={!checkFormValid()} label="Submit" />
           <Button onClick={cancelHandler} label="Cancel" />
         </div>
       </div>

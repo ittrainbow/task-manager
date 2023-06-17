@@ -13,13 +13,13 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
+import { Task } from '../../interfaces'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
   const { uid } = useSelector(selectUser)
   const { userlist } = useSelector(selectApp)
   const { selectedTaskId, lastUpdate } = useSelector(selectTask)
-  const selectedTask = useSelector(selectCurrentTask) || emptyTask(uid)
   const { assigned, setAssigned, status, setStatus, newComments, cleanCommentsOnSave } =
     useAppContext()
 
@@ -29,9 +29,11 @@ export const TaskForm = () => {
   const [deadline, setDeadline] = useState<number>(0)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
 
+  const selectedTask: Task = useSelector(selectCurrentTask) || emptyTask(uid)
+
   const yourComments: string[] = newComments[selectedTaskId] || []
 
-  const { name, description, creator, id, comments } = selectedTask
+  const { name, description, creator, comments } = selectedTask
   const commentsList: string[] = [...comments, ...yourComments]
 
   useEffect(() => {
@@ -39,16 +41,11 @@ export const TaskForm = () => {
 
     setTimeout(() => paddingHelper(), 20)
     window.addEventListener('resize', paddingHelper)
+
     return () => window.removeEventListener('resize', paddingHelper) // eslint-disable-next-line
   }, [newComments])
 
-  const outdated = () => {
-    return new Date().getTime() > deadline
-  }
-
-  const listenerStop = () => {
-    dispatch({ type: LISTENER_STOP })
-  }
+  const outdated = () => new Date().getTime() > deadline
 
   const listenerStart = () => {
     const time = new Date().getTime()
@@ -58,12 +55,18 @@ export const TaskForm = () => {
     })
   }
 
+  const listenerStop = () => {
+    dispatch({ type: LISTENER_STOP })
+  }
+
   useEffect(() => {
-    listenerStart()
     const { status, assigned, deadline } = selectedTask
+
+    listenerStart()
     setStatus(status)
     setAssigned(assigned)
     setDeadline(deadline)
+
     return () => listenerStop() // eslint-disable-next-line
   }, [selectedTask])
 
@@ -77,7 +80,13 @@ export const TaskForm = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      const anyChanges = isAnyChanges({ selectedTask, assigned, status, yourComments, deadline })
+      const anyChanges: boolean = isAnyChanges({
+        selectedTask,
+        assigned,
+        status,
+        yourComments,
+        deadline
+      })
       setAnyChanges(anyChanges)
     }) // eslint-disable-next-line
   }, [yourComments, status, assigned, deadline])
@@ -87,13 +96,13 @@ export const TaskForm = () => {
   }
 
   const submitHandler = () => {
-    const task = {
+    const task: Task = {
+      ...selectedTask,
       lastmodified: new Date().getTime(),
       comments: commentsList,
       status,
       assigned,
-      deadline,
-      id
+      deadline
     }
     dispatch({
       type: SAVE_TASK_ATTEMPT,

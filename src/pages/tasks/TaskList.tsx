@@ -12,7 +12,7 @@ import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { DropdownValue, Task } from '../../interfaces'
+import { Task } from '../../interfaces'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
@@ -28,8 +28,8 @@ export const TaskList = () => {
   const today = new Date().getTime()
 
   const animateCardPress = () => {
-    const card = document.querySelector('.tasklist__card-selected')
-    card && card.classList.add('animate-card-press')
+    const card = document.querySelector('.tasklist__card-selected') as Element
+    card.classList.add('animate-card-press')
   }
 
   useEffect(() => {
@@ -45,37 +45,35 @@ export const TaskList = () => {
   }, [taskSort])
 
   useEffect(() => {
-    const list = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
-    if (list) {
-      const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
-      setList(list)
-      setSelectedTaskIsOnList(selectedTaskIsOnList)
-    } // eslint-disable-next-line
+    const list: Task[] = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
+    const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
+
+    setList(list)
+    setSelectedTaskIsOnList(selectedTaskIsOnList) // eslint-disable-next-line
   }, [taskSort, selectedTaskId, unsavedTasksIDs])
 
   const taskSelectHandler = (id: number) => {
-    const setId: number = id === selectedTaskId && !newTask ? 0 : id
+    const setId = id === selectedTaskId && !newTask ? 0 : id
+
     localStorage.setItem('lastTaskId', setId.toString())
+    setSelectedTab(0)
     dispatch({
       type: SELECT_TASK,
       payload: setId
     })
-    setSelectedTab(0)
   }
 
-  const onChangeSort = (value: DropdownValue) => {
+  const onChangeSort = (e: string) => {
     dispatch({
       type: SET_TASK_SORT,
-      payload: value
+      payload: e
     })
   }
 
   const getCardClass = (id: number) => {
-    return newTask
-      ? 'tasklist__card-selected-grey flexcol'
-      : id !== selectedTaskId
-      ? 'tasklist__card flexcol'
-      : 'tasklist__card-selected flexcol'
+    if (newTask) return 'tasklist__card-selected-grey flexcol'
+    else if (id !== selectedTaskId) return 'tasklist__card flexcol'
+    return 'tasklist__card-selected flexcol'
   }
 
   return (

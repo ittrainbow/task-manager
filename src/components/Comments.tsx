@@ -19,8 +19,8 @@ export const Comments = () => {
     doc && doc.focus()
   }, [newComments])
 
-  const findTask: Task | undefined = tasks.find((task: Task) => task.id === selectedTaskId)
-  const comments: string[] = findTask ? findTask.comments : []
+  const findTask = tasks.find((task: Task) => task.id === selectedTaskId) as Task
+  const comments = findTask.comments as string[]
 
   const submitComment = () => {
     setComments(tempComment)
@@ -29,8 +29,7 @@ export const Comments = () => {
 
   const deleteCommentHandler = (index: number) => {
     const tempClass = 'animate-delete-comment'
-    const commentsHtml: HTMLCollectionOf<Element> | null =
-      document.getElementsByClassName('new-comment')
+    const commentsHtml = document.getElementsByClassName('new-comment') as HTMLCollectionOf<Element>
     commentsHtml[index].classList.add(tempClass)
     setTimeout(() => {
       commentsHtml[index].classList.remove(tempClass)

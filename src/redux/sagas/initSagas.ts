@@ -18,7 +18,7 @@ import { Task, User } from '../../interfaces'
 function* fetchNameSaga(payload: User) {
   const { uid } = payload
   try {
-    const name: unknown = yield call(fetchNameFromFirestore, uid)
+    const name: string = yield call(fetchNameFromFirestore, uid)
     yield put({
       type: FETCH_NAME_SUCCESS,
       payload: name

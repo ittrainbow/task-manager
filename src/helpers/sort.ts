@@ -14,10 +14,10 @@ export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }: sortTask
         .filter((task: Task) => {
           return task.creator === uid || task.assigned === uid
         })
-        .filter((task) => {
+        .filter((task: Task) => {
           return task.status !== 'Closed'
         })
-        .sort((a, b) => {
+        .sort((a: Task, b: Task) => {
           return a.deadline - b.deadline
         })
       return newTasksCase1
@@ -26,13 +26,13 @@ export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }: sortTask
         .filter((task: Task) => {
           return task.creator === uid || task.assigned === uid
         })
-        .sort((a, b) => {
+        .sort((a: Task, b: Task) => {
           return b.id - a.id
         })
       return newTasksCase2
     case '3':
       const newTasksCase3 = tasks
-        .filter((task) => {
+        .filter((task: Task) => {
           return task.status !== 'Closed'
         })
         .sort((a: Task, b: Task) => {
@@ -45,9 +45,11 @@ export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }: sortTask
       })
       return newTasksCase4
     case '5':
-      const newTasksCase5 = tasks.filter((task) => unsavedTasksIDs.includes(task.id.toString()))
+      const newTasksCase5 = tasks.filter((task: Task) =>
+        unsavedTasksIDs.includes(task.id.toString())
+      )
       return newTasksCase5
     default:
-      break
+      return tasks
   }
 }

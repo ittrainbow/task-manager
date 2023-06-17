@@ -29,8 +29,8 @@ export const getFromUserlist = (props: getFromUserlistProps) => {
   const { userlist, uid } = props
   if (!userlist || !uid) return '(not assigned)'
   if (!userlist.some((el) => el.uid === uid)) return 'user deleted'
-  const name: string | undefined = userlist.find((el) => el.uid === uid)?.name
-  return name
+  const name = userlist.find((el) => el.uid === uid)?.name
+  return name as string
 }
 
 export const convertTime = (value: number) => {
@@ -38,11 +38,10 @@ export const convertTime = (value: number) => {
 }
 
 export const getOverflow = (variant: string) => {
-  const querySelector: string =
-    variant === 'tasks' ? '.tasklist__container' : '.comments__container'
-  const diff: number = variant === 'tasks' ? 185 : 230
-  const windowHeight = (): number => window.innerHeight
-  const height = (): number =>
+  const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
+  const diff = variant === 'tasks' ? 185 : 230
+  const windowHeight = () => window.innerHeight
+  const height = () =>
     document.querySelector(querySelector)
       ? (document.querySelector(querySelector) as HTMLElement).scrollHeight
       : 0

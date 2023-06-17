@@ -8,7 +8,8 @@ import {
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-  sendEmailVerification
+  sendEmailVerification,
+  UserCredential
 } from 'firebase/auth'
 
 const googleProvider = new GoogleAuthProvider()
@@ -46,10 +47,9 @@ export const registerWithEmailAndPassword = async (
   password: string
 ) => {
   try {
-    const response = await createUserWithEmailAndPassword(auth, email, password)
+    const response: UserCredential = await createUserWithEmailAndPassword(auth, email, password)
     const { uid } = response.user
-    const data: { name: string; email: string } = { name, email }
-    await setDoc(doc(db, 'users', uid), data)
+    await setDoc(doc(db, 'users', uid), { name, email })
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -71,7 +71,7 @@ export const sendPasswordReset = async (email: string) => {
 }
 
 export const verifyEmail = async () => {
-  if (auth.currentUser) sendEmailVerification(auth.currentUser)
+  auth.currentUser && sendEmailVerification(auth.currentUser)
 }
 
 export const logout = () => {
@@ -85,7 +85,7 @@ export function useAuthValue() {
 const AuthContext = createContext({})
 
 type AuthProviderProps = {
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {

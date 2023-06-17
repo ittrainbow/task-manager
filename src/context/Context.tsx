@@ -50,7 +50,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
   const cleanCommentsOnSave = (id: number) => {
     const tempObject: { [key: number]: string[] } = { ...newComments }
     delete tempObject[id]
-    !Object.keys(tempObject).length && resetSort()
+    Object.keys(tempObject).length < 1 && resetSort()
     setNewComments(tempObject)
   }
 
@@ -61,7 +61,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
 
   const setComments = (comment: string) => {
     const tempObject: { [key: number]: string[] } = { ...newComments }
-    const tempComments = tempObject[selectedTaskId] || []
+    const tempComments: string[] = tempObject[selectedTaskId] || []
     tempComments.push(comment)
     tempObject[selectedTaskId] = tempComments
     setNewComments(tempObject)
@@ -95,7 +95,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
     setTempComments(tempObject)
   }
 
-  const gotNewComments: boolean = Object.keys(newComments).length > 0
+  const gotNewComments = Object.keys(newComments).length > 0
 
   return (
     <Context.Provider

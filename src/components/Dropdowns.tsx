@@ -1,19 +1,12 @@
 import { Select } from '.'
 import { useAppContext } from '../context/Context'
-import { DropdownValue, DropdownVariants } from '../interfaces'
+import { DropdownVariants } from '../interfaces'
 
 export const Dropdowns = () => {
   const { assigned, status, setAssigned, setStatus } = useAppContext()
 
-  const assignHandler = (e: DropdownValue) => {
-    const value = typeof e === 'string' ? e.valueOf() : e.target.value
-    setAssigned(value)
-  }
-
-  const statusHandler = (e: DropdownValue) => {
-    const value = typeof e === 'string' ? e.valueOf() : e.target.value
-    setStatus(value)
-  }
+  const assignHandler = (e: string) => setAssigned(e)
+  const statusHandler = (e: string) => setStatus(e)
 
   return (
     <div className="selector__container">

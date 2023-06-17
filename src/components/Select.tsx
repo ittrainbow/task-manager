@@ -19,7 +19,7 @@ interface SelectProps {
   variant: string
   value: string
   label: string
-  onChange: (event: SelectChangeEvent | string) => void
+  onChange: (e: string) => void
 }
 
 export const Select = ({ variant, value, onChange, label }: SelectProps) => {
@@ -31,9 +31,9 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
   const [options, setOptions] = useState<Option[]>([])
 
   useEffect(() => {
-    const getArray = (object: { [key: string]: string }, sort: boolean) => {
-      return (Object.keys(object) as (keyof typeof SortValues)[]).map((key, index) => {
-        const value = sort ? (index + 1).toString() : object[key]
+    const getArray = (object: { [key: string]: string }, isSortMenu: boolean) => {
+      return (Object.keys(object) as (keyof typeof object)[]).map((key, index) => {
+        const value = isSortMenu ? (index + 1).toString() : object[key]
         return getOptions(object[key], value)
       })
     }
@@ -45,7 +45,7 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
   useEffect(() => {
     switch (variant) {
       case DropdownVariants.sort:
-        const options: Option[] = sortOptions.slice(0, gotNewComments ? sortOptions.length : -1)
+        const options = sortOptions.slice(0, gotNewComments ? sortOptions.length : -1)
         setOptions(options)
         break
       case DropdownVariants.status:
@@ -61,14 +61,9 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
     } // eslint-disable-next-line
   }, [userOptions, variant, gotNewComments])
 
-  const changeHandler = (e: SelectChangeEvent<string>) => {
-    const { value } = e.target
-    onChange(value)
-  }
+  const changeHandler = (e: SelectChangeEvent) => onChange(e.target.value)
 
-  const clearHandler = () => {
-    onChange('')
-  }
+  const clearHandler = () => onChange('')
 
   return (
     <ThemeProvider theme={darkTheme}>

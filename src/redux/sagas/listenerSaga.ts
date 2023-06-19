@@ -1,5 +1,5 @@
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import * as Effects from "redux-saga/effects"
+import * as Effects from 'redux-saga/effects'
 
 import { LISTENER_START, LISTENER_STOP, UPDATE_FROM_LISTENER } from '../types'
 import { listenToFirebase } from '../../api/firebase'

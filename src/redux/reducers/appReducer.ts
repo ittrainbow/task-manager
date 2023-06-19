@@ -9,7 +9,8 @@ import {
 
 const initialState = {
   loading: true,
-  userlist: []
+  userlist: [],
+  error: null
 }
 
 type UserListPayload = {
@@ -29,7 +30,7 @@ export const appReducer = (state = initialState, action: Action) => {
       const fetchOnSignUp = userlist.some((user: User) => {
         return user.uid === uid
       })
-      
+
       !fetchOnSignUp && userlist.push(userListPayload.user)
 
       return {

@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 
 import { Task, User, Option } from '../interfaces'
 
-export const emptyTask = (uid: string) => {
+export const emptyTask = (uid: string): Task => {
   return {
     creator: uid,
     id: new Date().getTime(),
@@ -20,12 +20,12 @@ export const taskListName = (name: string) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
-type getFromUserlistProps = {
+type GetFromUserlist = {
   userlist: User[]
   uid: string
 }
 
-export const getFromUserlist = (props: getFromUserlistProps) => {
+export const getFromUserlist = (props: GetFromUserlist) => {
   const { userlist, uid } = props
   if (!userlist || !uid) return '(not assigned)'
   if (!userlist.some((el) => el.uid === uid)) return 'user deleted'

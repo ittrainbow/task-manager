@@ -34,10 +34,8 @@ export const fetchTasks = async () => {
 export const fetchUserList = async () => {
   try {
     const response: QuerySnapshot = await getDocs(collection(db, 'users'))
-    const userlist = response.docs.map((el) => {
-      const { name, email } = el.data()
-      const { id: uid } = el
-      return { uid, name, email }
+    const userlist: Omit<User, 'email'>[] = response.docs.map((el) => {
+      return { uid: el.id, name: el.data().name }
     })
     return userlist
   } catch (error) {

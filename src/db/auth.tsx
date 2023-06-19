@@ -1,6 +1,6 @@
 import { db, auth } from './firebase'
 import { useContext, createContext } from 'react'
-import { getDoc, setDoc, doc } from 'firebase/firestore'
+import { getDoc, setDoc, doc, DocumentSnapshot } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -16,9 +16,9 @@ const googleProvider = new GoogleAuthProvider()
 
 export const signInWithGoogle = async () => {
   try {
-    const response = await signInWithPopup(auth, googleProvider)
+    const response: UserCredential = await signInWithPopup(auth, googleProvider)
     const { email, displayName: name, uid } = response.user
-    const docs = await getDoc(doc(db, 'users', uid))
+    const docs: DocumentSnapshot = await getDoc(doc(db, 'users', uid))
     if (docs.data() === undefined) {
       await setDoc(doc(db, 'users', uid), { name, email })
     }

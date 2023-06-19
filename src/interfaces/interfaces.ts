@@ -1,4 +1,4 @@
-export interface Task {
+export interface ITask {
   comments: string[]
   creator: string
   deadline: number
@@ -10,7 +10,7 @@ export interface Task {
   status: string
 }
 
-export interface User {
+export interface IUser {
   name: string
   email: string
   uid: string

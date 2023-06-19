@@ -13,7 +13,7 @@ import { selectApp } from '../redux/selectors'
 import { darkTheme } from '../UI'
 import { useAppContext } from '../context/Context'
 import { getOptions } from '../helpers'
-import { User, StatusValues, SortValues, DropdownVariants, Option } from '../interfaces'
+import { IUser, StatusValues, SortValues, DropdownVariants, Option } from '../interfaces'
 
 interface SelectProps {
   variant: string
@@ -37,7 +37,7 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
         return getOptions(object[key], value)
       })
     }
-    userlist && setUserOptions(userlist.map((user: User) => getOptions(user.name, user.uid)))
+    userlist && setUserOptions(userlist.map((user: IUser) => getOptions(user.name, user.uid)))
     setSortOptions(getArray(SortValues, true))
     setStatusOptions(getArray(StatusValues, false)) // eslint-disable-next-line
   }, [userlist])

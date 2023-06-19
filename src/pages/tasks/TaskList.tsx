@@ -12,7 +12,7 @@ import { Select } from '../../components'
 import { SELECT_TASK, SET_TASK_SORT } from '../../redux/types'
 import { selectApp, selectTask, selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { Task } from '../../interfaces'
+import { ITask } from '../../interfaces'
 
 export const TaskList = () => {
   const dispatch = useDispatch()
@@ -23,7 +23,7 @@ export const TaskList = () => {
   const { userlist } = useSelector(selectApp)
 
   const [overflow, setOverflow] = useState<boolean>(false)
-  const [list, setList] = useState<Task[]>([])
+  const [list, setList] = useState<ITask[]>([])
 
   const today = new Date().getTime()
 
@@ -45,7 +45,7 @@ export const TaskList = () => {
   }, [taskSort])
 
   useEffect(() => {
-    const list: Task[] = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
+    const list: ITask[] = sortTaskList({ taskSort, tasks, uid, unsavedTasksIDs })
     const selectedTaskIsOnList = list.some((task) => task.id === selectedTaskId)
 
     setList(list)
@@ -82,7 +82,7 @@ export const TaskList = () => {
       <Select variant="sort" value={taskSort} onChange={onChangeSort} label="Select Sort" />
       <div className="tasklist__container flexcol" style={{ paddingRight: overflow ? 5 : 0 }}>
         {list &&
-          list.map((el: Task, index: number) => {
+          list.map((el, index) => {
             const { name, creator, assigned, status, id, deadline } = el
             const outdated = deadline < today
             return (

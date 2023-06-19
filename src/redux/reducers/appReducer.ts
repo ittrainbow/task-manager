@@ -1,4 +1,4 @@
-import { Action, User } from '../../interfaces'
+import { Action, IUser } from '../../interfaces'
 import {
   FETCH_USERLIST_SUCCESS,
   FETCH_USERLIST_FAILURE,
@@ -14,8 +14,8 @@ const initialState = {
 }
 
 type UserListPayload = {
-  userlist: User[]
-  user: User
+  userlist: IUser[]
+  user: IUser
 }
 
 export const appReducer = (state = initialState, action: Action) => {
@@ -24,10 +24,10 @@ export const appReducer = (state = initialState, action: Action) => {
 
   switch (type) {
     case FETCH_USERLIST_SUCCESS:
-      const userListPayload: UserListPayload = payload
-      const userlist: User[] = userListPayload.userlist
+      const userListPayload: UserListPayload = payload.action
+      const userlist: IUser[] = userListPayload.userlist
       const { uid } = userListPayload.user
-      const fetchOnSignUp = userlist.some((user: User) => {
+      const fetchOnSignUp: boolean = userlist.some((user) => {
         return user.uid === uid
       })
 
@@ -47,8 +47,8 @@ export const appReducer = (state = initialState, action: Action) => {
       }
 
     case UPDATE_USERLIST:
-      const getUser: number = state.userlist.map((user: User) => user.uid).indexOf(payload.uid)
-      const newList: User[] = [...state.userlist]
+      const getUser: number = state.userlist.map((user: IUser) => user.uid).indexOf(payload.uid)
+      const newList: IUser[] = structuredClone(state.userlist)
 
       newList[getUser] = payload
 

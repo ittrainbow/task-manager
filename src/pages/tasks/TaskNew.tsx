@@ -6,7 +6,7 @@ import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { EventTarget, TextAreaTarget, Task } from '../../interfaces'
+import { EventTarget, TextAreaTarget, ITask } from '../../interfaces'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
@@ -34,7 +34,7 @@ export const TaskNew = () => {
   const submitHandler = () => {
     if (checkFormValid()) {
       const time = new Date().getTime()
-      const task: Task = {
+      const task: ITask = {
         creator: uid,
         id: time,
         lastmodified: time,

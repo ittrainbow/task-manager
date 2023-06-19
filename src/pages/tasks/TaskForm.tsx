@@ -13,7 +13,7 @@ import {
   LISTENER_START,
   LISTENER_STOP
 } from '../../redux/types'
-import { Task } from '../../interfaces'
+import { ITask } from '../../interfaces'
 
 export const TaskForm = () => {
   const dispatch = useDispatch()
@@ -29,7 +29,7 @@ export const TaskForm = () => {
   const [deadline, setDeadline] = useState<number>(0)
   const [anyChanges, setAnyChanges] = useState<boolean>(false)
 
-  const selectedTask: Task = useSelector(selectCurrentTask) || emptyTask(uid)
+  const selectedTask: ITask = useSelector(selectCurrentTask) || emptyTask(uid)
 
   const yourComments: string[] = newComments[selectedTaskId] || []
 
@@ -96,7 +96,7 @@ export const TaskForm = () => {
   }
 
   const submitHandler = () => {
-    const task: Task = {
+    const task: ITask = {
       ...selectedTask,
       lastmodified: new Date().getTime(),
       comments: commentsList,

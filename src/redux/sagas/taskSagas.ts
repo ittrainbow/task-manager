@@ -10,10 +10,10 @@ import {
 } from '../types'
 import { writeTaskToFirestore, deleteTaskFromFirestore } from '../../api/firebase'
 import { setLoadingFalseSaga, setLoadingTrueSaga } from './appSagas'
-import { Task } from '../../interfaces'
+import { ITask } from '../../interfaces'
 
 type SaveTaskPayload = {
-  task: Task
+  task: ITask
   cleanCommentsOnSave: (id: number) => void
 }
 

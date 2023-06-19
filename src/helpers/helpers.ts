@@ -1,8 +1,8 @@
 import dayjs from 'dayjs'
 
-import { Task, User, Option } from '../interfaces'
+import { ITask, IUser, Option } from '../interfaces'
 
-export const emptyTask = (uid: string): Task => {
+export const emptyTask = (uid: string): ITask => {
   return {
     creator: uid,
     id: new Date().getTime(),
@@ -21,7 +21,7 @@ export const taskListName = (name: string) => {
 }
 
 type GetFromUserlist = {
-  userlist: User[]
+  userlist: IUser[]
   uid: string
 }
 
@@ -49,7 +49,7 @@ export const getOverflow = (variant: string) => {
 }
 
 type isAnyChangesProps = {
-  selectedTask: Task
+  selectedTask: ITask
   assigned: string
   status: string
   yourComments: string[]

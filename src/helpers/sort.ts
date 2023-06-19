@@ -1,8 +1,8 @@
-import { Task } from '../interfaces'
+import { ITask } from '../interfaces'
 
 type sortTaskListProps = {
   taskSort: string
-  tasks: Task[]
+  tasks: ITask[]
   uid: string
   unsavedTasksIDs: string[]
 }
@@ -10,42 +10,42 @@ type sortTaskListProps = {
 export const sortTaskList = ({ taskSort, tasks, uid, unsavedTasksIDs }: sortTaskListProps) => {
   switch (taskSort) {
     case '1':
-      const newTasksCase1 = tasks
-        .filter((task: Task) => {
+      const newTasksCase1: ITask[] = tasks
+        .filter((task) => {
           return task.creator === uid || task.assigned === uid
         })
-        .filter((task: Task) => {
+        .filter((task) => {
           return task.status !== 'Closed'
         })
-        .sort((a: Task, b: Task) => {
+        .sort((a, b) => {
           return a.deadline - b.deadline
         })
       return newTasksCase1
     case '2':
-      const newTasksCase2 = tasks
-        .filter((task: Task) => {
+      const newTasksCase2: ITask[] = tasks
+        .filter((task) => {
           return task.creator === uid || task.assigned === uid
         })
-        .sort((a: Task, b: Task) => {
+        .sort((a, b) => {
           return b.id - a.id
         })
       return newTasksCase2
     case '3':
-      const newTasksCase3 = tasks
-        .filter((task: Task) => {
+      const newTasksCase3: ITask[] = tasks
+        .filter((task) => {
           return task.status !== 'Closed'
         })
-        .sort((a: Task, b: Task) => {
+        .sort((a, b) => {
           return a.deadline - b.deadline
         })
       return newTasksCase3
     case '4':
-      const newTasksCase4 = tasks.sort((a: Task, b: Task) => {
+      const newTasksCase4: ITask[] = tasks.sort((a, b) => {
         return b.id - a.id
       })
       return newTasksCase4
     case '5':
-      const newTasksCase5 = tasks.filter((task: Task) =>
+      const newTasksCase5: ITask[] = tasks.filter((task) =>
         unsavedTasksIDs.includes(task.id.toString())
       )
       return newTasksCase5

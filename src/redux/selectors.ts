@@ -1,9 +1,9 @@
-import { Task, User } from '../interfaces'
+import { ITask, IUser } from '../interfaces'
 
 type Store = {
   app: {
     loading: boolean
-    userlist: User[]
+    userlist: IUser[]
   }
   task: {
     error: string | null
@@ -12,7 +12,7 @@ type Store = {
     selectedTaskId: number
     taskInProgress: boolean
     taskSort: string
-    tasks: Task[]
+    tasks: ITask[]
     id: number
     yourTask: boolean
   }
@@ -29,4 +29,4 @@ export const selectApp = (store: Store) => store.app
 export const selectUser = (store: Store) => store.user
 export const selectLoading = (store: Store) => store.app.loading
 export const selectCurrentTask = (store: Store) =>
-  store.task.tasks.find((task: Task) => task.id === store.task.selectedTaskId)
+  store.task.tasks.find((task: ITask) => task.id === store.task.selectedTaskId)

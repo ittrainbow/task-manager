@@ -7,7 +7,7 @@ import {
   FETCH_NAME_FAILURE
 } from '../types'
 
-import { User } from '../../interfaces'
+import { IUser } from '../../interfaces'
 
 const initialState = {
   name: null,
@@ -22,7 +22,7 @@ export const userReducer = (state = initialState, action: Action) => {
   switch (type) {
     case LOGIN_SUCCESS:
     case UPDATE_USER_SUCCESS:
-      const userPayload: User = payload
+      const userPayload: IUser = payload
       
       return {
         ...state,

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Button, TextArea } from '../UI'
 import { useAppContext } from '../context/Context'
 import { selectTask } from '../redux/selectors'
-import { TextAreaTarget, Task } from '../interfaces'
+import { TextAreaTarget, ITask } from '../interfaces'
 
 export const Comments = () => {
   const { selectedTaskId, tasks } = useSelector(selectTask)
@@ -19,7 +19,7 @@ export const Comments = () => {
     doc && doc.focus()
   }, [newComments])
 
-  const findTask = tasks.find((task: Task) => task.id === selectedTaskId) as Task
+  const findTask = tasks.find((task: ITask) => task.id === selectedTaskId) as ITask
   const comments = findTask.comments as string[]
 
   const submitComment = () => {

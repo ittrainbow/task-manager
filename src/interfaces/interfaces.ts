@@ -12,6 +12,5 @@ export interface ITask {
 
 export interface IUser {
   name: string
-  email: string
   uid: string
 }

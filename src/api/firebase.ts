@@ -34,7 +34,7 @@ export const fetchTasks = async () => {
 export const fetchUserList = async () => {
   try {
     const response: QuerySnapshot = await getDocs(collection(db, 'users'))
-    const userlist: Omit<IUser, 'email'>[] = response.docs.map((el) => {
+    const userlist: IUser[] = response.docs.map((el) => {
       return { uid: el.id, name: el.data().name }
     })
     return userlist
@@ -43,7 +43,7 @@ export const fetchUserList = async () => {
   }
 }
 
-export const writeNameToFirestore = async ({ uid, name }: Omit<IUser, 'email'>) => {
+export const writeNameToFirestore = async ({ uid, name }: IUser) => {
   try {
     const docRef: DocumentReference = doc(db, 'users', uid)
     return await setDoc(docRef, { name }, { merge: true })

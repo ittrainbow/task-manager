@@ -72,7 +72,7 @@ export const isAnyChanges = ({
 }
 
 export const getOptions = (label: string, value: string) => {
-  const obj: Option = {} as Option
+  const obj = {} as Option
   obj['label'] = label
   obj['value'] = value
   return obj

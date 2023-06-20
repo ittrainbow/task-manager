@@ -5,7 +5,7 @@ import { Button, Input } from '../../UI'
 
 import { sendPasswordReset } from '../../db/auth'
 import { auth } from '../../db/firebase'
-import { EventTarget } from '../../interfaces'
+import { InputTarget } from '../../interfaces'
 
 export const Recover = () => {
   const navigate = useNavigate()
@@ -18,7 +18,7 @@ export const Recover = () => {
     if (user) navigate('/')
   }, [user, loading, navigate])
 
-  const emailInputHandler = (e: EventTarget) => {
+  const emailInputHandler = (e: InputTarget) => {
     const { value } = e.target
     const email = value.replace(/ /g, '')
     const emailValid = /\S+@\S+\.\S+/.test(email)

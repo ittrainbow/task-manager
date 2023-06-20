@@ -1,4 +1,4 @@
-export type EventTarget = React.ChangeEvent<HTMLInputElement>
+export type InputTarget = React.ChangeEvent<HTMLInputElement>
 export type TextAreaTarget = React.ChangeEvent<HTMLTextAreaElement>
 export type Option = { label: string; value: string }
 

@@ -24,7 +24,7 @@ export const appReducer = (state = initialState, action: Action) => {
 
   switch (type) {
     case FETCH_USERLIST_SUCCESS:
-      const userListPayload: UserListPayload = payload.action
+      const userListPayload: UserListPayload = payload
       const userlist: IUser[] = userListPayload.userlist
       const { uid } = userListPayload.user
       const fetchOnSignUp: boolean = userlist.some((user) => {

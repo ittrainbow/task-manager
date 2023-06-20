@@ -81,10 +81,9 @@ function* initTaskSort() {
 }
 
 export function* initSagas(payload: IUser) {
-  const { name, email, uid } = payload
   yield put({
     type: LOGIN_SUCCESS,
-    payload: { name, email, uid }
+    payload
   })
   yield call(initTaskSort)
   yield all([fetchNameSaga(payload), fetchTasksSaga(), fetchUserListSaga(payload)])

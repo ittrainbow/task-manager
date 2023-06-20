@@ -1,8 +1,8 @@
 import '../styles/input.scss'
-import { EventTarget, InputProps } from '../interfaces'
+import { InputTarget, InputProps } from '../interfaces'
 
 interface InputPropsInput extends InputProps {
-  onChange: (e: EventTarget) => void
+  onChange: (e: InputTarget) => void
 }
 
 export const Input = ({ value, type, onChange, label }: InputPropsInput) => {

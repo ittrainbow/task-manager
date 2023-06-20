@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { UPDATE_USER_ATTEMPT } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { Button, Input } from '../../UI'
-import { EventTarget } from '../../interfaces'
+import { InputTarget } from '../../interfaces'
 
 export const Profile = () => {
   const { name, uid } = useSelector(selectUser)
@@ -22,7 +22,7 @@ export const Profile = () => {
     navigate('/dashboard')
   }
 
-  const onChangeHandler = (e: EventTarget) => {
+  const onChangeHandler = (e: InputTarget) => {
     const { value } = e.target
     setTempName(value)
   }

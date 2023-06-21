@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 
-import { ITask, IUser, Option } from '../interfaces'
+import { ITask, IUser } from '../interfaces'
 
 export const emptyTask = (uid: string): ITask => {
   return {
@@ -72,8 +72,8 @@ export const isAnyChanges = ({
 }
 
 export const getOptions = (label: string, value: string) => {
-  const obj = {} as Option
-  obj['label'] = label
-  obj['value'] = value
+  const obj = { label: '', value: '' }
+  obj.label = label
+  obj.value = value
   return obj
 }

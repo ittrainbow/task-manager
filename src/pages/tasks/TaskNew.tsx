@@ -6,7 +6,7 @@ import { Picker } from '../../UI'
 import { SAVE_TASK_ATTEMPT, SELECT_TASK } from '../../redux/types'
 import { selectUser } from '../../redux/selectors'
 import { useAppContext } from '../../context/Context'
-import { InputTarget, TextAreaTarget, ITask } from '../../interfaces'
+import { InputTarget, ITask } from '../../interfaces'
 
 export const TaskNew = () => {
   const getTime = () => new Date().getTime()
@@ -64,7 +64,7 @@ export const TaskNew = () => {
     setName(value)
   }
 
-  const descriptionHandler = (e: TextAreaTarget) => {
+  const descriptionHandler = (e: InputTarget) => {
     const { value } = e.target
     setDescription(value)
   }

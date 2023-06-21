@@ -28,8 +28,8 @@ export const TaskList = () => {
   const today = new Date().getTime()
 
   const animateCardPress = () => {
-    const card = document.querySelector('.tasklist__card-selected') as Element
-    card.classList.add('animate-card-press')
+    const card = document.querySelector('.tasklist__card-selected') as HTMLElement
+    card && card.classList.add('animate-card-press')
   }
 
   useEffect(() => {

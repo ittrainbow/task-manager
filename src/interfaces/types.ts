@@ -1,6 +1,4 @@
-export type InputTarget = React.ChangeEvent<HTMLInputElement>
-export type TextAreaTarget = React.ChangeEvent<HTMLTextAreaElement>
-export type Option = { label: string; value: string }
+export type InputTarget = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 
 export type Action = {
   type: string
@@ -14,4 +12,5 @@ export type InputProps = {
   comments?: boolean
   rows?: number
   task?: boolean
+  onChange: (e: InputTarget) => void
 }

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { Button, TextArea } from '../UI'
 import { useAppContext } from '../context/Context'
 import { selectTask } from '../redux/selectors'
-import { TextAreaTarget, ITask } from '../interfaces'
+import { ITask } from '../interfaces'
 
 export const Comments = () => {
   const { selectedTaskId, tasks } = useSelector(selectTask)
@@ -15,7 +15,7 @@ export const Comments = () => {
   const tempComment: string = tempComments[selectedTaskId] || ''
 
   useEffect(() => {
-    const doc: HTMLElement | null = document.querySelector('.input')
+    const doc = document.querySelector('.input') as HTMLElement
     doc && doc.focus()
   }, [newComments])
 
@@ -37,7 +37,7 @@ export const Comments = () => {
     }, 250)
   }
 
-  const changeCommentHandler = (e: TextAreaTarget) => {
+  const changeCommentHandler = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const { value } = e.target
     setTempComment(value)
   }

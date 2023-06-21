@@ -9,13 +9,13 @@ import { Button } from './Button'
 
 import { darkTheme } from './themes'
 
-interface ModalProps {
+interface IModalProps {
   drawModal: boolean
   setDrawModal: Dispatch<SetStateAction<boolean>>
   onDelete: () => void
 }
 
-export const DrawModal = ({ drawModal, setDrawModal, onDelete }: ModalProps) => {
+export const DrawModal = ({ drawModal, setDrawModal, onDelete }: IModalProps) => {
   const closeHandler = () => setDrawModal(false)
 
   return (

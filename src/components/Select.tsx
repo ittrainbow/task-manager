@@ -13,16 +13,18 @@ import { selectApp } from '../redux/selectors'
 import { darkTheme } from '../UI'
 import { useAppContext } from '../context/Context'
 import { getOptions } from '../helpers'
-import { IUser, StatusValues, SortValues, DropdownVariants, Option } from '../interfaces'
+import { IUser, StatusValues, SortValues, DropdownVariants } from '../interfaces'
 
-interface SelectProps {
+interface ISelectProps {
   variant: string
   value: string
   label: string
   onChange: (e: string) => void
 }
 
-export const Select = ({ variant, value, onChange, label }: SelectProps) => {
+type Option = { label: string; value: string }
+
+export const Select = ({ variant, value, onChange, label }: ISelectProps) => {
   const { gotNewComments } = useAppContext()
   const { userlist } = useSelector(selectApp)
   const [sortOptions, setSortOptions] = useState<Option[]>([])
@@ -31,13 +33,18 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
   const [options, setOptions] = useState<Option[]>([])
 
   useEffect(() => {
-    const getArray = (object: { [key: string]: string }, isSortMenu: boolean) => {
+    const getArray = (object: Record<string, string>, isSortMenu: boolean) => {
       return (Object.keys(object) as (keyof typeof object)[]).map((key, index) => {
         const value = isSortMenu ? (index + 1).toString() : object[key]
         return getOptions(object[key], value)
       })
     }
-    userlist && setUserOptions(userlist.map((user: IUser) => getOptions(user.name, user.uid)))
+
+    if (userlist) {
+      const list: Option[] = userlist.map((user: IUser) => getOptions(user.name, user.uid))
+      setUserOptions(list)
+    }
+
     setSortOptions(getArray(SortValues, true))
     setStatusOptions(getArray(StatusValues, false)) // eslint-disable-next-line
   }, [userlist])

@@ -3,14 +3,14 @@ import { ThemeProvider } from '@mui/system'
 
 import { darkTheme } from './themes'
 
-interface ButtonProps {
+interface IButtonProps {
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void
   label: string
   disabled?: boolean
   width?: number | undefined
 }
 
-export const Button = ({ onClick, disabled, label, width }: ButtonProps) => {
+export const Button = ({ onClick, disabled, label, width }: IButtonProps) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <MUIButton

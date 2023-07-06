@@ -10,7 +10,7 @@ import { InputTarget } from '../../interfaces'
 export const Login = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  
+
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
@@ -38,6 +38,11 @@ export const Login = () => {
     signInWithGoogle()
   }
 
+  const emailSignInHandler = () => {
+    navigate('/')
+    logInWithEmailAndPassword(email, password)
+  }
+
   return (
     <div className="auth-container flexcol10">
       <div className="auth-container__inner">
@@ -52,7 +57,7 @@ export const Login = () => {
         </div>
         <div className="auth-container flexcol10">
           <Button
-            onClick={() => logInWithEmailAndPassword(email, password)}
+            onClick={emailSignInHandler}
             disabled={!emailValid || password.length < 4}
             label="Sign In"
           />

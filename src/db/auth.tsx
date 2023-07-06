@@ -1,5 +1,5 @@
 import { db, auth } from './firebase'
-import { useContext, createContext } from 'react'
+// import { useContext, createContext } from 'react'
 import { getDoc, setDoc, doc, DocumentSnapshot } from 'firebase/firestore'
 import {
   GoogleAuthProvider,
@@ -32,7 +32,8 @@ export const signInWithGoogle = async () => {
 
 export const logInWithEmailAndPassword = async (email: string, password: string) => {
   try {
-    await signInWithEmailAndPassword(auth, email, password)
+    const response = await signInWithEmailAndPassword(auth, email, password)
+    console.log(response)
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
@@ -78,16 +79,16 @@ export const logout = () => {
   signOut(auth)
 }
 
-export function useAuthValue() {
-  return useContext(AuthContext)
-}
+// export function useAuthValue() {
+//   return useContext(AuthContext)
+// }
 
-const AuthContext = createContext({})
+// const AuthContext = createContext({})
 
-type AuthProviderProps = {
-  children: React.ReactNode
-}
+// type AuthProviderProps = {
+//   children: React.ReactNode
+// }
 
-export function AuthProvider({ children }: AuthProviderProps) {
-  return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>
-}
+// export function AuthProvider({ children }: AuthProviderProps) {
+//   return <AuthContext.Provider value={{}}>{children}</AuthContext.Provider>
+// }

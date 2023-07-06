@@ -33,7 +33,7 @@ export const Select = ({ variant, value, onChange, label }: ISelectProps) => {
   const [options, setOptions] = useState<Option[]>([])
 
   useEffect(() => {
-    const getArray = (object: Record<string, string>, isSortMenu: boolean) => {
+    const getArray = (object: { [key: string]: string }, isSortMenu: boolean) => {
       return (Object.keys(object) as (keyof typeof object)[]).map((key, index) => {
         const value = isSortMenu ? (index + 1).toString() : object[key]
         return getOptions(object[key], value)

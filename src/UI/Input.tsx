@@ -1,9 +1,5 @@
 import '../styles/input.scss'
-import { InputTarget, InputProps } from '../interfaces'
-
-// interface InputPropsInput extends InputProps {
-//   onChange: (e: InputTarget) => void
-// }
+import { InputProps } from '../interfaces'
 
 export const Input = ({ value, type, onChange, label }: InputProps) => {
   const labelClass = value ? 'user-label-up' : 'user-label'

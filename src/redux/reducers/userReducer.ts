@@ -1,4 +1,4 @@
-import { Action } from '../../interfaces'
+import { ActionProps } from '../../interfaces'
 import {
   LOGIN_SUCCESS,
   UPDATE_USER_SUCCESS,
@@ -16,7 +16,7 @@ const initialState = {
   error: null
 }
 
-export const userReducer = (state = initialState, action: Action) => {
+export const userReducer = (state = initialState, action: ActionProps) => {
   const { type, payload } = action
 
   switch (type) {

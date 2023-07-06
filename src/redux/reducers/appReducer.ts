@@ -1,4 +1,4 @@
-import { Action, IUser } from '../../interfaces'
+import { ActionProps, IUser } from '../../interfaces'
 import {
   FETCH_USERLIST_SUCCESS,
   FETCH_USERLIST_FAILURE,
@@ -18,7 +18,7 @@ type UserListPayload = {
   user: IUser
 }
 
-export const appReducer = (state = initialState, action: Action) => {
+export const appReducer = (state = initialState, action: ActionProps) => {
   const type: string = action.type
   const { payload } = action
 

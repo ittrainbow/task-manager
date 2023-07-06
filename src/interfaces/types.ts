@@ -1,6 +1,6 @@
 export type InputTarget = React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 
-export type Action = {
+export type ActionProps = {
   type: string
   payload?: any
 }

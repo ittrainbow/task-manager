@@ -1,4 +1,4 @@
-import { Action, ITask } from '../../interfaces'
+import { ActionProps, ITask } from '../../interfaces'
 import {
   SAVE_TASK_SUCCESS,
   SAVE_TASK_FAILURE,
@@ -23,7 +23,7 @@ const initialState = {
   lastUpdate: null
 }
 
-export const taskReducer = (state = initialState, action: Action) => {
+export const taskReducer = (state = initialState, action: ActionProps) => {
   const type: string = action.type
   const { payload } = action
 

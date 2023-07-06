@@ -1,71 +1,82 @@
-import { collection, getDocs, getDoc, setDoc, doc, deleteDoc } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  getDoc,
+  setDoc,
+  doc,
+  deleteDoc,
+  DocumentReference,
+  QuerySnapshot,
+  DocumentSnapshot
+} from 'firebase/firestore'
 
 import { db } from '../db/firebase'
-import { Task, TaskFetch, User } from '../interfaces'
+import { ITask, IUser } from '../interfaces'
 
-interface UserFromUserlist extends User {
-  uid: string
-}
-
-export const fetchNameFromFirestore = async (uid: string | null) => {
-  if (typeof uid === 'string') {
-    const response = await getDoc(doc(db, 'users', uid))
-    const data = response.data()
-    if (data) return data.name
+export const fetchNameFromFirestore = async (uid: string) => {
+  try {
+    const response: DocumentSnapshot = await getDoc(doc(db, 'users', uid))
+    return response.data()?.name
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
   }
 }
 
 export const fetchTasks = async () => {
-  const tasklist: (Task | TaskFetch)[] = []
-  const response = await getDocs(collection(db, 'tasks'))
-  response.forEach((doc) => {
-    const task: TaskFetch = doc.data()
-    tasklist.push(task)
-  })
-  return tasklist
-}
-
-export const fetchTasksNumbers = async () => {
-  const numbers: number[] = []
-  const response = await getDocs(collection(db, 'tasks'))
-  response.forEach((doc) => {
-    numbers.push(doc.data().id)
-  })
-  const lastNum = numbers.sort((a, b) => b - a)[0]
-  return [numbers, lastNum]
+  try {
+    const response: QuerySnapshot = await getDocs(collection(db, 'tasks'))
+    return response.docs.map((el) => el.data())
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }
 
 export const fetchUserList = async () => {
-  const userlist: UserFromUserlist[] = []
-  const response = await getDocs(collection(db, 'users'))
-  response.forEach((doc) => {
-    const { name, email } = doc.data()
-    const uid = doc.id
-    userlist.push({ uid, name, email })
-  })
-  return userlist
+  try {
+    const response: QuerySnapshot = await getDocs(collection(db, 'users'))
+    const userlist: IUser[] = response.docs.map((el) => {
+      return { uid: el.id, name: el.data().name }
+    })
+    return userlist
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }
 
-export const writeNameToFirestore = async ({ uid, name }: UserFromUserlist) => {
-  const docRef = doc(db, 'users', uid)
-  await setDoc(docRef, { name }, { merge: true })
+export const writeNameToFirestore = async ({ uid, name }: IUser) => {
+  try {
+    const docRef: DocumentReference = doc(db, 'users', uid)
+    return await setDoc(docRef, { name }, { merge: true })
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }
 
-export const writeTaskToFirestore = async (task: Task) => {
-  const { id = 0 } = task // TODO
-  const docRef = doc(db, 'tasks', id.toString())
-  await setDoc(docRef, task, { merge: true })
+export const writeTaskToFirestore = async (task: ITask) => {
+  try {
+    const id: number = task.id
+    const docRef: DocumentReference = doc(db, 'tasks', id.toString())
+    return await setDoc(docRef, task, { merge: true })
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }
 
-export const deleteTaskFromFirestore = async (id = 0) => {
-  // TODO
-  const docRef = doc(db, 'tasks', id.toString())
-  await deleteDoc(docRef)
+export const deleteTaskFromFirestore = async (id: number = 0) => {
+  try {
+    const docRef: DocumentReference = doc(db, 'tasks', id.toString())
+    return await deleteDoc(docRef)
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }
 
-export const listenToFirebase = async ({ id = 0 }) => {
-  const docRef = doc(db, 'tasks', id.toString())
-  const response = await getDoc(docRef)
-  const data = response.data()
-  return data
+export const listenToFirebase = async ({ id }: { id: number }) => {
+  try {
+    const docRef: DocumentReference = doc(db, 'tasks', id.toString())
+    const response: DocumentSnapshot = await getDoc(docRef)
+    return response.data()
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message)
+  }
 }

@@ -6,12 +6,12 @@ import { DesktopDateTimePicker } from '@mui/x-date-pickers/DesktopDateTimePicker
 
 import { darkTheme } from './themes'
 
-interface PickerProps {
+interface IPickerProps {
   value: number
   onChange: (value: number) => void
 }
 
-export const Picker = ({ value, onChange }: PickerProps) => {
+export const Picker = ({ value, onChange }: IPickerProps) => {
   const changeHandler = (value: any) => {
     const millies = dayjs(value).valueOf()
     onChange(millies)

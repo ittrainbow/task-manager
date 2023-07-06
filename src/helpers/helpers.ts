@@ -1,7 +1,8 @@
 import dayjs from 'dayjs'
-import { Task, User } from '../interfaces'
 
-export const emptyTask = (uid: string) => {
+import { ITask, IUser } from '../interfaces'
+
+export const emptyTask = (uid: string): ITask => {
   return {
     creator: uid,
     id: new Date().getTime(),
@@ -19,17 +20,17 @@ export const taskListName = (name: string) => {
   return name.length > 40 ? name.substring(0, 37) + '...' : name
 }
 
-type getFromUserlistProps = {
-  userlist: User[]
+type GetFromUserlist = {
+  userlist: IUser[]
   uid: string
 }
 
-export const getFromUserlist = (props: getFromUserlistProps) => {
+export const getFromUserlist = (props: GetFromUserlist) => {
   const { userlist, uid } = props
   if (!userlist || !uid) return '(not assigned)'
   if (!userlist.some((el) => el.uid === uid)) return 'user deleted'
-  const name: string | undefined = userlist.find((el) => el.uid === uid)?.name
-  return name
+  const name = userlist.find((el) => el.uid === uid)?.name
+  return name as string
 }
 
 export const convertTime = (value: number) => {
@@ -37,11 +38,10 @@ export const convertTime = (value: number) => {
 }
 
 export const getOverflow = (variant: string) => {
-  const querySelector: string =
-    variant === 'tasks' ? '.tasklist__container' : '.comments__container'
-  const diff: number = variant === 'tasks' ? 185 : 230
-  const windowHeight = (): number => window.innerHeight
-  const height = (): number =>
+  const querySelector = variant === 'tasks' ? '.tasklist__container' : '.comments__container'
+  const diff = variant === 'tasks' ? 185 : 230
+  const windowHeight = () => window.innerHeight
+  const height = () =>
     document.querySelector(querySelector)
       ? (document.querySelector(querySelector) as HTMLElement).scrollHeight
       : 0
@@ -49,7 +49,7 @@ export const getOverflow = (variant: string) => {
 }
 
 type isAnyChangesProps = {
-  selectedTask: Task
+  selectedTask: ITask
   assigned: string
   status: string
   yourComments: string[]
@@ -69,4 +69,11 @@ export const isAnyChanges = ({
   const commentsChanged = yourComments.length > 0
   const anyChanges = statusChanged || commentsChanged || assignedChanged || deadlineChanged
   return anyChanges
+}
+
+export const getOptions = (label: string, value: string) => {
+  const obj = { label: '', value: '' }
+  obj.label = label
+  obj.value = value
+  return obj
 }

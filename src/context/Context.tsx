@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { selectTask, selectUser } from '../redux/selectors'
 import { SET_TASK_SORT } from '../redux/types'
 
-type NewComments = { [key: number]: string[] }
-type TempComments = { [key: number]: string }
+type NewCommentsType = { [key: number]: string[] }
+type TempCommentsType = { [key: number]: string }
 
 type ContextType = {
   selectedTaskIsOnList: boolean
@@ -13,11 +13,11 @@ type ContextType = {
   selectedTab: number
   setSelectedTab: Dispatch<SetStateAction<number>>
   assigned: string
-  setAssigned: (value: string) => void
+  setAssigned: Dispatch<SetStateAction<string>>
   status: string
   setStatus: (value: string) => void
-  newComments: NewComments
-  tempComments: TempComments
+  newComments: NewCommentsType
+  tempComments: TempCommentsType
   gotNewComments: boolean
   unsavedTasksIDs: string[]
   setComments: (comments: string) => void
@@ -27,7 +27,7 @@ type ContextType = {
 }
 
 type ContextChildren = {
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 const Context = createContext<ContextType>({} as ContextType)
@@ -43,14 +43,14 @@ export const ContextProvider = ({ children }: ContextChildren) => {
   const [selectedTab, setSelectedTab] = useState<number>(0)
   const [status, setStatus] = useState<string>('New')
   const [assigned, setAssigned] = useState<string>(uid)
-  const [newComments, setNewComments] = useState<NewComments>({})
-  const [tempComments, setTempComments] = useState<TempComments>({})
+  const [newComments, setNewComments] = useState<NewCommentsType>({} as NewCommentsType)
+  const [tempComments, setTempComments] = useState<TempCommentsType>({} as TempCommentsType)
   const [unsavedTasksIDs, setUnsavedTasksIDs] = useState<string[]>([])
 
   const cleanCommentsOnSave = (id: number) => {
     const tempObject: { [key: number]: string[] } = { ...newComments }
     delete tempObject[id]
-    !Object.keys(tempObject).length && resetSort()
+    Object.keys(tempObject).length < 1 && resetSort()
     setNewComments(tempObject)
   }
 
@@ -61,7 +61,7 @@ export const ContextProvider = ({ children }: ContextChildren) => {
 
   const setComments = (comment: string) => {
     const tempObject: { [key: number]: string[] } = { ...newComments }
-    const tempComments = tempObject[selectedTaskId] || []
+    const tempComments: string[] = tempObject[selectedTaskId] || []
     tempComments.push(comment)
     tempObject[selectedTaskId] = tempComments
     setNewComments(tempObject)
@@ -91,12 +91,11 @@ export const ContextProvider = ({ children }: ContextChildren) => {
 
   const setTempComment = (value: string) => {
     const tempObject: { [key: number]: string } = { ...tempComments }
-    console.log('set temp comment', value, tempObject, selectedTaskId)
     tempObject[selectedTaskId] = value
     setTempComments(tempObject)
   }
 
-  const gotNewComments: boolean = Object.keys(newComments).length > 0
+  const gotNewComments = Object.keys(newComments).length > 0
 
   return (
     <Context.Provider

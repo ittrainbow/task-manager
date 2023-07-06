@@ -12,80 +12,65 @@ import FormControl from '@mui/material/FormControl'
 import { selectApp } from '../redux/selectors'
 import { darkTheme } from '../UI'
 import { useAppContext } from '../context/Context'
-import { User } from '../interfaces'
+import { getOptions } from '../helpers'
+import { IUser, StatusValues, SortValues, DropdownVariants } from '../interfaces'
 
-type Option = {
-  label?: string
-  value?: string | number
-}
-
-const sortOptions: Option[] = [
-  { label: 'My tasks (open, expiring first)', value: '1' },
-  { label: 'My tasks (all, newest first)', value: '2' },
-  { label: 'All tasks (open, expiring first)', value: '3' },
-  { label: 'All tasks (all, newest first)', value: '4' }
-]
-
-const sortBonusOption: Option[] = [{ label: 'Unsaved comments only', value: '5' }]
-
-const statusOptions: Option[] = [
-  { label: 'New', value: 'New' },
-  { label: 'Open', value: 'Open' },
-  { label: 'Closed', value: 'Closed' }
-]
-
-interface SelectProps {
+interface ISelectProps {
   variant: string
   value: string
   label: string
-  onChange: (event: SelectChangeEvent | string) => void
+  onChange: (e: string) => void
 }
 
-export const Select = ({ variant, value, onChange, label }: SelectProps) => {
-  const { gotNewComments = false } = useAppContext()
+type Option = { label: string; value: string }
+
+export const Select = ({ variant, value, onChange, label }: ISelectProps) => {
+  const { gotNewComments } = useAppContext()
   const { userlist } = useSelector(selectApp)
-  const [options, setOptions] = useState<Option[]>([])
+  const [sortOptions, setSortOptions] = useState<Option[]>([])
+  const [statusOptions, setStatusOptions] = useState<Option[]>([])
   const [userOptions, setUserOptions] = useState<Option[]>([])
+  const [options, setOptions] = useState<Option[]>([])
+
+  useEffect(() => {
+    const getArray = (object: { [key: string]: string }, isSortMenu: boolean) => {
+      return (Object.keys(object) as (keyof typeof object)[]).map((key, index) => {
+        const value = isSortMenu ? (index + 1).toString() : object[key]
+        return getOptions(object[key], value)
+      })
+    }
+
+    if (userlist) {
+      const list: Option[] = userlist.map((user: IUser) => getOptions(user.name, user.uid))
+      setUserOptions(list)
+    }
+
+    setSortOptions(getArray(SortValues, true))
+    setStatusOptions(getArray(StatusValues, false)) // eslint-disable-next-line
+  }, [userlist])
 
   useEffect(() => {
     switch (variant) {
-      case 'sort':
-        const advancedOption: Option[] = [...sortOptions, ...sortBonusOption]
-        const options: Option[] = gotNewComments ? advancedOption : sortOptions
+      case DropdownVariants.sort:
+        const options = sortOptions.slice(0, gotNewComments ? sortOptions.length : -1)
         setOptions(options)
         break
-      case 'status':
+      case DropdownVariants.status:
         setOptions(statusOptions)
         break
-      case 'users':
+      case DropdownVariants.assigned:
         if (userOptions) {
           setOptions(userOptions)
         }
         break
       default:
         break
-    }
+    } // eslint-disable-next-line
   }, [userOptions, variant, gotNewComments])
 
-  useEffect(() => {
-    const array: Option[] = []
-    userlist.forEach((user: User) => {
-      const obj: Option = {}
-      obj['label'] = user.name
-      obj['value'] = user.uid
-      array.push(obj)
-    })
-    setUserOptions(array)
-  }, [userlist])
+  const changeHandler = (e: SelectChangeEvent) => onChange(e.target.value)
 
-  const changeHandler = (e: SelectChangeEvent<string>) => {
-    const { value } = e.target
-    onChange(value)
-  }
-
-  const clearHandler = () => {
-    onChange('')
-  }
+  const clearHandler = () => onChange('')
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -96,7 +81,7 @@ export const Select = ({ variant, value, onChange, label }: SelectProps) => {
         }}
       >
         <InputLabel>{label}</InputLabel>
-        {options.length > 0 && (
+        {options.length && (
           <MUISelect
             sx={{ textAlign: 'left' }}
             value={value || ''}

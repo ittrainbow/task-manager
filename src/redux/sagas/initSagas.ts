@@ -13,12 +13,12 @@ import {
   FETCH_TASKS_FAILURE,
   SET_TASK_SORT
 } from '../types'
-import { Task, User } from '../../interfaces'
+import { ITask, IUser } from '../../interfaces'
 
-function* fetchNameSaga(payload: User) {
+function* fetchNameSaga(payload: IUser) {
   const { uid } = payload
   try {
-    const name: unknown = yield call(fetchNameFromFirestore, uid)
+    const name: string = yield call(fetchNameFromFirestore, uid)
     yield put({
       type: FETCH_NAME_SUCCESS,
       payload: name
@@ -33,9 +33,9 @@ function* fetchNameSaga(payload: User) {
   }
 }
 
-function* fetchUserListSaga(payload: User) {
+function* fetchUserListSaga(payload: IUser) {
   try {
-    const userlist: User[] = yield call(fetchUserList)
+    const userlist: IUser[] = yield call(fetchUserList)
     yield put({
       type: FETCH_USERLIST_SUCCESS,
       payload: { userlist, user: payload }
@@ -51,7 +51,7 @@ function* fetchUserListSaga(payload: User) {
 
 function* fetchTasksSaga() {
   try {
-    const tasks: Task[] = yield call(fetchTasks)
+    const tasks: ITask[] = yield call(fetchTasks)
     const lastTaskId = Number(localStorage.getItem('lastTaskId'))
 
     yield put({
@@ -80,11 +80,10 @@ function* initTaskSort() {
   })
 }
 
-export function* initSagas(payload: User) {
-  const { name, email, uid } = payload
+export function* initSagas(payload: IUser) {
   yield put({
     type: LOGIN_SUCCESS,
-    payload: { name, email, uid }
+    payload
   })
   yield call(initTaskSort)
   yield all([fetchNameSaga(payload), fetchTasksSaga(), fetchUserListSaga(payload)])
@@ -93,7 +92,7 @@ export function* initSagas(payload: User) {
 
 type InitAction = {
   type: string
-  payload: User
+  payload: IUser
 }
 
 export function* initSaga() {

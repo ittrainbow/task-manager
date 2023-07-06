@@ -23,7 +23,6 @@ type WriteNameAction = {
 }
 
 function* writeNameToFS(payload: UserPayload) {
-  console.log(1, payload)
   try {
     yield call(writeNameToFirestore, payload)
     yield put({

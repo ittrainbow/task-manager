@@ -1,10 +1,10 @@
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
-import * as Effects from "redux-saga/effects"
+import * as Effects from 'redux-saga/effects'
 
 import { LISTENER_START, LISTENER_STOP, UPDATE_FROM_LISTENER } from '../types'
 import { listenToFirebase } from '../../api/firebase'
 import { selectTask } from '../selectors'
-import { Task } from '../../interfaces'
+import { ITask } from '../../interfaces'
 
 type ListenerPayload = {
   time: number
@@ -22,7 +22,7 @@ function* listenFirebase(payload: ListenerPayload) {
   while (!newTask) {
     yield delay(10000)
     try {
-      const task: Task = yield call(listenToFirebase, payload)
+      const task: ITask = yield call(listenToFirebase, payload)
 
       if (task.lastmodified > time)
         yield put({
@@ -41,7 +41,7 @@ const cancel: any = Effects.cancel
 export function* listenerSaga() {
   while (true) {
     const action: ListenerAction = yield take(LISTENER_START)
-    const task: Task = yield fork(listenFirebase, action.payload)
+    const task: ITask = yield fork(listenFirebase, action.payload)
     yield take(LISTENER_STOP)
     yield cancel(task)
   }

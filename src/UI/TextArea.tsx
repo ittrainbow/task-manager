@@ -1,11 +1,7 @@
 import '../styles/input.scss'
-import { TextAreaTarget, InputProps } from '../interfaces'
+import { InputProps } from '../interfaces'
 
-interface InputPropsTextArea extends InputProps {
-  onChange: (e: TextAreaTarget) => void
-}
-
-export const TextArea = ({ value, onChange, label, rows }: InputPropsTextArea) => {
+export const TextArea = ({ value, onChange, label, rows }: InputProps) => {
   const labelClass = value ? 'user-label-up' : 'user-label'
 
   return (

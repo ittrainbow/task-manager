@@ -12,13 +12,13 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      const { displayName: name, email, uid } = user
+      const { displayName: name, uid } = user
       dispatch({
         type: INIT_APP,
-        payload: { name, email, uid}
+        payload: { name, uid }
       })
-    }
-  }, [user, dispatch])
+    } // eslint-disable-next-line
+  }, [user])
 
   return <Router />
 }

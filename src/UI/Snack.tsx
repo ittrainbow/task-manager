@@ -7,13 +7,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(props,
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-interface SnackProps {
+interface ISnackProps {
   open: boolean
   onClose: () => void
   text: string
 }
 
-export const Snack = ({ open, onClose, text }: SnackProps) => {
+export const Snack = ({ open, onClose, text }: ISnackProps) => {
   return (
     <Stack spacing={2} sx={{ width: '100%' }}>
       <Snackbar

@@ -8,16 +8,14 @@ const buttons = [
   { increment: 604800000, label: '+1 week' }
 ]
 
-interface ButtonSetProps {
+interface IButtonSetProps {
   deadline: number
   setDeadline: (value: number) => void
   variant: number
 }
 
-type Increment = number
-
-export const ButtonSet = ({ deadline, setDeadline, variant }: ButtonSetProps) => {
-  const clicker = (increment: Increment) => setDeadline(deadline + increment)
+export const ButtonSet = ({ deadline, setDeadline, variant }: IButtonSetProps) => {
+  const clicker = (increment: number) => setDeadline(deadline + increment)
   const arr = variant === 5 ? buttons : [...buttons].splice(1, 3)
 
   return (

@@ -1,5 +1,5 @@
 Task Manager
 
-ReactJS, Firebase, Redux Saga
+React, Firebase, Redux Saga
 
 https://fir-project-3cb69.web.app/

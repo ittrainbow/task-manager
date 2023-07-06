@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { registerWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
 import { Button, Input } from '../../UI'
 import { auth } from '../../db/firebase'
-import { EventTarget } from '../../interfaces'
+import { InputTarget } from '../../interfaces'
 
 export const Register = () => {
   const [name, setName] = useState<string>('')
@@ -22,19 +22,19 @@ export const Register = () => {
     else registerWithEmailAndPassword(name, email, password)
   }
 
-  const nameHandler = (e: EventTarget) => {
+  const nameHandler = (e: InputTarget) => {
     const { value } = e.target
     setName(value)
   }
 
-  const emailHandler = (e: EventTarget) => {
+  const emailHandler = (e: InputTarget) => {
     const { value } = e.target
     const emailValid = /\S+@\S+\.\S+/.test(value)
     setEmail(value)
     setEmailValid(emailValid)
   }
 
-  const passwordHandler = (e: EventTarget) => {
+  const passwordHandler = (e: InputTarget) => {
     const { value } = e.target
     setPassword(value)
   }

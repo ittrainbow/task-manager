@@ -5,12 +5,12 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 
 import { auth } from '../../db/firebase'
 import { logInWithEmailAndPassword, signInWithGoogle } from '../../db/auth'
-import { EventTarget } from '../../interfaces'
+import { InputTarget } from '../../interfaces'
 
 export const Login = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  
+
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [emailValid, setEmailValid] = useState<boolean>(false)
@@ -19,7 +19,7 @@ export const Login = () => {
     user && navigate('/') // eslint-disable-next-line
   }, [user])
 
-  const emailInputHandler = (e: EventTarget) => {
+  const emailInputHandler = (e: InputTarget) => {
     const { value } = e.target
     const email = value.replace(/ /g, '')
     const emailValid = /\S+@\S+\.\S+/.test(email)
@@ -28,7 +28,7 @@ export const Login = () => {
     setEmailValid(emailValid)
   }
 
-  const passwordInputHandler = (e: EventTarget) => {
+  const passwordInputHandler = (e: InputTarget) => {
     const { value } = e.target
     setPassword(value.replace(/ /g, ''))
   }
@@ -36,6 +36,11 @@ export const Login = () => {
   const googleSignInHandler = () => {
     navigate('/')
     signInWithGoogle()
+  }
+
+  const emailSignInHandler = () => {
+    navigate('/')
+    logInWithEmailAndPassword(email, password)
   }
 
   return (
@@ -52,7 +57,7 @@ export const Login = () => {
         </div>
         <div className="auth-container flexcol10">
           <Button
-            onClick={() => logInWithEmailAndPassword(email, password)}
+            onClick={emailSignInHandler}
             disabled={!emailValid || password.length < 4}
             label="Sign In"
           />

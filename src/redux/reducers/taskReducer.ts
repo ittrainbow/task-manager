@@ -1,4 +1,4 @@
-import { Action, Task } from '../../interfaces'
+import { ActionProps, ITask } from '../../interfaces'
 import {
   SAVE_TASK_SUCCESS,
   SAVE_TASK_FAILURE,
@@ -23,14 +23,14 @@ const initialState = {
   lastUpdate: null
 }
 
-export const taskReducer = (state = initialState, action: Action) => {
+export const taskReducer = (state = initialState, action: ActionProps) => {
   const type: string = action.type
   const { payload } = action
 
   switch (type) {
     case FETCH_TASKS_SUCCESS:
-      const tasks: Task[] = payload.tasks
-      const lastTaskFromFetchId: number = tasks.sort((a: Task, b: Task) => b.id - a.id)[0].id
+      const tasks: ITask[] = payload.tasks
+      const lastTaskFromFetchId: number = tasks.sort((a, b) => b.id - a.id)[0].id
       const selectedTaskId: number = payload.lastTaskId || lastTaskFromFetchId
 
       return {
@@ -56,8 +56,8 @@ export const taskReducer = (state = initialState, action: Action) => {
     }
 
     case SAVE_TASK_SUCCESS:
-      const taskSave: Task[] = [...state.tasks]
-      const taskIndex: number = taskSave.map((task: Task) => task.id).indexOf(payload.task.id)
+      const taskSave: ITask[] = structuredClone(state.tasks)
+      const taskIndex: number = taskSave.map((task) => task.id).indexOf(payload.task.id)
       const newTask: boolean = taskIndex === -1
       const selectedTaskSuccess: number = newTask ? payload.task.id : taskSave[taskIndex].id
 
@@ -82,7 +82,7 @@ export const taskReducer = (state = initialState, action: Action) => {
 
     case DELETE_TASK_SUCCESS:
       const deletingTaskId: number = payload.id
-      const filteredTasks: Task[] = state.tasks.filter((task: Task) => task.id !== deletingTaskId)
+      const filteredTasks: ITask[] = state.tasks.filter((task: ITask) => task.id !== deletingTaskId)
 
       return {
         ...state,
@@ -102,8 +102,8 @@ export const taskReducer = (state = initialState, action: Action) => {
 
     case UPDATE_FROM_LISTENER:
       const lastUpdate: number = new Date().getTime()
-      const updateTasks: Task[] = [...state.tasks]
-      const updateIndex: number = updateTasks.map((task: Task) => task.id).indexOf(payload.id)
+      const updateTasks: ITask[] = [...state.tasks]
+      const updateIndex: number = updateTasks.map((task: ITask) => task.id).indexOf(payload.id)
 
       updateTasks[updateIndex] = payload
 
@@ -117,7 +117,7 @@ export const taskReducer = (state = initialState, action: Action) => {
       const taskSort: string = payload
 
       localStorage.setItem('taskSort', taskSort)
-      
+
       return {
         ...state,
         taskSort

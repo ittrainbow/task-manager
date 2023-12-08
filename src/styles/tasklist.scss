@@ -1,0 +1,47 @@
+.tasklist {
+  min-width: 33%;
+  max-width: 33%;
+
+  &__container {
+    overflow-y: auto;
+    padding-bottom: 1px;
+  }
+
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  &__card,
+  &__card-selected,
+  &__card-selected-grey {
+    border-radius: 4px;
+    padding: 7px 14px 7px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.25s;
+
+    &:hover {
+      background: #484c54;
+      transition: ease-in-out 0.22s;
+    }
+  }
+
+  &__card {
+    scale: 1;
+    background-color: #383c44;
+    color: #ddd;
+  }
+
+  &__card-selected {
+    background-color: #53575d;
+    color: white;
+  }
+
+  &__card-selected-grey {
+    color: #666;
+    background-color: #383c44;
+  }
+}

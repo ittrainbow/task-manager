@@ -1,0 +1,24 @@
+.task-container {
+  min-width: 100%;
+  flex-grow: 1;
+}
+
+.task {
+  &__container {
+    overflow-y: auto;
+  }
+
+  &__split-left {
+    max-width: 50%;
+    min-width: 50%;
+    // flex-grow: 1;
+  }
+}
+
+.info-card {
+  background-color: #383c44;
+  border-radius: 4px;
+  font-size: 14px;
+  text-align: left;
+  padding: 5px 10px;
+}

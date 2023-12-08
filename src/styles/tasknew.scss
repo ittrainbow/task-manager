@@ -1,0 +1,32 @@
+.tasknew-container {
+  flex-grow: 1
+}
+
+.tasknew {
+  &__container {
+    overflow-y: auto;
+    width: 100%;
+    // height: calc(100vh - 167px);
+  }
+
+  &__description {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  &__dropdowns {
+    width: 100%;
+    padding: 0 15%;
+    min-width: 250px;
+  }
+}
+
+.picker-buttons {
+  padding-left: 100px;
+}
+
+.picker-dropdown {
+  padding: 5px;
+  width: 100%;
+}

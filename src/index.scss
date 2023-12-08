@@ -1,0 +1,91 @@
+@import './styles/auth.scss';
+@import './styles/animate.scss';
+@import './styles/comments.scss';
+@import './styles/header.scss';
+@import './styles/loader.scss';
+@import './styles/picker.scss';
+@import './styles/tasks.scss';
+@import './styles/tasknew.scss';
+@import './styles/tasklist.scss';
+@import './styles/taskform.scss';
+
+body {
+  background-color: #282c34;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: content-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-height: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.ph10 {
+  padding: 0 9px;
+}
+
+.mt40 {
+  margin-top: 40px;
+}
+
+.flexrow,
+.flexrow15 {
+  display: flex;
+  flex-direction: row;
+}
+
+.flexrow {
+  gap: 5px;
+
+  &--task {
+    flex-grow: 1;
+    max-height: calc(100vh - 232px);
+    overflow: auto;
+    gap: 6px;
+  }
+}
+
+.flexrow15 {
+  gap: 15px;
+  width: auto;
+}
+
+.flexcol,
+.flexcol10 {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexcol {
+  gap: 5px;
+}
+
+.flexcol10 {
+  gap: 10px;
+}
+
+.flexnew {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

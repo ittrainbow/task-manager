@@ -1,0 +1,7 @@
+{
+  "manifest_version": 2,
+  "version": "0.0.1",
+  "name": "Task Manager",
+  "description": "Extension Hello World",
+  "author": "ittr"
+}

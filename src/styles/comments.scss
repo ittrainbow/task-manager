@@ -1,0 +1,49 @@
+.comment {
+  &__container,
+  &__container-bin {
+    border-radius: 4px;
+    justify-content: space-between;
+    text-align: left;
+    font-size: 14px;
+    background-color: #383c44;
+    padding: 5px 10px;
+  }
+
+  &__new {
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 4px 7px;
+    border: 1px solid grey;
+  }
+
+  &__new:focus {
+    outline: none;
+    border: 1px solid #0d6efd;
+  }
+}
+
+.bin {
+  display: flex;
+  scale: 0.8;
+  margin: -3px -6px;
+  justify-content: center;
+  cursor: pointer;
+  color: grey;
+  transition: 0.22s ease-in;
+  max-height: 20px;
+
+  &:hover {
+    color: #f75;
+  }
+}
+
+.no-comments {
+  font-size: 16px;
+  color: #777;
+}
+
+.comments {
+  &__container {
+    flex-grow: 1;
+  }
+}

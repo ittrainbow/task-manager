@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { InputTarget } from '../../interfaces'
 import { LOGIN_SUCCESS, SET_ERROR } from '../../redux/types'
-import { Button, Input } from '../../UI'
+import { Button, Input, Loader } from '../../UI'
 import { useMutation } from '@apollo/client'
 import { LOGIN_MUTATION } from '../../api/mutations'
 import { setLocalStorage } from '../../api/userApi'
@@ -17,7 +17,7 @@ export const Login = () => {
   const [password, setPassword] = useState<string>(localStorage.getItem('taskman-password') || '')
   const [emailValid, setEmailValid] = useState<boolean>(true)
 
-  const [loginMutation, { data }] = useMutation(LOGIN_MUTATION, {
+  const [loginMutation, { data, loading }] = useMutation(LOGIN_MUTATION, {
     variables: { email, password }
   })
 
@@ -63,14 +63,25 @@ export const Login = () => {
   return (
     <div className="auth-container flexcol10">
       <div className="auth-container__inner">
-        <div className="flexcol10">
-          <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
-          <Input onChange={passwordInputHandler} value={password} type="password" label={'Password'} />
-        </div>
-        <div className="auth-container flexcol10">
-          <Button onClick={signInHandler} disabled={!emailValid || password.length < 4} label="Login" nonUser={true} />
-          <Button label="Sign Up" onClick={() => navigate('/signup')} nonUser={true} />
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className="flexcol10">
+              <Input onChange={emailInputHandler} value={email} type="text" label="E-mail" />
+              <Input onChange={passwordInputHandler} value={password} type="password" label={'Password'} />
+            </div>
+            <div className="auth-container flexcol10">
+              <Button
+                onClick={signInHandler}
+                disabled={!emailValid || password.length < 4}
+                label="Login"
+                nonUser={true}
+              />
+              <Button label="Sign Up" onClick={() => navigate('/signup')} nonUser={true} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

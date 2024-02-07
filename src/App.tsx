@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { Router } from './router/Router'
 import { useUnsavedIDs } from './hooks'
 import { getLocalStorage, setLocalStorage } from './api/userApi'
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { TOKEN_MUTATION } from './api/mutations'
-import { LOGIN_SUCCESS } from './redux/types'
+import { USERS_QUERY } from './api/queries'
+import { LOGIN_SUCCESS, FETCH_USERS_SUCCESS } from './redux/types'
 import { useNavigate } from 'react-router-dom'
 
 const App = () => {
@@ -15,29 +15,32 @@ const App = () => {
 
   useUnsavedIDs()
 
-  const [tokenMutation, { data }] = useMutation(TOKEN_MUTATION)
+  const [tokenMutation, { data: tokenData }] = useMutation(TOKEN_MUTATION)
+  const { data: usersData } = useQuery(USERS_QUERY)
 
   useEffect(() => {
     const { token } = getLocalStorage()
-    if (token) {
-      console.log(2, token)
-      const data = tokenMutation({ variables: { token } })
-      console.log(3, data)
-    }
-    // dispatch({ type: TOKEN_AUTH })
+    if (token) tokenMutation({ variables: { token } })
     // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
-    if (data) {
-      if (data?.userAuth._id) {
-        setLocalStorage(data.userAuth.token)
-        dispatch({ type: LOGIN_SUCCESS, payload: data.userAuth })
-      }
+    if (tokenData?.userAuth._id) {
+      setLocalStorage(tokenData.userAuth.token)
+      dispatch({ type: LOGIN_SUCCESS, payload: tokenData.userAuth })
+      navigate('/dashboard')
     }
-  }, [data])
+    // eslint-disable-next-line
+  }, [tokenData])
 
-  return <Router />
+  useEffect(() => {
+    if (usersData && usersData?.getUsers?.users?.length) {
+      const { users } = usersData?.getUsers
+      users.length && dispatch({ type: FETCH_USERS_SUCCESS, payload: users })
+    }
+  }, [usersData])
+
+  return <></>
 }
 
 export default App

@@ -6,6 +6,7 @@ import './index.scss'
 
 import App from './App'
 import { store } from './redux/store'
+import { Router } from './router/Router'
 
 const { REACT_APP_MONGO_URI } = process.env
 
@@ -16,7 +17,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </ApolloProvider>
 )

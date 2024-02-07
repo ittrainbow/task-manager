@@ -1,4 +1,8 @@
-import { TActionProps, TAppStore, TUser } from '../../interfaces'
+import {
+  TActionProps,
+  TAppStore,
+  TUser
+} from '../../interfaces'
 import * as TYPES from '../types'
 
 const initialState: TAppStore = {
@@ -40,7 +44,11 @@ export const appReducer = (state = initialState, action: TActionProps) => {
       return { ...state, userlist: users, loading: false }
 
     case TYPES.FETCH_USERS_SUCCESS:
-      return { ...state, userlist: payload }
+      const userlist = payload.map((el: TUser) => {
+        const { name, email, _id } = el
+        return { name, email, _id }
+      })
+      return { ...state, userlist }
 
     case TYPES.SET_ERROR:
       return { ...state, error: payload }

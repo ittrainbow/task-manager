@@ -2,33 +2,47 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { UPDATE_USER } from '../../redux/types'
-import { selectLoading, selectUser } from '../../redux/selectors'
+import { SET_ERROR, UPDATE_USER_SUCCESS } from '../../redux/types'
+import { USER_UPDATE_MUTATION } from '../../api/mutations'
+import { selectUser } from '../../redux/selectors'
 import { Button, Input, Loader } from '../../UI'
 import { InputTarget } from '../../interfaces'
+import { useMutation } from '@apollo/client'
 
 export const Profile = () => {
   const { name, _id } = useSelector(selectUser)
-  const loading = useSelector(selectLoading)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
   const [tempName, setTempName] = useState<string>('')
+  const noChanges = name === tempName
+
+  const [userUpdateMutation, { data, loading }] = useMutation(USER_UPDATE_MUTATION, {
+    variables: { name: tempName, _id }
+  })
 
   useEffect(() => {
     name && setTempName(name)
   }, [name])
 
-  const submitHandler = async () => {
-    dispatch({ type: UPDATE_USER, payload: { name: tempName, _id } })
-  }
+  useEffect(() => {
+    if (data) {
+      const { name, error } = data.userUpdate
 
-  const onChangeHandler = (e: InputTarget) => {
-    const { value } = e.target
-    setTempName(value)
-  }
+      if (error) {
+        dispatch({ type: SET_ERROR, payload: error })
+        return alert(error)
+      }
 
-  const noChanges = name === tempName
+      dispatch({ type: UPDATE_USER_SUCCESS, payload: { _id, name } })
+      return navigate('/dashboard')
+    }
+    // eslint-disable-next-line
+  }, [data])
+
+  const submitHandler = async () => await userUpdateMutation()
+
+  const onChangeHandler = (e: InputTarget) => setTempName(e.target.value)
 
   return (
     <div className="auth-container flexcol">

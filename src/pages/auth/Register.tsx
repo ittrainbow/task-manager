@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 
 import { InputTarget } from '../../interfaces'
-import { Button, Input } from '../../UI'
+import { Button, Input, Loader } from '../../UI'
 import { SIGNUP_MUTATION } from '../../api/mutations'
 import { SET_ERROR, SIGNUP_SUCCESS } from '../../redux/types'
 import { setLocalStorage } from '../../api/userApi'
@@ -17,7 +17,7 @@ export const Register = () => {
   const [password, setPassword] = useState<string>(localStorage.getItem('taskman-password') || '')
   const [emailValid, setEmailValid] = useState<boolean>(false)
 
-  const [signupMutation, { data }] = useMutation(SIGNUP_MUTATION, {
+  const [signupMutation, { data, loading }] = useMutation(SIGNUP_MUTATION, {
     variables: { name, email, password }
   })
 
@@ -67,15 +67,21 @@ export const Register = () => {
   return (
     <div className="auth-container flexcol10">
       <div className="auth-container__inner">
-        <div className="flexcol10">
-          <Input type="text" value={name} onChange={nameHandler} label="Name" />
-          <Input type="text" value={email} onChange={emailHandler} label="E-mail" />
-          <Input type="password" value={password} onChange={passwordHandler} label="Password" />
-        </div>
-        <div className="auth-container flexcol10">
-          <Button onClick={register} label="Sign Up" disabled={!emailValid || !password || !name} nonUser={true} />
-          <Button onClick={() => navigate('/login')} label="Log In" nonUser={true} />
-        </div>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <div className="flexcol10">
+              <Input type="text" value={name} onChange={nameHandler} label="Name" />
+              <Input type="text" value={email} onChange={emailHandler} label="E-mail" />
+              <Input type="password" value={password} onChange={passwordHandler} label="Password" />
+            </div>
+            <div className="auth-container flexcol10">
+              <Button onClick={register} label="Sign Up" disabled={!emailValid || !password || !name} nonUser={true} />
+              <Button onClick={() => navigate('/login')} label="Log In" nonUser={true} />
+            </div>
+          </>
+        )}
       </div>
     </div>
   )

@@ -34,3 +34,12 @@ export const TOKEN_MUTATION = gql`
     }
   }
 `
+
+export const USER_UPDATE_MUTATION = gql`
+  mutation ($_id: String!, $name: String!) {
+    userUpdate(_id: $_id, name: $name) {
+      name
+      error
+    }
+  }
+`

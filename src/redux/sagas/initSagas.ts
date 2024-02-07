@@ -1,6 +1,6 @@
 import { all, call, put } from 'redux-saga/effects'
 
-import { getAllUsers, getLocalStorage, setLocalStorage, tokenAuth } from '../../api/userApi'
+import { getAllUsers } from '../../api/userApi'
 import { TTask, TUser } from '../../interfaces'
 import { getAllTasks } from '../../api/taskApi'
 import * as TYPES from '../types'
@@ -18,16 +18,16 @@ function* fetchTasksSaga() {
   }
 }
 
-function* fetchUsersSaga() {
-  try {
-    const response: TUser[] = yield call(getAllUsers)
-    yield put({ type: TYPES.FETCH_USERS_SUCCESS, payload: response })
-  } catch (error) {
-    if (error instanceof Error) {
-      yield put({ type: TYPES.SET_ERROR, payload: error.message })
-    }
-  }
-}
+// function* fetchUsersSaga() {
+//   try {
+//     const response: TUser[] = yield call(getAllUsers)
+//     yield put({ type: TYPES.FETCH_USERS_SUCCESS, payload: response })
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       yield put({ type: TYPES.SET_ERROR, payload: error.message })
+//     }
+//   }
+// }
 
 // function* tokenAuthSaga() {
 //   try {
@@ -45,6 +45,6 @@ function* fetchUsersSaga() {
 // }
 
 export function* initSaga() {
-  yield all([fetchTasksSaga(), fetchUsersSaga()])
+  yield all([fetchTasksSaga()])
   yield put({ type: TYPES.INIT_DONE })
 }

@@ -58,3 +58,16 @@ export const statusValues: Record<string, string> = {
   open: 'Open',
   closed: 'Closed'
 }
+
+export const setLocalStorage = (token: string = '') => {
+  localStorage.setItem('taskman-token', token)
+}
+
+export const getLocalStorage = () => {
+  const token = localStorage.getItem('taskman-token') || ''
+  return { token }
+}
+
+export const clearLocalStorage = () => {
+  localStorage.removeItem('taskman-token')
+}

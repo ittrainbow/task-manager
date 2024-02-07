@@ -1,8 +1,4 @@
-import {
-  TActionProps,
-  TAppStore,
-  TUser
-} from '../../interfaces'
+import { TActionProps, TAppStore, TUser } from '../../interfaces'
 import * as TYPES from '../types'
 
 const initialState: TAppStore = {
@@ -16,18 +12,10 @@ export const appReducer = (state = initialState, action: TActionProps) => {
   const { payload } = action
 
   switch (type) {
-    case TYPES.LOGIN:
-    case TYPES.SIGNUP:
-    case TYPES.UPDATE_USER:
-    case TYPES.CREATE_TASK:
-    case TYPES.UPDATE_TASK:
-    case TYPES.REMOVE_TASK:
-      return { ...state, loading: true }
-
     case TYPES.INIT_DONE:
     case TYPES.CREATE_TASK_SUCCESS:
     case TYPES.UPDATE_TASK_SUCCESS:
-    case TYPES.REMOVE_TASK_SUCCESS:
+    case TYPES.DELETE_TASK_SUCCESS:
       return { ...state, loading: false }
 
     case TYPES.LOGIN_SUCCESS:

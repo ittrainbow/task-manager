@@ -11,3 +11,22 @@ export const USERS_QUERY = gql`
     }
   }
 `
+
+export const TASKS_QUERY = gql`
+  query {
+    getTasks {
+      tasks {
+        assigned
+        comments
+        creator
+        deadline
+        description
+        name
+        status
+        _id
+        created
+        updated
+      }
+    }
+  }
+`

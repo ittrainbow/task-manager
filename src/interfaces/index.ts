@@ -67,7 +67,7 @@ export type TUpdateTaskResponse = {
   modified: number
 }
 
-export type TTaskCreate = Omit<TTask, 'created' | 'modified' | '_id'>
+export type TTaskCreate = Omit<TTask, 'created' | 'modified' | '_id' | 'status' | 'comments'>
 export type TTaskUpdate = Pick<TTask, 'comments' | 'assigned' | 'deadline' | 'status' | '_id'>
 
 export type TAppStore = {

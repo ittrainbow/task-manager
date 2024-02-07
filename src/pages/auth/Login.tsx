@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-
-import { InputTarget } from '../../interfaces'
-import { LOGIN_SUCCESS, SET_ERROR } from '../../redux/types'
-import { Button, Input, Loader } from '../../UI'
 import { useMutation } from '@apollo/client'
+
+import { LOGIN_SUCCESS, SET_ERROR } from '../../redux/types'
 import { LOGIN_MUTATION } from '../../api/mutations'
-import { setLocalStorage } from '../../api/userApi'
+import { Button, Input, Loader } from '../../UI'
+import { setLocalStorage } from '../../helpers'
+import { InputTarget } from '../../interfaces'
 
 export const Login = () => {
   const dispatch = useDispatch()

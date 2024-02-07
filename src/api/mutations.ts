@@ -43,3 +43,38 @@ export const USER_UPDATE_MUTATION = gql`
     }
   }
 `
+
+export const CREATE_TASK_MUTATION = gql`
+  mutation ($assigned: String!, $creator: String!, $deadline: Float!, $description: String!, $name: String!) {
+    taskCreate(assigned: $assigned, creator: $creator, deadline: $deadline, description: $description, name: $name) {
+      assigned
+      comments
+      creator
+      created
+      deadline
+      description
+      name
+      status
+      updated
+      _id
+    }
+  }
+`
+
+export const UPDATE_TASK_MUTATION = gql`
+  mutation ($_id: String!, $assigned: String!, $comments: [String]!, $deadline: Float!, $status: String!) {
+    taskUpdate(_id: $_id, assigned: $assigned, comments: $comments, deadline: $deadline, status: $status) {
+      updated
+      error
+    }
+  }
+`
+
+export const DELETE_TASK_MUTATION = gql`
+  mutation ($_id: String!) {
+    taskDelete(_id: $_id) {
+      deleted
+      error
+    }
+  }
+`

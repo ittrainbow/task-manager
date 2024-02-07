@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
+import { gotUser, selectLoading } from '../../redux/selectors'
 import { InputTarget } from '../../interfaces'
 import { Button, Input } from '../../UI'
-import { useSelector } from 'react-redux'
-import { gotUser, selectLoading } from '../../redux/selectors'
 
 export const Recover = () => {
   const navigate = useNavigate()

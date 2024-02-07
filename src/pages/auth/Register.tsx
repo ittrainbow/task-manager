@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useMutation } from '@apollo/client'
 
-import { InputTarget } from '../../interfaces'
-import { Button, Input, Loader } from '../../UI'
-import { SIGNUP_MUTATION } from '../../api/mutations'
 import { SET_ERROR, SIGNUP_SUCCESS } from '../../redux/types'
-import { setLocalStorage } from '../../api/userApi'
+import { SIGNUP_MUTATION } from '../../api/mutations'
+import { Button, Input, Loader } from '../../UI'
+import { setLocalStorage } from '../../helpers'
+import { InputTarget } from '../../interfaces'
 
 export const Register = () => {
   const dispatch = useDispatch()
@@ -45,10 +45,7 @@ export const Register = () => {
     await signupMutation()
   }
 
-  const nameHandler = (e: InputTarget) => {
-    const { value } = e.target
-    setName(value)
-  }
+  const nameHandler = (e: InputTarget) => setName(e.target.value)
 
   const emailHandler = (e: InputTarget) => {
     const { value } = e.target

@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import * as TYPES from '../redux/types'
 import { gotUser, selectApp, selectUser } from '../redux/selectors'
+import { clearLocalStorage } from '../helpers'
 import { CommentsAlert, Button } from '../UI'
-import { clearLocalStorage } from '../api/userApi'
+import * as TYPES from '../redux/types'
 
 export const HeaderTab = () => {
   const navigate = useNavigate()

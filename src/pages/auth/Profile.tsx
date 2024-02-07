@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@apollo/client'
 
 import { SET_ERROR, UPDATE_USER_SUCCESS } from '../../redux/types'
 import { USER_UPDATE_MUTATION } from '../../api/mutations'
 import { selectUser } from '../../redux/selectors'
 import { Button, Input, Loader } from '../../UI'
 import { InputTarget } from '../../interfaces'
-import { useMutation } from '@apollo/client'
 
 export const Profile = () => {
   const { name, _id } = useSelector(selectUser)

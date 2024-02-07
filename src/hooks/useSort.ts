@@ -54,7 +54,7 @@ export const useSort = (): TTask[] => {
       setList(list)
     }
     // eslint-disable-next-line
-  }, [taskSort, _id])
+  }, [tasks, taskSort, _id])
 
   return list
 }

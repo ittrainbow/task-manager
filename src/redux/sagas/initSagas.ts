@@ -29,22 +29,22 @@ function* fetchUsersSaga() {
   }
 }
 
-function* tokenAuthSaga() {
-  try {
-    const { token } = yield call(getLocalStorage)
-    const response: TUser = yield call(tokenAuth, token)
-    if (response.hasOwnProperty('_id')) {
-      yield put({ type: TYPES.LOGIN_SUCCESS, payload: response })
-      yield call(setLocalStorage, token)
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      yield put({ type: TYPES.SET_ERROR, payload: error.message })
-    }
-  }
-}
+// function* tokenAuthSaga() {
+//   try {
+//     const { token } = yield call(getLocalStorage)
+//     const response: TUser = yield call(tokenAuth, token)
+//     if (response.hasOwnProperty('_id')) {
+//       yield put({ type: TYPES.LOGIN_SUCCESS, payload: response })
+//       yield call(setLocalStorage, token)
+//     }
+//   } catch (error) {
+//     if (error instanceof Error) {
+//       yield put({ type: TYPES.SET_ERROR, payload: error.message })
+//     }
+//   }
+// }
 
 export function* initSaga() {
-  yield all([fetchTasksSaga(), fetchUsersSaga(), tokenAuthSaga()])
+  yield all([fetchTasksSaga(), fetchUsersSaga()])
   yield put({ type: TYPES.INIT_DONE })
 }

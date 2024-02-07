@@ -31,7 +31,7 @@ export const userReducer = (state = initialState, action: TActionProps) => {
         name: payload.name
       }
 
-    case TYPES.LOGOUT:
+    case TYPES.LOGOUT_SUCCESS:
       return initialState
 
     default:

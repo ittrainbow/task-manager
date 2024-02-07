@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import { Dashboard, Login, Profile, Register, Recover } from '../pages'
+import { Dashboard, Login, Profile, Register } from '../pages'
 import { HeaderTab, Home } from '../pages'
 import { useSelector } from 'react-redux'
 import { selectLoading } from '../redux/selectors'
@@ -17,7 +17,7 @@ export const Router = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
-          <Route path="/reset" element={<Recover />} />
+          {/* <Route path="/reset" element={<Recover />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/newtask" element={<Home />} />
           <Route path="/profile" element={<Profile />} />

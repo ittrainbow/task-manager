@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@apollo/client'
 
-import { SIGNUP } from '../../redux/types'
-import { gotUser } from '../../redux/selectors'
 import { InputTarget } from '../../interfaces'
 import { Button, Input } from '../../UI'
+import { SIGNUP_MUTATION } from '../../api/mutations'
+import { SET_ERROR, SIGNUP_SUCCESS } from '../../redux/types'
+import { setLocalStorage } from '../../api/userApi'
 
 export const Register = () => {
   const dispatch = useDispatch()
@@ -14,18 +16,33 @@ export const Register = () => {
   const [email, setEmail] = useState<string>(localStorage.getItem('taskman-email') || '')
   const [password, setPassword] = useState<string>(localStorage.getItem('taskman-password') || '')
   const [emailValid, setEmailValid] = useState<boolean>(false)
-  const user = useSelector(gotUser)
+
+  const [signupMutation, { data }] = useMutation(SIGNUP_MUTATION, {
+    variables: { name, email, password }
+  })
 
   useEffect(() => {
-    user && navigate('/dashboard')
-    // eslint-disable-next-line
-  }, [user])
+    if (data) {
+      const { _id, email, name, token, error } = data.userCreate
 
-  const register = () => {
-    if (!name) alert('Please enter name')
-    if (!email) alert('Please enter Email')
-    if (!password) alert('Please type password of 3 chars or more')
-    else dispatch({ type: SIGNUP, payload: { name, email, password } })
+      if (error) {
+        dispatch({ type: SET_ERROR, payload: error })
+        return alert(error)
+      }
+
+      dispatch({ type: SIGNUP_SUCCESS, payload: { _id, email, name, token } })
+      setLocalStorage(token)
+      return navigate('/dashboard')
+    }
+    // eslint-disable-next-line
+  }, [data])
+
+  const register = async () => {
+    if (!name) return alert('Please enter name')
+    if (!email) return alert('Please enter Email')
+    if (!password) return alert('Please type password of 3 chars or more')
+
+    await signupMutation()
   }
 
   const nameHandler = (e: InputTarget) => {

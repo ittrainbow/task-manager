@@ -8,9 +8,9 @@ import App from './App'
 import { store } from './redux/store'
 import { Router } from './router/Router'
 
-const { REACT_APP_MONGO_URI } = process.env
+const { REACT_APP_MONGO_HOSTING } = process.env
 
-const client = new ApolloClient({ uri: REACT_APP_MONGO_URI, cache: new InMemoryCache() })
+const client = new ApolloClient({ uri: REACT_APP_MONGO_HOSTING, cache: new InMemoryCache() })
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 

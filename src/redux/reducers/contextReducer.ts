@@ -36,7 +36,7 @@ export const contextReducer = (state = initialState, action: TActionProps) => {
       return { ...state, newComments: updateComments }
 
     case TYPES.ADD_TEMP_COMMENT:
-      const tempComments = state.newComments[payload.selectedTaskId] || {}
+      const tempComments = structuredClone(state.newComments[payload.selectedTaskId]) || {}
       if (!tempComments.hasOwnProperty('comments')) tempComments.comments = []
       tempComments.comments.push(state.newComments[payload.selectedTaskId]?.comment)
       tempComments.comment = ''
@@ -56,7 +56,7 @@ export const contextReducer = (state = initialState, action: TActionProps) => {
       return { ...state, unsavedTaskIDs: payload.IDs }
 
     case TYPES.REMOVE_TEMP_COMMENT:
-      const commentsArray = state.newComments[payload.selectedTaskId].comments
+      const commentsArray = structuredClone(state.newComments[payload.selectedTaskId].comments)
       commentsArray.splice(payload.index, 1)
       const modifiedComments = structuredClone(state.newComments)
       modifiedComments[payload.selectedTaskId].comments = commentsArray

@@ -48,7 +48,7 @@ export const taskReducer = (state = initialState, action: TActionProps) => {
       return { ...state, newTask: true }
 
     case TYPES.SELECT_TASK: {
-      return { ...state, selectedTaskId: payload.selectedTaskId || '', newTask: false }
+      return { ...state, selectedTaskId: payload?.selectedTaskId || '', newTask: false }
     }
 
     case TYPES.SET_TASK_SORT:

@@ -1,9 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import * as TYPES from '../redux/types'
 import { gotUser, selectApp, selectUser } from '../redux/selectors'
+import { clearLocalStorage } from '../helpers'
 import { CommentsAlert, Button } from '../UI'
+import * as TYPES from '../redux/types'
 
 export const HeaderTab = () => {
   const navigate = useNavigate()
@@ -28,7 +29,10 @@ export const HeaderTab = () => {
   }
 
   const logoutHandler = () => {
-    if (user) dispatch({ type: TYPES.LOGOUT })
+    if (user) {
+      dispatch({ type: TYPES.LOGOUT_SUCCESS })
+      clearLocalStorage()
+    }
     navigate('/login')
   }
 

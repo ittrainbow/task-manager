@@ -7,7 +7,7 @@ import { TTask } from '../interfaces'
 export const useSort = (): TTask[] => {
   const [list, setList] = useState([] as TTask[])
   const { tasks, taskSort } = useSelector(selectTask)
-  const { newComments } = useSelector(selectContext)
+  const { unsavedTaskIDs } = useSelector(selectContext)
   const { _id } = useSelector(selectUser)
 
   useEffect(() => {
@@ -49,12 +49,11 @@ export const useSort = (): TTask[] => {
     }
 
     if (taskSort === 'unsaved') {
-      const unsavedTaskIDs = Object.keys(newComments)
       const list: TTask[] = tasklist.filter((task: TTask) => unsavedTaskIDs.includes(task._id.toString()))
       setList(list)
     }
     // eslint-disable-next-line
-  }, [taskSort, _id])
+  }, [tasks, taskSort, unsavedTaskIDs])
 
   return list
 }

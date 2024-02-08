@@ -1,21 +1,31 @@
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useMutation } from '@apollo/client'
 
-import { CREATE_TASK, SELECT_TASK, SET_ASSIGNED } from '../../redux/types'
-import { Button, ButtonSet, Input, TextArea, Picker } from '../../UI'
+import { CREATE_TASK_SUCCESS, SELECT_TASK, SET_ASSIGNED } from '../../redux/types'
+import { Button, ButtonSet, Input, TextArea, Picker, Loader } from '../../UI'
 import { InputTarget, TTaskCreate } from '../../interfaces'
+import { CREATE_TASK_MUTATION } from '../../api/mutations'
 import { selectUser } from '../../redux/selectors'
-import { useNavigate } from 'react-router-dom'
 
 export const TaskNew = () => {
   const { _id } = useSelector(selectUser)
   const getTime = () => new Date().getTime()
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const [name, setName] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [deadline, setDeadline] = useState<number>(getTime() + 86400000)
+
+  const [createTaskMutation, { data, loading }] = useMutation(CREATE_TASK_MUTATION)
+
+  useEffect(() => {
+    if (data) {
+      const task = data.taskCreate
+      dispatch({ type: CREATE_TASK_SUCCESS, payload: task })
+    } 
+    // eslint-disable-next-line
+  }, [data])
 
   useEffect(() => {
     dispatch({ type: SET_ASSIGNED, payload: { assigned: _id } })
@@ -29,28 +39,20 @@ export const TaskNew = () => {
   const checkFormValid = () => name.length > 0 && description.length > 0
   const onChangeDeadline = (value: number) => setDeadline(value)
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     if (checkFormValid()) {
-      const status = 'new'
-      const task: TTaskCreate = { creator: _id, comments: [], name, description, deadline, status, assigned: _id }
-      dispatch({ type: CREATE_TASK, payload: task })
-      navigate('/')
+      const task: TTaskCreate = { assigned: _id, creator: _id, deadline, description, name }
+      await createTaskMutation({ variables: task })
     }
   }
 
-  const cancelHandler = () => {
-    dispatch({ type: SELECT_TASK })
-  }
+  const cancelHandler = () => dispatch({ type: SELECT_TASK })
 
-  const nameHandler = (e: InputTarget) => {
-    const { value } = e.target
-    setName(value)
-  }
+  const nameHandler = (e: InputTarget) => setName(e.target.value)
 
-  const descriptionHandler = (e: InputTarget) => {
-    const { value } = e.target
-    setDescription(value)
-  }
+  const descriptionHandler = (e: InputTarget) => setDescription(e.target.value)
+
+  if (loading) return <Loader />
 
   return (
     <>
